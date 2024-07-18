@@ -25,18 +25,20 @@ import { getItems } from "@/utils/http";
 import { stableSort, getComparator } from "@/utils/dataManipulation";
 import Icon from "@mui/material/Icon";
 
-const data: Item[] = getItems();
-
-const rows: TableFields[] = data.map((item) => {
-  return {
-    id: item.id,
-    name: item.name,
-    address: item.location && item.location.address ? item.location.address : "dummy",
-    actions: ""
-  }
-});
-
-export default function CustomTable() {
+// const data: Item[] = getItems();
+//
+// const rows: TableFields[] = data.map((item) => {
+//   return {
+//     id: item.id,
+//     name: item.name,
+//     address: item.location && item.location.address ? item.location.address : "dummy",
+//     actions: ""
+//   }
+// });
+interface CustomTableProps {
+  rows: TableFields[];
+}
+export default function CustomTable({rows}:CustomTableProps) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<TableColumns>('name');
   const [page, setPage] = useState<number>(0);
@@ -123,7 +125,6 @@ export default function CustomTable() {
           </Toolbar>
           <TableContainer sx={{height: 425}}>
             <Table
-              // sx={{ minWidth: 300 }}
               aria-labelledby="tableTitle"
               stickyHeader
             >

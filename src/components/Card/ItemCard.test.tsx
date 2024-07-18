@@ -7,6 +7,6 @@ describe('ItemCard tests', () => {
     render(<ItemCard />);
     const textFields = screen.getAllByRole('textbox');
 
-    expect(textFields.length).toBe(6);
+    expect(textFields.length).toBe(7);
   })
 });

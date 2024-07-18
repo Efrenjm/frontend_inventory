@@ -6,6 +6,8 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from "@mui/material/styles";
 import theme from '../theme';
 import Header from "@/components/header/Header";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/utils/http";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,8 +35,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Header sx={{marginBottom:'100px'}}/>
-            {children}
+            <QueryClientProvider client={queryClient}>
+              <Header sx={{marginBottom:'100px'}}/>
+              {children}
+            </QueryClientProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
