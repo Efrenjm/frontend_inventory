@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { getItems } from "@/utils/http";
 import { TableFields } from "@/components/table/tableTypes";
 
-export default function App() {
+export default function PopulatedTable() {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ['items'],
     queryFn: ({signal}) => {
@@ -22,8 +22,8 @@ export default function App() {
 
   if (isError) {
     content = <div>
-        <div>Error: {error.message}</div>
-      </div>
+      <div>Error: {error.message}</div>
+    </div>
   }
 
   if (data) {

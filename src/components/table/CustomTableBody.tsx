@@ -1,14 +1,9 @@
 'use client';
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import TableBody from "@mui/material/TableBody";
-import * as React from "react";
-import { Order, TableColumns, TableFields } from "@/components/table/tableTypes";
-import { Item } from "./tableTypes";
-// import CustomTableRow from "@/components/table/CustomTableRow";
 import { useRouter } from "next/navigation";
+import { TableRow, TableBody, TableCell, IconButton } from "@mui/material";
+import { DeleteForever } from "@mui/icons-material";
+
+import { TableFields } from "@/components/table/tableTypes";
 
 interface TableBodyProps {
   rows: TableFields[],
@@ -18,7 +13,6 @@ interface TableBodyProps {
 
 export default function CustomTableBody({rows, emptyRows, modalHandler}: TableBodyProps) {
   const router = useRouter();
-
 
   return (
     <TableBody>
@@ -48,7 +42,7 @@ export default function CustomTableBody({rows, emptyRows, modalHandler}: TableBo
                   modalHandler(row);
                 }}
               >
-                <DeleteIcon/>
+                <DeleteForever/>
               </IconButton>
             </TableCell>
           </TableRow>

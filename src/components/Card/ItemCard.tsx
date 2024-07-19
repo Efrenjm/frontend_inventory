@@ -1,107 +1,238 @@
-import { Box, InputAdornment, TextField } from "@mui/material";
-import { Item } from "@/utils/types"
+'use client';
+import { MouseEvent, ChangeEvent } from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
+import { ArrowBack, DeleteForever, Save, SaveAlt } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+
+import { FormInvalidValues, FormValues, Item } from "@/utils/types";
+import { createItem, queryClient } from "@/utils/http";
+import { useMutation } from "@tanstack/react-query";
+import BackgroundCard from "@/components/Card/BackgroundCard";
 
 interface CustomCardProps {
   item?: Item;
 }
 
 export default function ItemCard({item}: CustomCardProps) {
-  const readOnly = !!item;
+  const isNewItem = !item;
+  const readOnly = !isNewItem;
+  const router = useRouter();
+
+  const [invalidData, setInvalidData] = useState<FormInvalidValues>({
+    id: false,
+    name: false,
+    locationId: false,
+    locationState: false,
+    locationPhoneNumber: false
+  });
+
+  const [formValues, setFormValues] = useState<FormValues>({
+    id: item && item.id ? ""+item.id : "",
+    name: item && item.name ? item.name : "",
+    description: item && item.description ? item.description : "",
+    location: item && item.location ? {
+      id: item.location.id ? ""+item.location.id : "",
+      state: item.location.state ? item.location.state : "",
+      phoneNumber: item.location.phoneNumber ? item.location.phoneNumber : "",
+      address: item.location.address ? item.location.address : ""
+    } : {
+      id: "",
+      state: "",
+      phoneNumber: "",
+      address: ""
+    }
+  });
+
+  const {mutate, isPending, isError, error} = useMutation({
+    mutationFn: createItem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['items']});
+      router.push('/items');
+    }
+  })
+
+  const handleChanges = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = e.target;
+    if (name.startsWith('location.')) {
+      const prop = name.split('.')[1];
+      setFormValues((prevItem) => ({
+        ...prevItem,
+        location: {
+          ...prevItem.location,
+          [prop]: value
+        }
+      }))
+    } else {
+      setFormValues((prevItem) => ({
+        ...prevItem,
+        [name]: value
+      }));
+    }
+  }
+
+  const containsInvalidData = () => {
+    const dataValidation = {
+      id: (!/^\d+$/.test(formValues.id.trim()) || parseInt(formValues.id.trim()) <= 0),
+      name: formValues.name.trim() === "",
+      locationId: (!/^\d+$/.test(formValues.location.id.trim()) || parseInt(formValues.location.id.trim()) <= 0),
+      locationState: formValues.location.state.trim() === "",
+      locationPhoneNumber: !(formValues.location.phoneNumber.trim() === '' || /^\d+$/.test(formValues.location.phoneNumber.trim()))
+    }
+    setInvalidData(dataValidation)
+
+    return Object.values(dataValidation).reduce((acc, curr) => acc || curr, false);
+  }
+  const handleCreateItem = (e: MouseEvent) => {
+    e.preventDefault();
+
+    if (!containsInvalidData()) {
+      const newItem: Item = {
+        ...formValues,
+        id: parseInt(formValues.id),
+        location: {
+          ...formValues.location,
+          id: parseInt(formValues.location.id)
+        }
+      };
+      mutate({newItem});
+    }
+  }
+
   return (
-    <>
-    <Box
-      component="form"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'left',
-        rowGap: '60px',
-        width: '90%'
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div style={{display:'flex', justifyContent:'space-between'}}>
-        <TextField
-          label="Id"
-          defaultValue={item ? item.id: ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-          }}
-          variant="standard"
-          sx={{width: '15%'}}
-        />
-        <TextField
-          label="Item"
-          defaultValue={item ? item.name : ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-          }}
-          variant="standard"
-          sx={{width: '75%'}}
-        />
-      </div>
-      <div>
-        <TextField
-          label="Description"
-          defaultValue={item ? item.description : ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-          }}
-          variant="standard"
-          fullWidth
-        />
-      </div>
-      <div>
-        <TextField
-          label="Location id"
-          defaultValue={item && item.location ? item.location.id : ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-          }}
-          variant="standard"
-          sx={{width: '15%'}}
-        />
-      </div>
-      <div style={{display:'flex', justifyContent:'space-between'}}>
-        <TextField
-          label="State"
-          defaultValue={item && item.location ? item.location.state : ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-          }}
-          variant="standard"
-          sx={{width: '42%'}}
-        />
-        <TextField
-          label="Phone Number"
-          defaultValue={item && item.location ? item.location.phoneNumber : ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-          }}
-          variant="standard"
-          sx={{width: '42%'}}
-        />
-      </div>
-      <div>
-        <TextField
-          label="Address"
-          defaultValue={item && item.location ? item.location.address : ""}
-          InputProps={{
-            readOnly,
-            startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+    <BackgroundCard>
+
+      <Box
+        component="form"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          rowGap: '60px',
+          width: '90%',
+          paddingBottom: '50px'
         }}
-          variant="standard"
-          fullWidth
-        />
-      </div>
-    </Box>
-    </>
+        noValidate
+        autoComplete="off"
+      >
+
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <TextField
+            name="id"
+            label={isNewItem? "Id*" : "Id"}
+            error={invalidData.id}
+            value={formValues.id}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            sx={{width: '15%'}}
+            onChange={handleChanges}
+          />
+          <TextField
+            name="name"
+            label={isNewItem? "Item*" : "Item"}
+            error={invalidData.name}
+            value={formValues.name}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            sx={{width: '75%'}}
+            onChange={handleChanges}
+          />
+        </div>
+        <div>
+          <TextField
+            name="description"
+            label="Description"
+            value={formValues.description}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            onChange={handleChanges}
+            multiline
+            fullWidth
+          />
+        </div>
+        <div>
+          <TextField
+            name="location.id"
+            label="Location id*"
+            error={invalidData.locationId}
+            value={formValues.location.id}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            sx={{width: '15%', minWidth: '90px'}}
+            onChange={handleChanges}
+          />
+        </div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <TextField
+            name="location.state"
+            label="State"
+            value={formValues.location.state}
+            error={invalidData.locationState}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            sx={{width: '42%'}}
+            onChange={handleChanges}
+          />
+          <TextField
+            name="location.phoneNumber"
+            label="Phone Number"
+            value={formValues.location.phoneNumber}
+            error={invalidData.locationPhoneNumber}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            sx={{width: '42%'}}
+            onChange={handleChanges}
+          />
+        </div>
+        <div>
+          <TextField
+            name="location.address"
+            label="Address"
+            value={formValues.location.address}
+            InputProps={{
+              readOnly,
+              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
+            }}
+            variant="standard"
+            onChange={handleChanges}
+            multiline
+            fullWidth
+          />
+        </div>
+      </Box>
+      {isNewItem && (
+        <LoadingButton
+          variant="contained"
+          startIcon={<Save/>}
+          sx={{
+            padding: '10px 40px'
+          }}
+          onClick={handleCreateItem}
+          loading={isPending}
+          loadingPosition="start"
+        >
+          <span>Save Item</span>
+        </LoadingButton>
+      )}
+    </BackgroundCard>
   );
 }

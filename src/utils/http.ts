@@ -5,17 +5,8 @@ import { Item } from './types';
 
 export const queryClient = new QueryClient();
 
-interface getItemsProps {
-  signal: AbortSignal;
-  state?: string;
-}
-
-export async function getItems({signal, state}: getItemsProps): Promise<Item[]> {
+export async function getItems({signal}: {signal: AbortSignal}): Promise<Item[]> {
   let url = 'http://localhost:8080/items';
-
-  if (state) {
-    url += `?state=${state}`;
-  }
 
   const response = await fetch(url, {signal});
   if (!response.ok) {
@@ -29,9 +20,9 @@ interface getItemProps {
   signal: AbortSignal;
   id: number;
 }
-export async function getItem({signal, id}:getItemProps): Promise<Item> {
-  let url = `http://localhost:8080/items/${id}`;
 
+export async function getItem({signal, id}: getItemProps): Promise<Item> {
+  const url = `http://localhost:8080/items/${id}`;
 
   const response = await fetch(url, {signal});
   if (!response.ok) {
@@ -41,5 +32,32 @@ export async function getItem({signal, id}:getItemProps): Promise<Item> {
   return await response.json();
 }
 
+export async function deleteItem({id}: { id: number }) {
+  const url = `http://localhost:8080/items/${id}`;
 
+  const response = await fetch(url, {method: 'DELETE'});
 
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
+}
+
+export async function createItem({newItem}: { newItem: Item }) {
+  const url = `http://localhost:8080/items`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(newItem)
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
+}

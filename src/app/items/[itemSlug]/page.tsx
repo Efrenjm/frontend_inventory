@@ -1,10 +1,8 @@
 'use client';
-import { Paper } from "@mui/material";
 
 import ItemCard from "@/components/Card/ItemCard";
 import { getItem, getItems } from "@/utils/http";
 import { useQuery } from "@tanstack/react-query";
-import { ErrorBoundary } from "next/dist/client/components/react-dev-overlay/pages/ErrorBoundary";
 import { notFound } from "next/dist/client/components/not-found";
 
 
@@ -31,13 +29,12 @@ interface ItemDetailPageProps {
 }
 
 export default function ItemDetailPage({params}: ItemDetailPageProps) {
-  // const item = getItem(params.itemSlug);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['items', {id: params.itemSlug}],
+    queryKey: ['items', {id: parseInt(params.itemSlug)}],
     queryFn: ({signal, queryKey}) => {
-      const params = queryKey[1] as Object;
-      return getItem({signal, ...params});
+      const {id} = queryKey[1] as {id: number};
+      return getItem({signal, id});
     },
     staleTime: 5000,
   });
@@ -47,12 +44,9 @@ export default function ItemDetailPage({params}: ItemDetailPageProps) {
   }
 
   return (
-    <Paper
-      component='div'
-      sx={{width: '90%', alignItems: 'center', margin: 'auto', padding: '50px'}}
-    >
+    <>
       {isPending && <div>Loading...</div>}
       {data && <ItemCard item={data}/>}
-    </Paper>
+    </>
   );
 }

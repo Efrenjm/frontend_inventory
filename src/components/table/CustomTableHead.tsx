@@ -1,12 +1,12 @@
-import * as React from "react";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Box from "@mui/material/Box";
+// import * as React from "react";
+import { TableHead, TableRow, TableCell, TableSortLabel, Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-import { Order, TableColumns, Columns } from "./tableTypes";
+// import TableRow from "@mui/material/TableRow";
+// import TableCell from "@mui/material/TableCell";
+// import TableSortLabel from "@mui/material/TableSortLabel";
+// import Box from "@mui/material/Box";
 
+import { Order, TableColumns, Columns } from "./tableTypes";
 
 const columns: readonly Columns[] = [
   {

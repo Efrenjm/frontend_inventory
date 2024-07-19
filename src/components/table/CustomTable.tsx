@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo, MouseEvent, ChangeEvent } from "react";
+import { useRouter } from "next/navigation";
 import {
   Box,
   Paper,
@@ -10,41 +11,29 @@ import {
   Typography,
   IconButton,
   TextField,
-  Tooltip, InputAdornment
+  Tooltip
 } from "@mui/material";
-import { AddCircleOutlined, Search } from "@mui/icons-material";
+import { AddCircleOutlined } from "@mui/icons-material";
 
-import { Item } from "@/utils/types"
-import { ModalSettings } from "./tableTypes";
-import { Order, TableColumns, TableFields } from "./tableTypes";
-
+import { ModalSettings, Order, TableColumns, TableFields } from "./tableTypes";
 import CustomTableHead from "@/components/table/CustomTableHead";
 import CustomTableBody from "@/components/table/CustomTableBody";
 import CustomModal from "@/components/modal/CustomModal";
-import { getItems } from "@/utils/http";
 import { stableSort, getComparator } from "@/utils/dataManipulation";
-import Icon from "@mui/material/Icon";
 
-// const data: Item[] = getItems();
-//
-// const rows: TableFields[] = data.map((item) => {
-//   return {
-//     id: item.id,
-//     name: item.name,
-//     address: item.location && item.location.address ? item.location.address : "dummy",
-//     actions: ""
-//   }
-// });
 interface CustomTableProps {
   rows: TableFields[];
 }
-export default function CustomTable({rows}:CustomTableProps) {
+
+export default function CustomTable({rows}: CustomTableProps) {
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<TableColumns>('name');
+  const [orderBy, setOrderBy] = useState<TableColumns>('id');
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [searchFilter, setSearchFilter] = useState<string>('');
   const [modalSettings, setModalSettings] = useState<ModalSettings>({open: false});
+
+  const router = useRouter();
 
   const handleRequestSort = (
     event: MouseEvent<unknown>,
@@ -84,6 +73,8 @@ export default function CustomTable({rows}:CustomTableProps) {
   const modalHandler = (row: TableFields) => {
     setModalSettings({row, open: true});
   }
+
+
   return (
     <>
       <CustomModal modalSettings={modalSettings} setModalSettings={setModalSettings}/>
@@ -114,11 +105,11 @@ export default function CustomTable({rows}:CustomTableProps) {
               onChange={handleFilter}
               sx={{width: '75%', maxWidth: '300px'}}
               // InputProps={{
-              //   startAdornment: <InputAdornment position="start"><Icon><Search/></Icon></InputAdornment>,
+              //   startAdornment: <InputAdornment position="end"><Icon><Search/></Icon></InputAdornment>,
               // }}
             />
             <Tooltip title="Add a new item">
-              <IconButton>
+              <IconButton onClick={()=> router.push('/items/new')}>
                 <AddCircleOutlined/>
               </IconButton>
             </Tooltip>
