@@ -10,14 +10,15 @@ import { FormInvalidValues, FormValues, Item } from "@/utils/types";
 import { createItem, queryClient } from "@/utils/http";
 import { useMutation } from "@tanstack/react-query";
 import BackgroundCard from "@/components/Card/BackgroundCard";
+import Button from "@mui/material/Button";
 
 interface CustomCardProps {
   item?: Item;
 }
 
 export default function ItemCard({item}: CustomCardProps) {
-  const isNewItem = !item;
-  const readOnly = !isNewItem;
+  const [isNewItem, setIsNewItem] = useState<boolean>(!item);
+  const [readOnly, setReadOnly] = useState<boolean>(!isNewItem);
   const router = useRouter();
 
   const [invalidData, setInvalidData] = useState<FormInvalidValues>({
@@ -45,11 +46,19 @@ export default function ItemCard({item}: CustomCardProps) {
     }
   });
 
+  const [itemCreated, setItemCreated] = useState<boolean>(false);
   const {mutate, isPending, isError, error} = useMutation({
     mutationFn: createItem,
-    onSuccess: () => {
+    onMutate: ()=>{
+      setReadOnly(true);
+      setIsNewItem(false);
+      setItemCreated(true);
+    },
+    onSuccess: (data) => {
+      setFormValues(data);
       queryClient.invalidateQueries({queryKey: ['items']});
-      router.push('/items');
+      setItemCreated(true);
+
     }
   })
 
@@ -101,22 +110,7 @@ export default function ItemCard({item}: CustomCardProps) {
   }
 
   return (
-    <BackgroundCard>
-
-      <Box
-        component="form"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          rowGap: '60px',
-          width: '90%',
-          paddingBottom: '50px'
-        }}
-        noValidate
-        autoComplete="off"
-      >
-
+    <BackgroundCard component="form">
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <TextField
             name="id"
@@ -218,7 +212,7 @@ export default function ItemCard({item}: CustomCardProps) {
             fullWidth
           />
         </div>
-      </Box>
+      {/*</Box>*/}
       {isNewItem && (
         <LoadingButton
           variant="contained"
@@ -232,6 +226,30 @@ export default function ItemCard({item}: CustomCardProps) {
         >
           <span>Save Item</span>
         </LoadingButton>
+      )}
+      {itemCreated && (
+        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
+          <Button
+            variant="contained"
+            startIcon={<Save/>}
+            sx={{
+              padding: '10px 40px'
+            }}
+            onClick={()=>router.push('/items')}
+          >
+            <span>Go back</span>
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<Save/>}
+            sx={{
+              padding: '10px 40px'
+            }}
+            onClick={handleCreateItem}
+          >
+            <span>Create a new one</span>
+          </Button>
+        </div>
       )}
     </BackgroundCard>
   );

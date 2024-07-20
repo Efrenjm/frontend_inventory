@@ -1,13 +1,16 @@
-import { ReactNode } from 'react';
+import { ElementType, ReactNode } from 'react';
 import { Paper, SxProps, Box } from "@mui/material";
 import NavCardOptions from "@/components/Card/NavCardOptions";
+import { LoadingButton } from "@mui/lab";
+import { Save } from "@mui/icons-material";
 
 interface BackgroundCardProps {
-  children: ReactNode;
+  children?: ReactNode;
   sx?: SxProps;
   deletable?: boolean;
+  component: ElementType;
 }
-export default function BackgroundCard({children, sx, deletable}: BackgroundCardProps) {
+export default function BackgroundCard({children, sx, deletable, component}: BackgroundCardProps) {
   return (
     <Paper
       component='div'
@@ -27,8 +30,16 @@ export default function BackgroundCard({children, sx, deletable}: BackgroundCard
     >
       <NavCardOptions deletable={deletable}/>
       <Box
-        component="div"
-        height="90%"
+        component={component}
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: component==='form' ? 'center' : 'flex-start',
+          rowGap: '60px',
+          height: '90%',
+          width: '90%',
+          paddingBottom: '50px'
+        }}
       >
         {children}
       </Box>

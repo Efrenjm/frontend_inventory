@@ -49,7 +49,7 @@ export default function Header({sx}: HeaderProps) {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/items"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -104,7 +104,7 @@ export default function Header({sx}: HeaderProps) {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/items"
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },

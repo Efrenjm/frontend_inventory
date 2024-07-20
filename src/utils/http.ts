@@ -8,11 +8,11 @@ export const queryClient = new QueryClient();
 export async function getItems({signal}: {signal: AbortSignal}): Promise<Item[]> {
   let url = 'http://localhost:8080/items';
 
+  setTimeout(() => {}, 5000);
   const response = await fetch(url, {signal});
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error("An error occured", {cause: response.status});
   }
-
   return await response.json();
 }
 

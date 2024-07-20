@@ -4,23 +4,8 @@ import ItemCard from "@/components/Card/ItemCard";
 import { getItem, getItems } from "@/utils/http";
 import { useQuery } from "@tanstack/react-query";
 import { notFound } from "next/dist/client/components/not-found";
+import BackgroundCard from "@/components/Card/BackgroundCard";
 
-
-// interface MetadataProps {
-//   params: {
-//     itemSlug: string;
-//   }
-// }
-// export async function generateMetadata({params}){
-//const meal = getItem(params.mealSlug);
-//if (!meal) {
-//  notFound();
-//}
-// return {
-//   title: meal.title,
-//   description: meal.summary,
-// };
-// };
 
 interface ItemDetailPageProps {
   params: {
@@ -45,7 +30,7 @@ export default function ItemDetailPage({params}: ItemDetailPageProps) {
 
   return (
     <>
-      {isPending && <div>Loading...</div>}
+      {isPending && <BackgroundCard component="div"><div></div></BackgroundCard>}
       {data && <ItemCard item={data}/>}
     </>
   );

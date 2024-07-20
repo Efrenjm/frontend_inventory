@@ -1,10 +1,6 @@
-// import * as React from "react";
+import { MouseEvent } from "react";
 import { TableHead, TableRow, TableCell, TableSortLabel, Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
-// import TableRow from "@mui/material/TableRow";
-// import TableCell from "@mui/material/TableCell";
-// import TableSortLabel from "@mui/material/TableSortLabel";
-// import Box from "@mui/material/Box";
 
 import { Order, TableColumns, Columns } from "./tableTypes";
 
@@ -30,7 +26,7 @@ const columns: readonly Columns[] = [
 ];
 
 interface TableHeadProps {
-  onRequestSort: (event: React.MouseEvent<unknown>, property: TableColumns) => void;
+  onRequestSort: (event: MouseEvent<unknown>, property: TableColumns) => void;
   order: Order;
   orderBy: string;
 }
@@ -38,7 +34,7 @@ interface TableHeadProps {
 export default function CustomTableHead({order, orderBy, onRequestSort}: TableHeadProps) {
 
   const createSortHandler =
-    (property: TableColumns) => (event: React.MouseEvent<unknown>) => {
+    (property: TableColumns) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
