@@ -10,7 +10,7 @@ const roboto = Roboto({
 
 const theme = createTheme({
     typography: {
-        fontFamily: roboto.style.fontFamily,
+        fontFamily: 'Raleway, Arial',
     },
     palette: {
         background: {
@@ -23,6 +23,10 @@ const theme = createTheme({
         action: {
             active: '#001E3C',
         },
+        primary: {
+            main: '#FFC107',
+        },
+
         // success: {
         //     dark: '#009688',
         // },

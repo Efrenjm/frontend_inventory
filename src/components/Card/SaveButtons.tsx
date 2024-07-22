@@ -6,33 +6,34 @@ import { AddBox, ArrowBackIosNew, Save } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Hidden } from "@mui/material";
-import Typography from "@mui/material/Typography";
-
 
 interface SaveButtonsProps {
   readOnly : boolean;
-  setReadOnly: (value: boolean) => void;
   loading: boolean;
+  handleCreateNextItem: (e: MouseEvent) => void;
   handleCreateItem: (e: MouseEvent) => void;
 }
 
-export default function SaveButtons({readOnly, setReadOnly, loading, handleCreateItem}: SaveButtonsProps) {
+export default function SaveButtons({readOnly, handleCreateNextItem, loading, handleCreateItem}: SaveButtonsProps) {
   const router = useRouter();
   return (
     <>
       {readOnly ? (
-        <LoadingButton
-          variant="contained"
-          startIcon={<Save/>}
-          sx={{
-            padding: '10px 40px'
-          }}
-          onClick={handleCreateItem}
-          loading={loading}
-          loadingPosition="start"
-        >
-          <span>Save Item</span>
-        </LoadingButton>
+        <Box display='flex' justifyContent='center'>
+
+          <LoadingButton
+            variant="contained"
+            startIcon={<Save/>}
+            sx={{
+              padding: '10px 60px'
+            }}
+            onClick={handleCreateItem}
+            loading={loading}
+            loadingPosition="start"
+          >
+            <span>Save Item</span>
+          </LoadingButton>
+        </Box>
       ) : (
         <Box display='flex' sx={{width:'100%', alignContent:'space-evenly', justifyContent:'space-evenly'}}>
           <Button
@@ -43,7 +44,6 @@ export default function SaveButtons({readOnly, setReadOnly, loading, handleCreat
             }}
             onClick={() => router.push('/items')}
           >
-            {/*<ArrowBackIosNew/>*/}
             <Hidden smDown>
               <span>Go back</span>
             </Hidden>
@@ -54,9 +54,8 @@ export default function SaveButtons({readOnly, setReadOnly, loading, handleCreat
             sx={{
               padding: '10px 40px'
             }}
-            onClick={() => setReadOnly(false)}
+            onClick={handleCreateNextItem}
           >
-            {/*<AddBox/>*/}
             <Hidden smDown>
               <span>Create a new item</span>
             </Hidden>

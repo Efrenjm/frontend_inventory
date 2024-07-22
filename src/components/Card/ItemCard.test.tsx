@@ -1,4 +1,4 @@
-import ItemCard from "./ItemCard";
+import ItemCard from "../../app/items/[itemSlug]/ItemCard";
 import { render, screen } from '@testing-library/react';
 
 

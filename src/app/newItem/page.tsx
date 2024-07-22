@@ -1,8 +1,8 @@
-import ItemCard from "@/components/Card/ItemCard";
+import NewItemCard from "@/app/newItem/NewItemCard";
 
 
 export default function NewItemPage() {
   return (
-      <ItemCard isNewItem={true}/>
+      <NewItemCard isNewItem={true}/>
   );
 }

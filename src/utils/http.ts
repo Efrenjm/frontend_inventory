@@ -8,7 +8,8 @@ export const queryClient = new QueryClient();
 export async function getItems({signal}: {signal: AbortSignal}): Promise<Item[]> {
   let url = 'http://localhost:8080/items';
 
-  setTimeout(() => {}, 5000);
+  setTimeout(() => {}, 1000);
+
   const response = await fetch(url, {signal});
   if (!response.ok) {
     throw new Error("An error occured", {cause: response.status});
@@ -23,7 +24,7 @@ interface getItemProps {
 
 export async function getItem({signal, id}: getItemProps): Promise<Item> {
   const url = `http://localhost:8080/items/${id}`;
-
+  await setTimeout(() => {}, 2000);
   const response = await fetch(url, {signal});
   if (!response.ok) {
     throw new Error('Network response was not ok', {cause: response.status});
@@ -48,7 +49,7 @@ export async function deleteItem({id}: { id: number }) {
 }
 
 export async function createItem({newItem}: { newItem: Item }) {
-  const url = `http://localhost:8080/items`;
+  const url = 'http://localhost:8080/itemsweqwmk';
 
   const response = await fetch(url, {
     method: 'POST',
@@ -59,7 +60,7 @@ export async function createItem({newItem}: { newItem: Item }) {
   });
 
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error('Network response was not ok', {cause: response.status});
   }
 
   return response.json();

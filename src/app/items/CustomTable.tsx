@@ -2,7 +2,7 @@
 import { useState, useMemo, MouseEvent, ChangeEvent, Dispatch, SetStateAction } from "react";
 import {
   TableContainer,
-  Table
+  Table, Alert, AlertTitle
 } from "@mui/material";
 
 import { ModalSettings, Order, TableColumns, TableFields } from "@/components/table/tableTypes";
@@ -61,6 +61,7 @@ export default function CustomTable({rows}: CustomTableProps) {
   return (
     <>
       {modalSettings.open && <DeleteModal modalSettings={modalSettings} setModalSettings={setModalSettings}/>}
+
       <TableFrame
         recordNumber={filteredRows.length}
         page={page}
@@ -70,7 +71,11 @@ export default function CustomTable({rows}: CustomTableProps) {
         searchFilter={searchFilter}
         setSearchFilter={setSearchFilter}
       >
-        <TableContainer sx={{height: 425}}>
+        <TableContainer sx={{height: 425, minWidth:620}}>
+          {/*<Alert severity="success">*/}
+          {/*  <AlertTitle>Success</AlertTitle>*/}
+          {/*  This is a success Alert with an encouraging title.*/}
+          {/*</Alert>*/}
           <Table
             aria-labelledby="tableTitle"
             stickyHeader

@@ -1,16 +1,17 @@
 'use client';
-import { IconButton } from "@mui/material";
-import { ArrowBack, DeleteForever } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import { IconButton, Box, Typography } from "@mui/material";
+import { ArrowBack, DeleteForever } from "@mui/icons-material";
 
 interface NavCardOptionsProps {
+  title?: string;
   deletable?: boolean;
 }
 
-export default function NavCardOptions({deletable}: NavCardOptionsProps) {
+export default function NavCardOptions({deletable, title}: NavCardOptionsProps) {
   const router = useRouter();
   return (
-    <div style={{marginBottom: '40px', width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+    <Box style={{marginBottom: '40px', width: '100%', display: 'flex', justifyContent: 'space-between'}}>
       <IconButton
         size="medium"
         onClick={() => {
@@ -19,6 +20,9 @@ export default function NavCardOptions({deletable}: NavCardOptionsProps) {
       >
         <ArrowBack fontSize="large"/>
       </IconButton>
+      {title && (
+        <Typography variant='h4' >{title}</Typography>
+      )}
       {deletable && (
         <IconButton
           size="medium"
@@ -26,6 +30,6 @@ export default function NavCardOptions({deletable}: NavCardOptionsProps) {
           <DeleteForever fontSize="large" color="warning"/>
         </IconButton>
       )}
-    </div>
+    </Box>
   )
 }

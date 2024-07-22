@@ -24,10 +24,11 @@ export interface FormValues {
   };
 }
 
+type invalidNode = { error: boolean, message: string };
 export interface FormInvalidValues {
-  id: boolean;
-  name: boolean;
-  locationId: boolean;
-  locationState: boolean;
-  locationPhoneNumber: boolean;
+  id: invalidNode;
+  name: invalidNode;
+  locationId: invalidNode;
+  locationState: invalidNode;
+  locationPhoneNumber: invalidNode;
 }

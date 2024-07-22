@@ -68,7 +68,8 @@ export default function TableFrame({
         flexDirection:"column",
         justifyContent:"space-between",
         alignItems:"center",
-        borderRadius:'20px'
+        borderRadius:'20px',
+        paddingX: '60px'
       }}
     >
       <Toolbar

@@ -1,5 +1,7 @@
 // import {Order} from "@/components/table/tableTypes";
 
+import { FormValues, Item } from "@/utils/types";
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -32,4 +34,18 @@ export function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => n
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
+}
+
+export function generateFormValues(item: Item | undefined): FormValues {
+  return {
+    id: item?.id?.toString().trim() ?? "",
+    name: item?.name.trim() ?? "",
+    description: item?.description?.trim() ?? "",
+    location: {
+      id: item?.location?.id?.toString().trim() ?? "",
+      state: item?.location?.state?.trim() ?? "",
+      phoneNumber: item?.location?.phoneNumber?.toString()?.trim() ?? "",
+      address: item?.location?.address?.trim() ?? ""
+    }
+  }
 }

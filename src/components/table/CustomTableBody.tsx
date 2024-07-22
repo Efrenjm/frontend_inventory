@@ -15,7 +15,7 @@ export default function CustomTableBody({rows, emptyRows, modalHandler}: TableBo
   const router = useRouter();
 
   return (
-    <TableBody>
+    <TableBody onEmptied={()=>console.log('hola mundo')}>
       {rows.map((row, index) => {
         const labelId = `enhanced-table-checkbox-${index}`;
         return (
@@ -38,7 +38,6 @@ export default function CustomTableBody({rows, emptyRows, modalHandler}: TableBo
                 color="warning"
                 onClick={(event) => {
                   event.stopPropagation();
-                  //modalHandler &&
                   modalHandler(row);
                 }}
               >
