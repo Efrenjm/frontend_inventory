@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo, MouseEvent, ChangeEvent } from "react";
+import { useState, useMemo, MouseEvent, ChangeEvent, Dispatch, SetStateAction } from "react";
 import {
   TableContainer,
   Table
@@ -8,7 +8,7 @@ import {
 import { ModalSettings, Order, TableColumns, TableFields } from "@/components/table/tableTypes";
 import CustomTableHead from "@/components/table/CustomTableHead";
 import CustomTableBody from "@/components/table/CustomTableBody";
-import CustomModal from "@/components/modal/CustomModal";
+import DeleteModal from "@/components/modal/DeleteModal";
 import { stableSort, getComparator } from "@/utils/dataManipulation";
 import TableFrame from "@/components/table/TableFrame";
 
@@ -25,7 +25,7 @@ export default function CustomTable({rows}: CustomTableProps) {
   const [modalSettings, setModalSettings] = useState<ModalSettings>({open: false});
 
   const handleRequestSort = (
-    event: MouseEvent<unknown>,
+    _event: MouseEvent<unknown>,
     property: TableColumns,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -58,10 +58,9 @@ export default function CustomTable({rows}: CustomTableProps) {
     setModalSettings({row, open: true});
   }
 
-
   return (
     <>
-      <CustomModal modalSettings={modalSettings} setModalSettings={setModalSettings}/>
+      {modalSettings.open && <DeleteModal modalSettings={modalSettings} setModalSettings={setModalSettings}/>}
       <TableFrame
         recordNumber={filteredRows.length}
         page={page}

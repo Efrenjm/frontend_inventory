@@ -1,25 +1,36 @@
 'use client';
 import { MouseEvent, ChangeEvent } from "react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Box, IconButton, InputAdornment, TextField } from "@mui/material";
-import { ArrowBack, DeleteForever, Save, SaveAlt } from "@mui/icons-material";
-import { LoadingButton } from "@mui/lab";
 
 import { FormInvalidValues, FormValues, Item } from "@/utils/types";
 import { createItem, queryClient } from "@/utils/http";
 import { useMutation } from "@tanstack/react-query";
 import BackgroundCard from "@/components/Card/BackgroundCard";
-import Button from "@mui/material/Button";
+import SaveButtons from "@/components/Card/SaveButtons";
+import FormFields from "@/components/Card/FormFields";
+
+function generateFormValues(item: Item | undefined): FormValues {
+  return {
+    id: item?.id?.toString().trim() ?? "",
+    name: item?.name.trim() ?? "",
+    description: item?.description?.trim() ?? "",
+    location: {
+      id: item?.location?.id?.toString().trim() ?? "",
+      state: item?.location?.state?.trim() ?? "",
+      phoneNumber: item?.location?.phoneNumber?.toString()?.trim() ?? "",
+      address: item?.location?.address?.trim() ?? ""
+    }
+  }
+}
 
 interface CustomCardProps {
   item?: Item;
+  isNewItem?: boolean;
 }
 
-export default function ItemCard({item}: CustomCardProps) {
-  const [isNewItem, setIsNewItem] = useState<boolean>(!item);
-  const [readOnly, setReadOnly] = useState<boolean>(!isNewItem);
-  const router = useRouter();
+export default function ItemCard({item, isNewItem}: CustomCardProps) {
+  const [readOnly, setReadOnly] = useState<boolean>(!!item);
+  const [formValues, setFormValues] = useState<FormValues>(generateFormValues(item));
 
   const [invalidData, setInvalidData] = useState<FormInvalidValues>({
     id: false,
@@ -29,36 +40,17 @@ export default function ItemCard({item}: CustomCardProps) {
     locationPhoneNumber: false
   });
 
-  const [formValues, setFormValues] = useState<FormValues>({
-    id: item && item.id ? ""+item.id : "",
-    name: item && item.name ? item.name : "",
-    description: item && item.description ? item.description : "",
-    location: item && item.location ? {
-      id: item.location.id ? ""+item.location.id : "",
-      state: item.location.state ? item.location.state : "",
-      phoneNumber: item.location.phoneNumber ? item.location.phoneNumber : "",
-      address: item.location.address ? item.location.address : ""
-    } : {
-      id: "",
-      state: "",
-      phoneNumber: "",
-      address: ""
-    }
-  });
-
-  const [itemCreated, setItemCreated] = useState<boolean>(false);
   const {mutate, isPending, isError, error} = useMutation({
     mutationFn: createItem,
-    onMutate: ()=>{
+    onMutate: () => {
       setReadOnly(true);
-      setIsNewItem(false);
-      setItemCreated(true);
+    },
+    onError: () => {
+      setReadOnly(false);
     },
     onSuccess: (data) => {
-      setFormValues(data);
+      setFormValues(generateFormValues(data));
       queryClient.invalidateQueries({queryKey: ['items']});
-      setItemCreated(true);
-
     }
   })
 
@@ -87,22 +79,26 @@ export default function ItemCard({item}: CustomCardProps) {
       name: formValues.name.trim() === "",
       locationId: (!/^\d+$/.test(formValues.location.id.trim()) || parseInt(formValues.location.id.trim()) <= 0),
       locationState: formValues.location.state.trim() === "",
-      locationPhoneNumber: !(formValues.location.phoneNumber.trim() === '' || /^\d+$/.test(formValues.location.phoneNumber.trim()))
+      locationPhoneNumber: !(formValues.location.phoneNumber?.toString().trim() === '' || /^\d+$/.test(formValues.location.phoneNumber?.toString().trim()))
     }
     setInvalidData(dataValidation)
 
     return Object.values(dataValidation).reduce((acc, curr) => acc || curr, false);
   }
+
   const handleCreateItem = (e: MouseEvent) => {
     e.preventDefault();
 
     if (!containsInvalidData()) {
       const newItem: Item = {
-        ...formValues,
         id: parseInt(formValues.id),
+        name: formValues.name.trim(),
+        description: formValues.description?.trim(),
         location: {
-          ...formValues.location,
-          id: parseInt(formValues.location.id)
+          id: parseInt(formValues.location.id),
+          state: formValues.location.state.trim(),
+          address: formValues.location.address?.trim(),
+          phoneNumber: formValues.location.phoneNumber?.toString().trim()
         }
       };
       mutate({newItem});
@@ -111,146 +107,20 @@ export default function ItemCard({item}: CustomCardProps) {
 
   return (
     <BackgroundCard component="form">
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <TextField
-            name="id"
-            label={isNewItem? "Id*" : "Id"}
-            error={invalidData.id}
-            value={formValues.id}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            sx={{width: '15%'}}
-            onChange={handleChanges}
-          />
-          <TextField
-            name="name"
-            label={isNewItem? "Item*" : "Item"}
-            error={invalidData.name}
-            value={formValues.name}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            sx={{width: '75%'}}
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <TextField
-            name="description"
-            label="Description"
-            value={formValues.description}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            onChange={handleChanges}
-            multiline
-            fullWidth
-          />
-        </div>
-        <div>
-          <TextField
-            name="location.id"
-            label="Location id*"
-            error={invalidData.locationId}
-            value={formValues.location.id}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            sx={{width: '15%', minWidth: '90px'}}
-            onChange={handleChanges}
-          />
-        </div>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <TextField
-            name="location.state"
-            label="State"
-            value={formValues.location.state}
-            error={invalidData.locationState}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            sx={{width: '42%'}}
-            onChange={handleChanges}
-          />
-          <TextField
-            name="location.phoneNumber"
-            label="Phone Number"
-            value={formValues.location.phoneNumber}
-            error={invalidData.locationPhoneNumber}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            sx={{width: '42%'}}
-            onChange={handleChanges}
-          />
-        </div>
-        <div>
-          <TextField
-            name="location.address"
-            label="Address"
-            value={formValues.location.address}
-            InputProps={{
-              readOnly,
-              startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
-            }}
-            variant="standard"
-            onChange={handleChanges}
-            multiline
-            fullWidth
-          />
-        </div>
-      {/*</Box>*/}
-      {isNewItem && (
-        <LoadingButton
-          variant="contained"
-          startIcon={<Save/>}
-          sx={{
-            padding: '10px 40px'
-          }}
-          onClick={handleCreateItem}
-          loading={isPending}
-          loadingPosition="start"
-        >
-          <span>Save Item</span>
-        </LoadingButton>
-      )}
-      {itemCreated && (
-        <div style={{display:'flex', flexDirection:'row', justifyContent:'space-between'}}>
-          <Button
-            variant="contained"
-            startIcon={<Save/>}
-            sx={{
-              padding: '10px 40px'
-            }}
-            onClick={()=>router.push('/items')}
-          >
-            <span>Go back</span>
-          </Button>
-          <Button
-            variant="contained"
-            startIcon={<Save/>}
-            sx={{
-              padding: '10px 40px'
-            }}
-            onClick={handleCreateItem}
-          >
-            <span>Create a new one</span>
-          </Button>
-        </div>
-      )}
+      <FormFields
+        formValues={formValues}
+        invalidData={invalidData}
+        readOnly={readOnly}
+        handleFormChanges={handleChanges}
+      />
+      {isNewItem &&
+				<SaveButtons
+					readOnly={!readOnly}
+					setReadOnly={setReadOnly}
+					loading={isPending}
+					handleCreateItem={handleCreateItem}
+				/>
+      }
     </BackgroundCard>
   );
 }

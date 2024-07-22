@@ -26,7 +26,7 @@ export async function getItem({signal, id}: getItemProps): Promise<Item> {
 
   const response = await fetch(url, {signal});
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error('Network response was not ok', {cause: response.status});
   }
 
   return await response.json();
@@ -38,10 +38,13 @@ export async function deleteItem({id}: { id: number }) {
   const response = await fetch(url, {method: 'DELETE'});
 
   if (!response.ok) {
-    throw new Error('Network response was not ok');
+    throw new Error('Network response was not ok', {cause: response.status});
   }
 
-  return response.json();
+  if (response.status === 204) {
+    return {};
+  }
+  return await response.json();
 }
 
 export async function createItem({newItem}: { newItem: Item }) {

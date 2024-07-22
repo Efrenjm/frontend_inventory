@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 interface NavCardOptionsProps {
   deletable?: boolean;
 }
+
 export default function NavCardOptions({deletable}: NavCardOptionsProps) {
   const router = useRouter();
   return (
