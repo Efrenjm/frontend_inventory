@@ -8,7 +8,7 @@ import theme from '../theme';
 import Header from "@/components/header/Header";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "@/utils/http";
-import { ApolloClient } from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,8 +19,9 @@ export const metadata: Metadata = {
 };
 
 const client = new ApolloClient({
-  dataIdFromObject: (o) => o.id,
-})
+  uri: 'https://localhost:8080/graphql',
+  cache: new InMemoryCache()
+});
 
 export default function RootLayout({
   children,
@@ -40,10 +41,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <QueryClientProvider client={queryClient}>
-              <Header sx={{marginBottom:'100px'}}/>
-              {children}
-            </QueryClientProvider>
+            <ApolloProvider client={client}>
+              <QueryClientProvider client={queryClient}>
+                <Header sx={{marginBottom:'100px'}}/>
+                {children}
+              </QueryClientProvider>
+            </ApolloProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

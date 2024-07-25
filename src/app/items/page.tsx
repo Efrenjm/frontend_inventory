@@ -1,21 +1,32 @@
 'use client';
 import CustomTable from "@/app/items/CustomTable";
 import Box from "@mui/material/Box";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "@apollo/client";
 import { getItems } from "@/utils/http";
 import { TableFields } from "@/components/table/tableTypes";
 import TableFrame from "@/components/table/TableFrame";
 import { Skeleton } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import { Item } from "@/utils/types";
+import { getAllItems } from "@/utils/queries";
 
 export default function App() {
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: ['items'],
-    queryFn: ({signal}) => {
-      return getItems({signal});
-    },
-    staleTime: 5000,
-  });
+  // const { data, isPending, isError, error } = useQuery({
+  //   queryKey: ['items'],
+  //   queryFn: ({signal}) => {
+  //     return getItems({signal});
+  //   },
+  //   staleTime: 5000,
+  // });
+  // let data: Item[];
+  let isPending = false;
+  let isError = false;
+  let error = {cause: 0, message: ""};
+
+  const {data} = useQuery(getAllItems, {});
+
+
 
   let content= <></>;
 
