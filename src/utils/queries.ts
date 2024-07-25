@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@/__generated__/gql';
 
 const allItemFields = gql(`
     fragment AllItemFields on Item {
@@ -32,7 +32,7 @@ export const getItemById = gql(`
   ${allItemFields}
 `);
 
-export const createItem = gql(` 
+export const createItem = gql(`
   mutation CreateItem($item: ItemInput!) {
     createItem(item: $item) {
       ...AllItemFields
