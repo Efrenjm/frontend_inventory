@@ -1,6 +1,6 @@
 export interface Location {
-  id?: number; /* TODO: CHANGE TO MANDATORY WHEN RETRIEVING DATA */
-  state?: string;
+  id: number; /* TODO: CHANGE TO MANDATORY WHEN RETRIEVING DATA */
+  state: string;
   address?: string;
   phoneNumber?: string;
 }
@@ -10,6 +10,20 @@ export interface Item {
   name: string;
   description?: string;
   location?: Location;
+}
+
+export interface gqlItemOutput {
+  __typename?: 'Item',
+  id?: string | null,
+  name?: string | null,
+  description?: string | null,
+  location?: {
+    __typename?: 'Location',
+    id?: string | null,
+    address?: string | null,
+    phoneNumber?: string | null,
+    state?: string | null
+  } | null
 }
 
 export interface FormValues {
@@ -25,6 +39,7 @@ export interface FormValues {
 }
 
 type invalidNode = { error: boolean, message: string };
+
 export interface FormInvalidValues {
   id: invalidNode;
   name: invalidNode;

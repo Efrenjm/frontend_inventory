@@ -1,6 +1,4 @@
-// import {Order} from "@/components/table/tableTypes";
-
-import { FormValues, Item } from "@/utils/types";
+import { FormValues, gqlItemOutput, Item } from "@/utils/types";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -36,10 +34,11 @@ export function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => n
   return stabilizedThis.map((el) => el[0]);
 }
 
-export function generateFormValues(item: Item | undefined): FormValues {
+
+export function generateFormValues(item: Item | gqlItemOutput | undefined): FormValues {
   return {
     id: item?.id?.toString().trim() ?? "",
-    name: item?.name.trim() ?? "",
+    name: item?.name?.trim() ?? "",
     description: item?.description?.trim() ?? "",
     location: {
       id: item?.location?.id?.toString().trim() ?? "",

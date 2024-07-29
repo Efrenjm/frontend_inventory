@@ -1,5 +1,5 @@
 import { ElementType, ReactNode } from 'react';
-import { Paper, SxProps, Box } from "@mui/material";
+import { Paper, SxProps, Box, Toolbar } from "@mui/material";
 import NavCardOptions from "@/components/Card/NavCardOptions";
 
 interface BackgroundCardProps {
@@ -16,6 +16,7 @@ export default function BackgroundCard({children, sx, deletable, title, componen
       component='div'
       sx={{
         minHeight: '700px',
+        height:'700px',
         minWidth: '360px',
         width: '90%',
         maxWidth: '800px',

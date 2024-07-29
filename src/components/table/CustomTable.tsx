@@ -5,7 +5,7 @@ import {
   Table, Alert, AlertTitle
 } from "@mui/material";
 
-import { ModalSettings, Order, TableColumns, TableFields } from "@/components/table/tableTypes";
+import { ModalSettings, Order, SortableColumns, TableColumns, TableFields } from "@/components/table/tableTypes";
 import CustomTableHead from "@/components/table/CustomTableHead";
 import CustomTableBody from "@/components/table/CustomTableBody";
 import DeleteModal from "@/components/modal/DeleteModal";
@@ -18,7 +18,7 @@ interface CustomTableProps {
 
 export default function CustomTable({rows}: CustomTableProps) {
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<TableColumns>('id');
+  const [orderBy, setOrderBy] = useState<SortableColumns>('id');
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(5);
   const [searchFilter, setSearchFilter] = useState<string>('');
@@ -26,7 +26,7 @@ export default function CustomTable({rows}: CustomTableProps) {
 
   const handleRequestSort = (
     _event: MouseEvent<unknown>,
-    property: TableColumns,
+    property: SortableColumns,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');

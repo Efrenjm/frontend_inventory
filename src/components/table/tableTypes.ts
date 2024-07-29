@@ -1,4 +1,5 @@
 export type Order = 'asc' | 'desc';
+export type SortableColumns = 'id' | 'name';
 export type TableColumns = 'id' | 'name' | 'actions';
 
 export interface Columns {
@@ -11,7 +12,6 @@ export interface Columns {
 export interface TableFields {
   id: number,
   name: string,
-  actions: string
 }
 
 export interface ModalSettings {

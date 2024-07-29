@@ -2,7 +2,7 @@ import { MouseEvent } from "react";
 import { TableHead, TableRow, TableCell, TableSortLabel, Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
-import { Order, TableColumns, Columns } from "./tableTypes";
+import { Order, TableColumns, Columns, SortableColumns } from "./tableTypes";
 
 const columns: readonly Columns[] = [
   {
@@ -26,7 +26,7 @@ const columns: readonly Columns[] = [
 ];
 
 interface TableHeadProps {
-  onRequestSort: (event: MouseEvent<unknown>, property: TableColumns) => void;
+  onRequestSort: (event: MouseEvent<unknown>, property: SortableColumns) => void;
   order: Order;
   orderBy: string;
 }
@@ -34,7 +34,7 @@ interface TableHeadProps {
 export default function CustomTableHead({order, orderBy, onRequestSort}: TableHeadProps) {
 
   const createSortHandler =
-    (property: TableColumns) => (event: MouseEvent<unknown>) => {
+    (property: SortableColumns) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 

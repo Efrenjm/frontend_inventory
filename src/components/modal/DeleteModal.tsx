@@ -4,10 +4,12 @@ import { forwardRef, useState, useEffect, ReactElement, Ref, Dispatch, SetStateA
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { ModalSettings } from "@/components/table/tableTypes";
-import { useMutation } from "@tanstack/react-query";
-import { deleteItem, queryClient } from "@/utils/http";
+// import { useMutation } from "@tanstack/react-query";
+// import { deleteItem, queryClient } from "@/utils/http";
 import { Item } from "@/utils/types";
 import ModalTemplate, { CustomModalProps } from "@/components/modal/ModalTemplate";
+import { useMutation } from '@apollo/client/react/hooks/useMutation';
+import { deleteItem } from "@/utils/queries";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -24,43 +26,14 @@ interface DeleteModalProps {
 }
 
 export default function DeleteModal({setModalSettings, modalSettings}: DeleteModalProps) {
-  const {mutate, isPending, isError, error, isSuccess, reset} = useMutation({
-    mutationFn: deleteItem,
-    onMutate: async ({id}) => {
-      await queryClient.cancelQueries({queryKey: ['items']});
+  const [mutateFunction, {data, loading, error}] = useMutation(deleteItem);
 
-      const previousItems = queryClient.getQueryData<Item[]>(['items']);
-
-      if (previousItems) {
-        queryClient.setQueryData(['items'], (oldData: Item[]) => {
-            return oldData.filter(item => item.id !== id);
-          }
-        );
-      }
-
-      return { previousItems };
-    },
-    onError: (err, {id}, context) => {
-      console.log(err);
-      if (context?.previousItems) {
-        queryClient.setQueryData(['items'], context.previousItems);
-      }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({queryKey: ['items']});
-    }
-  });
-
-  useEffect(() => {
-    reset();
-  }, [reset, modalSettings]);
-
-  const handleClose = useCallback(()=>{
-      setModalSettings({open: false});
-  },[setModalSettings]);
+  const handleClose = useCallback(() => {
+    setModalSettings({open: false});
+  }, [setModalSettings]);
 
   const handleDelete = (id: number) => {
-    mutate({id});
+    mutateFunction({variables: {id: id.toString()}});
   }
 
   const [modalProps, setModalProps] = useState<CustomModalProps>({
@@ -75,17 +48,16 @@ export default function DeleteModal({setModalSettings, modalSettings}: DeleteMod
   });
 
   useEffect(() => {
-    if(isPending) {
-      setModalProps((prevModalProps)=>({
+    if (loading) {
+      setModalProps((prevModalProps) => ({
         ...prevModalProps,
         title: 'Deleting...',
         description: 'Please wait...',
         callToAction: 'Deleting',
         loading: true
       }))
-    } else
-    if(isSuccess) {
-      setModalProps((prevModalProps)=>({
+    } else if (data) {
+      setModalProps((prevModalProps) => ({
         ...prevModalProps,
         title: 'Deleted',
         description: `${modalSettings.row!.name} has been deleted successfully.`,
@@ -95,9 +67,9 @@ export default function DeleteModal({setModalSettings, modalSettings}: DeleteMod
         callToAction: 'Close',
         handleAction: handleClose
       }));
-    } else if (isError) {
-      if (error?.cause === 404) {
-        setModalProps((prevModalProps)=> ({
+    } else if (error) {
+      if (error.message === "Not found") {
+        setModalProps((prevModalProps) => ({
           ...prevModalProps,
           title: 'An error occurred',
           loading: false,
@@ -107,7 +79,7 @@ export default function DeleteModal({setModalSettings, modalSettings}: DeleteMod
           callToCancel: undefined
         }))
       } else {
-        setModalProps((prevModalProps)=>({
+        setModalProps((prevModalProps) => ({
           ...prevModalProps,
           title: 'An error occurred',
           loading: false,
@@ -118,7 +90,7 @@ export default function DeleteModal({setModalSettings, modalSettings}: DeleteMod
         }))
       }
     }
-  }, [error, isError, handleClose, isSuccess, modalSettings, isPending]);
+  }, [error, handleClose, data, modalSettings, loading]);
 
   return (
     <>

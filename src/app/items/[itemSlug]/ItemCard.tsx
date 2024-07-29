@@ -1,35 +1,33 @@
 'use client';
-
-import { FormInvalidValues, FormValues, Item } from "@/utils/types";
 import BackgroundCard from "@/components/Card/BackgroundCard";
 import FormFields from "@/components/Card/FormFields";
 import { generateFormValues } from "@/utils/dataManipulation";
 import ItemNotFound from "@/components/errors/ItemNotFound";
 import BadRequest from "@/components/errors/BadRequest";
-import Box from "@mui/material/Box";
-import { CircularProgress, Fade } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { getItem } from "@/utils/http";
 import Loader from "@/components/loader/Loader";
+import { getAllItems, getItemById } from "@/utils/queries";
+import { useQuery } from "@apollo/client";
+import { GetItemByIdQuery, GetItemByIdQueryVariables } from "@/__generated__/graphql";
 
 interface CustomCardProps {
   id: number;
 }
 
 export default function ItemCard({id}: CustomCardProps) {
-  const { data, isPending, isError, error, isSuccess } = useQuery({
-    queryKey: ['items', {id}],
-    queryFn: ({signal, queryKey}) => {
-      const {id} = queryKey[1] as {id: number};
-      return getItem({signal, id});
-    },
-    staleTime: 5000,
-  });
+
+  const {data, loading, error} = useQuery<GetItemByIdQuery, GetItemByIdQueryVariables>(
+    getItemById,
+    {variables: {id: id.toString()}}
+  );
+
+  // if (data?.getItemById) {
+  //
+  // }
 
   return (
-    <BackgroundCard component={isSuccess? 'form' : 'div'}>
-      {isError && (error.cause === 404 ? <ItemNotFound/> : <BadRequest/>)}
-      {isPending && <Loader isPending={isPending}/>}
+    <BackgroundCard component='div'>
+      {error && (error.cause?.message === "Not found" ? <ItemNotFound/> : <BadRequest/>)}
+      {loading && <Loader isPending={loading}/>}
         {/*// <Box sx={{ display: 'flex', width:'100%', height:'100%', justifyContent:'center', alignItems:'center' }}>*/}
         {/*//   <Fade*/}
         {/*//     in={isPending}*/}
@@ -42,15 +40,12 @@ export default function ItemCard({id}: CustomCardProps) {
         {/*//   </Fade>*/}
         {/*// </Box>*/}
       {/*)}*/}
-      {isSuccess && (
+      {data && (
           <FormFields
-            formValues={generateFormValues(data)}
+            formValues={generateFormValues(data.getItemById!)}
             readOnly={true}
           />
       )}
     </BackgroundCard>
-
-
-
   );
 }

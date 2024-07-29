@@ -3,13 +3,16 @@ import { MouseEvent, ChangeEvent, useEffect } from "react";
 import { useState } from "react";
 
 import { FormInvalidValues, FormValues, Item } from "@/utils/types";
-import { createItem, queryClient } from "@/utils/http";
-import { useMutation } from "@tanstack/react-query";
+// import { createItem, queryClient } from "@/utils/http";
+// import { useMutation } from "@tanstack/react-query";
 import BackgroundCard from "@/components/Card/BackgroundCard";
 import SaveButtons from "@/components/Card/SaveButtons";
 import FormFields from "@/components/Card/FormFields";
 import { generateFormValues } from "@/utils/dataManipulation";
 import BadRequest from "@/components/errors/BadRequest";
+import { createItem } from "@/utils/queries";
+import { useMutation } from "@apollo/client/react/hooks/useMutation";
+import { ItemInput } from "@/__generated__/graphql";
 
 export default function NewItemCard() {
   const [readOnly, setReadOnly] = useState<boolean>(false);
@@ -23,19 +26,20 @@ export default function NewItemCard() {
     locationPhoneNumber: {error: false, message: ''}
   });
 
-  const {mutate, isPending, isError, error} = useMutation({
-    mutationFn: createItem,
-    onMutate: () => {
-      setReadOnly(true);
-    },
-    onError: () => {
-      setReadOnly(false);
-    },
-    onSuccess: (data) => {
-      setFormValues(generateFormValues(data));
-      queryClient.invalidateQueries({queryKey: ['items']});
-    }
-  })
+  // const {mutate, isPending, isError, error} = useMutation({
+  //   mutationFn: createItem,
+  //   onMutate: () => {
+  //     setReadOnly(true);
+  //   },
+  //   onError: () => {
+  //     setReadOnly(false);
+  //   },
+  //   onSuccess: (data) => {
+  //     setFormValues(generateFormValues(data));
+  //     queryClient.invalidateQueries({queryKey: ['items']});
+  //   }
+  // })
+  const [mutateFunction, {data, loading, error}] = useMutation(createItem);
 
   const handleChanges = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -87,18 +91,18 @@ export default function NewItemCard() {
   const handleCreateItem = (e: MouseEvent) => {
     e.preventDefault();
     if (!containsInvalidData()) {
-      const newItem: Item = {
-        id: parseInt(formValues.id),
-        name: formValues.name.trim(),
-        description: formValues.description?.trim(),
-        location: {
-          id: parseInt(formValues.location.id),
-          state: formValues.location.state.trim(),
-          address: formValues.location.address?.trim(),
-          phoneNumber: formValues.location.phoneNumber?.toString().trim()
-        }
-      };
-      mutate({newItem});
+      // const newItem: ItemInput = {
+      //   id: formValues.id,
+      //   name: formValues.name.trim(),
+      //   description: formValues.description?.trim(),
+      //   location: {
+      //     id: formValues.location.id,
+      //     state: formValues.location.state.trim(),
+      //     address: formValues.location.address?.trim(),
+      //     phoneNumber: formValues.location.phoneNumber?.toString().trim()
+      //   }
+      // };
+      mutateFunction({variables: {item: formValues}});
     }
   }
   const handleCreateNextItem = (e: MouseEvent) => {
@@ -109,15 +113,15 @@ export default function NewItemCard() {
 
 
   useEffect(() => {
-    if (isError) {
-      if (error.cause === 409) {
+    if (error) {
+      if (error.message === "Conflict") {
         setInvalidData((prevState)=>({
           ...prevState,
           id: {error: true, message: 'ID already exists'}
         }));
       }
     }
-  }, [isError, error]);
+  }, [error]);
 
   return (
     <BackgroundCard component="form">
@@ -137,7 +141,7 @@ export default function NewItemCard() {
       {/*  />*/}
       {/*  </>*/}
       {/*)}*/}
-      {(isError && error?.cause !== 409) ? <BadRequest /> :
+      {(error && error.message !== "Conflict") ? <BadRequest /> :
         <>
           <FormFields
             formValues={formValues}
@@ -147,7 +151,7 @@ export default function NewItemCard() {
           />
           <SaveButtons
             readOnly={!readOnly}
-            loading={isPending}
+            loading={loading}
             handleCreateNextItem={handleCreateNextItem}
             handleCreateItem={handleCreateItem}
           />

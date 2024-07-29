@@ -1,18 +1,18 @@
 import { gql } from '@/__generated__/gql';
 
-const allItemFields = gql(`
-    fragment AllItemFields on Item {
-        id
-        name
-        description
-        location {
-            id
-            address
-            phoneNumber
-            state
-        }
-    }
-`);
+// export const allItemFields = gql(`
+//     fragment AllItemFields on Item {
+//         id
+//         name
+//         description
+//         location {
+//             id
+//             address
+//             phoneNumber
+//             state
+//         }
+//     }
+// `);
 
 export const getAllItems = gql(`
     query GetAllItems {
@@ -26,29 +26,53 @@ export const getAllItems = gql(`
 export const getItemById = gql(`
   query GetItemById($id: ID!) {
     getItemById(id: $id) {
-      ...AllItemFields
+      id
+      name
+      description
+      location {
+          id
+          address
+          phoneNumber
+          state
+      }
     }
   }
-  ${allItemFields}
 `);
+  // ${allItemFields}
 
 export const createItem = gql(`
   mutation CreateItem($item: ItemInput!) {
     createItem(item: $item) {
-      ...AllItemFields
+      id
+      name
+      description
+      location {
+          id
+          address
+          phoneNumber
+          state
+      }
     }
   }
-  ${allItemFields}
 `);
+  // ${allItemFields}
 
 export const updateItem = gql(`
   mutation UpdateItem($item: ItemInput!) {
     updateItem(item: $item) {
-      ...AllItemFields
+      id
+      name
+      description
+      location {
+          id
+          address
+          phoneNumber
+          state
+      }
     }
   }
-  ${allItemFields}
 `);
+  // ${allItemFields}
 
 export const deleteItem = gql(`
   mutation DeleteItem($id: ID!) {
