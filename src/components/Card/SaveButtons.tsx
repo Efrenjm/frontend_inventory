@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import { Hidden } from "@mui/material";
 
 interface SaveButtonsProps {
-  readOnly : boolean;
+  readOnly: boolean;
   loading: boolean;
   handleCreateNextItem: (e: MouseEvent) => void;
   handleCreateItem: (e: MouseEvent) => void;
@@ -35,7 +35,7 @@ export default function SaveButtons({readOnly, handleCreateNextItem, loading, ha
           </LoadingButton>
         </Box>
       ) : (
-        <Box display='flex' sx={{width:'100%', alignContent:'space-evenly', justifyContent:'space-evenly'}}>
+        <Box display='flex' sx={{width: '100%', alignContent: 'space-evenly', justifyContent: 'space-evenly'}}>
           <Button
             variant="contained"
             startIcon={<ArrowBackIosNew/>}

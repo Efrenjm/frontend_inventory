@@ -9,7 +9,7 @@ import { ModalSettings } from "@/components/table/tableTypes";
 import { Item } from "@/utils/types";
 import ModalTemplate, { CustomModalProps } from "@/components/modal/ModalTemplate";
 import { useMutation } from '@apollo/client/react/hooks/useMutation';
-import { deleteItem } from "@/utils/queries";
+import { deleteItem, getAllItems } from "@/utils/queries";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -26,14 +26,18 @@ interface DeleteModalProps {
 }
 
 export default function DeleteModal({setModalSettings, modalSettings}: DeleteModalProps) {
-  const [mutateFunction, {data, loading, error}] = useMutation(deleteItem);
+  const [deleteMutation, {data, loading, error}] = useMutation(deleteItem, {
+    refetchQueries: [
+      {query: getAllItems}
+    ],
+  });
 
   const handleClose = useCallback(() => {
     setModalSettings({open: false});
   }, [setModalSettings]);
 
   const handleDelete = (id: number) => {
-    mutateFunction({variables: {id: id.toString()}});
+    deleteMutation({variables: {id: id.toString()}});
   }
 
   const [modalProps, setModalProps] = useState<CustomModalProps>({

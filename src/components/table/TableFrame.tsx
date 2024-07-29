@@ -64,11 +64,11 @@ export default function TableFrame({
         width: '90%',
         mb: 2,
         overflow: 'hidden',
-        display:"flex",
-        flexDirection:"column",
-        justifyContent:"space-between",
-        alignItems:"center",
-        borderRadius:'20px',
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderRadius: '20px',
         paddingX: '60px'
       }}
     >
@@ -113,7 +113,7 @@ export default function TableFrame({
         page={page ? page : 0}
         onPageChange={(_event, newPage) => setPage ? setPage(newPage) : null}
         onRowsPerPageChange={handleChangeRowsPerPage}
-        sx={{alignSelf:'flex-end'}}
+        sx={{alignSelf: 'flex-end'}}
       />
     </Paper>
   )

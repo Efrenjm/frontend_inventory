@@ -27,10 +27,7 @@ export default function PopulatedTable() {
   if (error) {
     if (error.cause && error.cause.message === "Not found") {
       content = (
-        <CustomTable rows={[]} />
-        // <TableFrame>
-        //   <h3>No items found</h3>
-        // </TableFrame>
+        <CustomTable rows={[]}/>
       )
     } else {
       content = (

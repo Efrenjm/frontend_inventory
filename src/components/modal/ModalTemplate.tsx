@@ -42,7 +42,7 @@ export default function ModalTemplate({
                                         handleCancel,
                                         loading,
                                         disabled
-                                    }: CustomModalProps) {
+                                      }: CustomModalProps) {
 
   return (
     <Dialog

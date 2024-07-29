@@ -14,7 +14,7 @@ interface TableBodyProps {
 
 export default function CustomTableBody({rows, emptyRows, modalHandler}: TableBodyProps) {
   return (
-    <TableBody 
+    <TableBody
       onEmptied={() => console.log('hola mundo')}
     >
       {rows.map((row, index) => (

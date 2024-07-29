@@ -38,7 +38,7 @@ export const getItemById = gql(`
     }
   }
 `);
-  // ${allItemFields}
+// ${allItemFields}
 
 export const createItem = gql(`
   mutation CreateItem($item: ItemInput!) {
@@ -55,7 +55,7 @@ export const createItem = gql(`
     }
   }
 `);
-  // ${allItemFields}
+// ${allItemFields}
 
 export const updateItem = gql(`
   mutation UpdateItem($item: ItemInput!) {
@@ -72,7 +72,7 @@ export const updateItem = gql(`
     }
   }
 `);
-  // ${allItemFields}
+// ${allItemFields}
 
 export const deleteItem = gql(`
   mutation DeleteItem($id: ID!) {

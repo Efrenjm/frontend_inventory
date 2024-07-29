@@ -21,7 +21,7 @@ export default function NavCardOptions({deletable, title}: NavCardOptionsProps) 
         <ArrowBack fontSize="large"/>
       </IconButton>
       {title && (
-        <Typography variant='h4' >{title}</Typography>
+        <Typography variant='h4'>{title}</Typography>
       )}
       {deletable && (
         <IconButton

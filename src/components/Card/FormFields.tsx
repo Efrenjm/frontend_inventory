@@ -16,13 +16,13 @@ export default function FormFields({formValues, invalidData, readOnly, handleFor
   return (
     <Box
       component='div'
-       sx={{
-         overflow: 'auto',
-         display: 'flex',
-         flexDirection: 'column',
-         rowGap: '50px',
-         width: '100%',
-       }}
+      sx={{
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        rowGap: '50px',
+        width: '100%',
+      }}
     >
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <TextField

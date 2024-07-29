@@ -46,21 +46,21 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
     <AppBar
       position="fixed"
       sx={{
-        width: { md: `calc(100% - ${drawerWidth}px)` },
-        ml: { md: `${drawerWidth}px` }
+        width: {md: `calc(100% - ${drawerWidth}px)`},
+        ml: {md: `${drawerWidth}px`}
       }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { sm: 'flex', md: 'none' } }}>
+          <Box sx={{flexGrow: 1, display: {sm: 'flex', md: 'none'}}}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { md: 'none' } }}
+              sx={{mr: 2, display: {md: 'none'}}}
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
           </Box>
           {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
@@ -71,7 +71,7 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
             href="/items"
             sx={{
               mr: 2,
-              display: { sm: 'flex', md: 'none' },
+              display: {sm: 'flex', md: 'none'},
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
@@ -83,14 +83,14 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
             Inventory overview
           </Typography>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{flexGrow: 0}}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Profile picture" src="/profile.png" />
+              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                <Avatar alt="Profile picture" src="/profile.png"/>
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{mt: '45px'}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{

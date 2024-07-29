@@ -19,6 +19,7 @@ const drawerWidth = 240;
 interface AppFrameProps {
   children: React.ReactNode;
 }
+
 export default function AppFrame({children}: AppFrameProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -40,29 +41,29 @@ export default function AppFrame({children}: AppFrameProps) {
 
   const drawer = (
     <div>
-      <Toolbar />
-      <Divider />
+      <Toolbar/>
+      <Divider/>
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text}/>
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
+      <Divider/>
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text}/>
             </ListItemButton>
           </ListItem>
         ))}
@@ -71,15 +72,15 @@ export default function AppFrame({children}: AppFrameProps) {
   );
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{display: 'flex'}}>
       <CustomHeader drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle}/>
       <CustomSidebar width={drawerWidth}/>
 
       <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{flexGrow: 1, p: 3, width: {md: `calc(100% - ${drawerWidth}px)`}}}
       >
-        <Toolbar />
+        <Toolbar/>
         {children}
       </Box>
     </Box>

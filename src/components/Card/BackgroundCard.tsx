@@ -10,13 +10,13 @@ interface BackgroundCardProps {
   component: ElementType;
 }
 
-export default function BackgroundCard({children, sx, deletable, title, component='div'}: BackgroundCardProps) {
+export default function BackgroundCard({children, sx, deletable, title, component = 'div'}: BackgroundCardProps) {
   return (
     <Paper
       component='div'
       sx={{
         minHeight: '700px',
-        height:'700px',
+        height: '700px',
         minWidth: '360px',
         width: '90%',
         maxWidth: '800px',

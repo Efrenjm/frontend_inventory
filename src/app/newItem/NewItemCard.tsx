@@ -3,21 +3,17 @@ import { MouseEvent, ChangeEvent, useEffect } from "react";
 import { useState } from "react";
 
 import { FormInvalidValues, FormValues, Item } from "@/utils/types";
-// import { createItem, queryClient } from "@/utils/http";
-// import { useMutation } from "@tanstack/react-query";
 import BackgroundCard from "@/components/Card/BackgroundCard";
 import SaveButtons from "@/components/Card/SaveButtons";
 import FormFields from "@/components/Card/FormFields";
 import { generateFormValues } from "@/utils/dataManipulation";
 import BadRequest from "@/components/errors/BadRequest";
-import { createItem } from "@/utils/queries";
+import { createItem, getAllItems } from "@/utils/queries";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
-import { ItemInput } from "@/__generated__/graphql";
 
 export default function NewItemCard() {
   const [readOnly, setReadOnly] = useState<boolean>(false);
   const [formValues, setFormValues] = useState<FormValues>(generateFormValues(undefined));
-
   const [invalidData, setInvalidData] = useState<FormInvalidValues>({
     id: {error: false, message: ''},
     name: {error: false, message: ''},
@@ -26,20 +22,17 @@ export default function NewItemCard() {
     locationPhoneNumber: {error: false, message: ''}
   });
 
-  // const {mutate, isPending, isError, error} = useMutation({
-  //   mutationFn: createItem,
-  //   onMutate: () => {
-  //     setReadOnly(true);
-  //   },
-  //   onError: () => {
-  //     setReadOnly(false);
-  //   },
-  //   onSuccess: (data) => {
-  //     setFormValues(generateFormValues(data));
-  //     queryClient.invalidateQueries({queryKey: ['items']});
-  //   }
-  // })
-  const [mutateFunction, {data, loading, error}] = useMutation(createItem);
+  const [createMutation, {data, loading, error}] = useMutation(createItem, {
+    refetchQueries: [
+      {query: getAllItems}
+    ],
+    onCompleted: (response) => {
+      setFormValues(generateFormValues(response.createItem!));
+    },
+    onError: (error) => {
+      console.log("this is the error: " + error)
+    }
+  });
 
   const handleChanges = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {name, value} = e.target;
@@ -58,7 +51,7 @@ export default function NewItemCard() {
         [name]: value
       }));
     }
-  }
+  };
 
   const containsInvalidData = () => {
     const dataValidation = {
@@ -84,27 +77,17 @@ export default function NewItemCard() {
       }
     }
     setInvalidData(dataValidation)
-
     return Object.values(dataValidation).reduce((acc, curr) => acc || curr.error, false);
   }
 
   const handleCreateItem = (e: MouseEvent) => {
     e.preventDefault();
     if (!containsInvalidData()) {
-      // const newItem: ItemInput = {
-      //   id: formValues.id,
-      //   name: formValues.name.trim(),
-      //   description: formValues.description?.trim(),
-      //   location: {
-      //     id: formValues.location.id,
-      //     state: formValues.location.state.trim(),
-      //     address: formValues.location.address?.trim(),
-      //     phoneNumber: formValues.location.phoneNumber?.toString().trim()
-      //   }
-      // };
-      mutateFunction({variables: {item: formValues}});
+      setReadOnly(true);
+      createMutation({variables: {item: formValues}});
     }
   }
+
   const handleCreateNextItem = (e: MouseEvent) => {
     e.preventDefault();
     setReadOnly(false);
@@ -115,7 +98,7 @@ export default function NewItemCard() {
   useEffect(() => {
     if (error) {
       if (error.message === "Conflict") {
-        setInvalidData((prevState)=>({
+        setInvalidData((prevState) => ({
           ...prevState,
           id: {error: true, message: 'ID already exists'}
         }));
@@ -125,23 +108,7 @@ export default function NewItemCard() {
 
   return (
     <BackgroundCard component="form">
-      {/*{!isError || error?.cause === 409 && (*/}
-      {/*  <>*/}
-      {/*  <FormFields*/}
-      {/*    formValues={formValues}*/}
-      {/*    invalidData={invalidData}*/}
-      {/*    readOnly={readOnly}*/}
-      {/*    handleFormChanges={handleChanges}*/}
-      {/*  />*/}
-      {/*  <SaveButtons*/}
-      {/*    readOnly={!readOnly}*/}
-      {/*    loading={isPending}*/}
-      {/*    handleCreateNextItem={handleCreateNextItem}*/}
-      {/*    handleCreateItem={handleCreateItem}*/}
-      {/*  />*/}
-      {/*  </>*/}
-      {/*)}*/}
-      {(error && error.message !== "Conflict") ? <BadRequest /> :
+      {(!error && !loading) && (
         <>
           <FormFields
             formValues={formValues}
@@ -156,7 +123,10 @@ export default function NewItemCard() {
             handleCreateItem={handleCreateItem}
           />
         </>
-      }
+      )}
+      {(error && error.message === "Conflict") && (
+        <BadRequest/>
+      )}
     </BackgroundCard>
   );
 }

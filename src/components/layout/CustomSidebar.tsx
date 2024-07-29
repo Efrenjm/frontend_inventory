@@ -19,9 +19,10 @@ import Typography from '@mui/material/Typography';
 const drawerWidth = 240;
 
 interface CustomSidebarProps {
-  width:number;
+  width: number;
 }
-export default function CustomSidebar({width}:CustomSidebarProps) {
+
+export default function CustomSidebar({width}: CustomSidebarProps) {
   if (!width) {
     width = 240;
   }
@@ -45,29 +46,29 @@ export default function CustomSidebar({width}:CustomSidebarProps) {
 
   const drawer = (
     <div>
-      <Toolbar />
-      <Divider />
+      <Toolbar/>
+      <Divider/>
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text}/>
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      <Divider />
+      <Divider/>
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={text}/>
             </ListItemButton>
           </ListItem>
         ))}
@@ -78,7 +79,7 @@ export default function CustomSidebar({width}:CustomSidebarProps) {
   return (
     <Box
       component="nav"
-      sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
+      sx={{width: {md: drawerWidth}, flexShrink: {md: 0}}}
       aria-label="mailbox folders"
     >
       <Drawer
@@ -90,8 +91,8 @@ export default function CustomSidebar({width}:CustomSidebarProps) {
           keepMounted: true,
         }}
         sx={{
-          display: { sm: 'block', md: 'none' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          display: {sm: 'block', md: 'none'},
+          '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
         }}
       >
         {drawer}
@@ -106,8 +107,8 @@ export default function CustomSidebar({width}:CustomSidebarProps) {
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: 'none', md: 'block' },
-          '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+          display: {xs: 'none', md: 'block'},
+          '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
         }}
         open
       >

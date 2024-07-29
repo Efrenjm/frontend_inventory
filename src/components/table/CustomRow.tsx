@@ -1,5 +1,5 @@
 'use client';
-import {useRef, useState, useEffect} from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
 import { TableRow, TableBody, TableCell, IconButton } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
@@ -51,7 +51,7 @@ export default function CustomRow({index, row, modalHandler}: CustomRowProps) {
                 event.stopPropagation();
                 router.push(`/items/${row.id}`);
               }}
-              onMouseEnter={()=>editRef.current?.playFromBeginning()}
+              onMouseEnter={() => editRef.current?.playFromBeginning()}
             >
               <Player
                 ref={editRef}
@@ -63,7 +63,7 @@ export default function CustomRow({index, row, modalHandler}: CustomRowProps) {
                 event.stopPropagation();
                 modalHandler(row);
               }}
-              onMouseEnter={()=>trashRef.current?.playFromBeginning()}
+              onMouseEnter={() => trashRef.current?.playFromBeginning()}
             >
               <Player
                 ref={trashRef}

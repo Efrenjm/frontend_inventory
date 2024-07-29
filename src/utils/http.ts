@@ -5,10 +5,11 @@ import { Item } from './types';
 
 export const queryClient = new QueryClient();
 
-export async function getItems({signal}: {signal: AbortSignal}): Promise<Item[]> {
+export async function getItems({signal}: { signal: AbortSignal }): Promise<Item[]> {
   let url = 'http://localhost:8080/items';
 
-  setTimeout(() => {}, 1000);
+  setTimeout(() => {
+  }, 1000);
 
   const response = await fetch(url, {signal});
   if (!response.ok) {
@@ -24,7 +25,8 @@ interface getItemProps {
 
 export async function getItem({signal, id}: getItemProps): Promise<Item> {
   const url = `http://localhost:8080/items/${id}`;
-  await setTimeout(() => {}, 2000);
+  await setTimeout(() => {
+  }, 2000);
   const response = await fetch(url, {signal});
   if (!response.ok) {
     throw new Error('Network response was not ok', {cause: response.status});
