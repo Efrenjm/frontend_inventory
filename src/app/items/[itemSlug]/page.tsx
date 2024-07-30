@@ -4,13 +4,14 @@ import ItemCard from "@/app/items/[itemSlug]/ItemCard";
 interface ItemDetailPageProps {
   params: {
     itemSlug: string;
+  },
+  searchParams?: {
+    edit?: boolean;
   }
 }
 
-export default function ItemDetailPage({params}: ItemDetailPageProps) {
+export default function ItemDetailPage({params, searchParams}: ItemDetailPageProps) {
   return (
-    <div>
-      <ItemCard id={parseInt(params.itemSlug)}/>
-    </div>
+    <ItemCard id={parseInt(params.itemSlug)} isEditable={searchParams?.edit}/>
   );
 }

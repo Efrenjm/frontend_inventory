@@ -5,30 +5,31 @@ import { LoadingButton } from "@mui/lab";
 import { AddBox, ArrowBackIosNew, Save } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { Hidden } from "@mui/material";
+import { Typography } from "@mui/material";
 
 interface SaveButtonsProps {
-  readOnly: boolean;
-  loading: boolean;
-  handleCreateNextItem: (e: MouseEvent) => void;
-  handleCreateItem: (e: MouseEvent) => void;
+  isEditable: boolean;
+  isLoading: boolean;
+  isNew: boolean;
+  handleSaveItem: (e: MouseEvent) => void;
+  handleCreateNextItem?: (e: MouseEvent) => void;
 }
 
-export default function SaveButtons({readOnly, handleCreateNextItem, loading, handleCreateItem}: SaveButtonsProps) {
+export default function SaveButtons({isEditable, isNew, isLoading, handleSaveItem, handleCreateNextItem}: SaveButtonsProps) {
   const router = useRouter();
+
   return (
     <>
-      {readOnly ? (
+      {isEditable ? (
         <Box display='flex' justifyContent='center'>
-
           <LoadingButton
             variant="contained"
             startIcon={<Save/>}
             sx={{
               padding: '10px 60px'
             }}
-            onClick={handleCreateItem}
-            loading={loading}
+            onClick={handleSaveItem}
+            loading={isLoading}
             loadingPosition="start"
           >
             <span>Save Item</span>
@@ -44,9 +45,12 @@ export default function SaveButtons({readOnly, handleCreateNextItem, loading, ha
             }}
             onClick={() => router.push('/items')}
           >
-            <Hidden smDown>
-              <span>Go back</span>
-            </Hidden>
+            <Typography sx={{
+              display: {xs:'none', sm: 'none', md: 'block'},
+
+            }}>
+              Go back
+            </Typography>
           </Button>
           <Button
             variant="contained"
@@ -56,9 +60,11 @@ export default function SaveButtons({readOnly, handleCreateNextItem, loading, ha
             }}
             onClick={handleCreateNextItem}
           >
-            <Hidden smDown>
-              <span>Create a new item</span>
-            </Hidden>
+            <Typography sx={{
+              display: {xs:'none', sm: 'none', md: 'block'},
+            }}>
+              Add another
+            </Typography>
           </Button>
         </Box>
       )}

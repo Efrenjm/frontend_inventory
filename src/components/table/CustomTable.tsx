@@ -71,11 +71,7 @@ export default function CustomTable({rows}: CustomTableProps) {
         searchFilter={searchFilter}
         setSearchFilter={setSearchFilter}
       >
-        <TableContainer sx={{height: 425, minWidth: 620}}>
-          {/*<Alert severity="success">*/}
-          {/*  <AlertTitle>Success</AlertTitle>*/}
-          {/*  This is a success Alert with an encouraging title.*/}
-          {/*</Alert>*/}
+        <TableContainer >
           <Table
             aria-labelledby="tableTitle"
             stickyHeader

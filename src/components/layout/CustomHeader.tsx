@@ -46,6 +46,7 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
     <AppBar
       position="fixed"
       sx={{
+        background: '#ffffff00',
         width: {md: `calc(100% - ${drawerWidth}px)`},
         ml: {md: `${drawerWidth}px`}
       }}

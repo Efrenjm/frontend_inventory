@@ -1,35 +1,48 @@
 'use client';
-import { Roboto, Advent_Pro } from 'next/font/google';
+import { Dongle, Fira_Sans, Quicksand, Nunito, Gidugu } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
-const roboto = Roboto({
+/* Debatibles */
+const dongle = Dongle({ /* Use size 28 */
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
 });
+// const fira_sans = Fira_Sans({
+//   weight: '500',
+//   subsets: ['latin'],
+//   display: 'swap'
+// })
+// const quicksand = Quicksand({
+//   weight: ['600'],
+//   subsets: ['latin'],
+//   display: 'swap'
+// })
+// const nunito = Nunito({
+//   weight: ['600'],
+//   subsets: ['latin'],
+//   display: 'swap'
+// })
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Raleway, Arial',
+    fontFamily: dongle.style.fontFamily,
+    fontSize: 24
   },
   palette: {
-    background: {
-      paper: '#fff'
-    },
-    text: {
-      primary: '#173A5E',
-      secondary: '#46505A',
-    },
-    action: {
-      active: '#001E3C',
-    },
     primary: {
-      main: '#FFC107',
+      main: '#1A2440',
+      // light: '#1A2440',
+      // dark: '#002884',
+      contrastText: '#fff',
     },
-
-    // success: {
-    //     dark: '#009688',
-    // },
+    secondary: {
+      main: '#F2600C',
+      // light: '#ff7961',
+      // main: '#F2F2F2',
+      // dark: '#ba000d',
+      contrastText: '#000',
+    },
   },
 });
 

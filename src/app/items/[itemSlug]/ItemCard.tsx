@@ -1,35 +1,54 @@
 'use client';
-import BackgroundCard from "@/components/Card/BackgroundCard";
-import FormFields from "@/components/Card/FormFields";
-import { generateFormValues } from "@/utils/dataManipulation";
-import ItemNotFound from "@/components/errors/ItemNotFound";
-import BadRequest from "@/components/errors/BadRequest";
-import Loader from "@/components/loader/Loader";
-import { getItemById } from "@/utils/queries";
+import { getAllItems, getItemById, updateItem } from "@/utils/queries";
 import { useQuery } from "@apollo/client";
-import { GetItemByIdQuery, GetItemByIdQueryVariables } from "@/__generated__/graphql";
+import {
+  GetItemByIdQuery,
+  GetItemByIdQueryVariables
+} from "@/__generated__/graphql";
+import { useMutation } from "@apollo/client/react/hooks/useMutation";
+import ItemDetails from '@/components/Card/ItemDetails';
 
 interface CustomCardProps {
   id: number;
+  isEditable?: boolean;
 }
 
-export default function ItemCard({id}: CustomCardProps) {
+export default function ItemCard({ id, isEditable }: CustomCardProps) {
 
-  const {data, loading, error} = useQuery<GetItemByIdQuery, GetItemByIdQueryVariables>(
+  const { data: queryData, loading: queryLoading, error: queryError } = useQuery<GetItemByIdQuery, GetItemByIdQueryVariables>(
     getItemById,
-    {variables: {id: id.toString()}}
+    { variables: { id: id.toString() } }
   );
 
+  const [updateItemFn, { loading: updateLoading, error: updateError }] = useMutation(updateItem, {
+    refetchQueries: [
+      {query: getAllItems}
+    ]
+  });
+
+
   return (
-    <BackgroundCard component='div'>
-      {error && (error.cause?.message === "Not found" ? <ItemNotFound/> : <BadRequest/>)}
-      {loading && <Loader isPending={loading}/>}
-      {data && (
-        <FormFields
-          formValues={generateFormValues(data.getItemById!)}
-          readOnly={true}
+    <>
+      {(!queryLoading && !queryError) && (
+        <ItemDetails
+          initialValues={queryData?.getItemById!}
+          isEditable={!!isEditable}
+          isSaving={updateLoading}
+          isNew={false}
+          mutationFunction={isEditable? updateItemFn : undefined}
         />
       )}
-    </BackgroundCard>
+    </>
+    // <BackgroundCard component='div'>
+    //   {queryError && (queryError.message === "Not found" ? <ItemNotFound/> : <BadRequest/>)}
+    //   {queryLoading && <Loader isPending={queryLoading}/>}
+    //   {!queryError && !queryLoading && (
+    //     <FormFields
+    //       formValues={formValues}
+    //       readOnly={!isEditable}
+    //       handleFormChanges={handleChanges}
+    //     />
+    //   )}
+    // </BackgroundCard>
   );
 }

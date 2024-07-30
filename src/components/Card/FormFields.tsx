@@ -1,48 +1,38 @@
 import { ChangeEvent } from "react";
-import { InputAdornment, TextField } from "@mui/material";
+import { InputAdornment, TextField, Grid } from "@mui/material";
 import { FormInvalidValues, FormValues } from "@/utils/types";
-import Box from "@mui/material/Box";
-import { Simulate } from "react-dom/test-utils";
-import error = Simulate.error;
 
 interface FormFieldsProps {
   formValues: FormValues;
   invalidData?: FormInvalidValues;
   readOnly: boolean;
+  isNew: boolean;
   handleFormChanges?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FormFields({formValues, invalidData, readOnly, handleFormChanges}: FormFieldsProps) {
+export default function FormFields({formValues, invalidData, readOnly, isNew, handleFormChanges}: FormFieldsProps) {
   return (
-    <Box
-      component='div'
-      sx={{
-        overflow: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        rowGap: '50px',
-        width: '100%',
-      }}
-    >
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+    <Grid container spacing={2} columns={12} >
+      <Grid item sm={4}>
         <TextField
           name="id"
-          label={readOnly ? "Id" : "Id*"}
+          label="Id"
           value={formValues.id}
           onChange={handleFormChanges}
           error={invalidData?.id?.error}
           helperText={invalidData?.id?.error && invalidData?.id?.message}
           InputProps={{
-            readOnly,
+            readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
-          sx={{width: '15%'}}
+          variant={readOnly || !isNew? "filled" : "standard"}
+          fullWidth
         />
-
+      </Grid>
+      <Grid item sm={8}>
         <TextField
           name="name"
-          label={readOnly ? "Item" : "Item*"}
+          label="Item"
           value={formValues.name}
           onChange={handleFormChanges}
           error={invalidData?.name?.error}
@@ -51,11 +41,11 @@ export default function FormFields({formValues, invalidData, readOnly, handleFor
             readOnly,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
-          sx={{width: '75%'}}
+          variant={readOnly? "filled" : "standard"}
+          fullWidth
         />
-      </div>
-      <div>
+      </Grid>
+      <Grid item sm={12}>
         <TextField
           name="description"
           label="Description"
@@ -65,43 +55,45 @@ export default function FormFields({formValues, invalidData, readOnly, handleFor
             readOnly,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
+          variant={readOnly? "filled" : "standard"}
           multiline
           fullWidth
         />
-      </div>
-      <div>
+      </Grid>
+      <Grid item sm={12}>
         <TextField
           name="location.id"
-          label={readOnly ? "Location id" : "Location id*"}
+          label="Location id"
           value={formValues.location.id}
           onChange={handleFormChanges}
           error={invalidData?.locationId?.error}
           helperText={invalidData?.locationId?.error && invalidData?.locationId?.message}
           InputProps={{
-            readOnly,
+            readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
-          sx={{width: '15%', minWidth: '90px'}}
+          variant={readOnly || !isNew? "filled" : "standard"}
         />
-      </div>
-      <div style={{display: 'flex', justifyContent: 'space-between'}}>
+      </Grid>
+      <Grid item sm={6}>
         <TextField
           name="location.state"
-          label={readOnly ? "State" : "State*"}
+          label="State"
           value={formValues.location.state}
           onChange={handleFormChanges}
           error={invalidData?.locationState?.error}
           helperText={invalidData?.locationState?.error && invalidData?.locationState?.message}
           InputProps={{
-            readOnly,
+            readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
-          sx={{width: '42%'}}
+          variant={readOnly || !isNew? "filled" : "standard"}
           multiline
+          fullWidth
         />
+      </Grid>
+      <Grid item sm={6}>
+
         <TextField
           name="location.phoneNumber"
           label="Phone Number"
@@ -110,28 +102,28 @@ export default function FormFields({formValues, invalidData, readOnly, handleFor
           error={invalidData?.locationPhoneNumber?.error}
           helperText={invalidData?.locationPhoneNumber?.error && invalidData?.locationPhoneNumber?.message}
           InputProps={{
-            readOnly,
+            readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
-          sx={{width: '42%'}}
+          variant={readOnly || !isNew? "filled" : "standard"}
+          fullWidth
         />
-      </div>
-      <div>
+      </Grid>
+      <Grid item sm={12}>
         <TextField
           name="location.address"
           label="Address"
           value={formValues.location.address}
           onChange={handleFormChanges}
           InputProps={{
-            readOnly,
+            readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant="standard"
+          variant={readOnly || !isNew? "filled" : "standard"}
           multiline
           fullWidth
         />
-      </div>
-    </Box>
+      </Grid>
+    </Grid>
   )
 }

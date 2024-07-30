@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+// import { Inter, Dongle } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 
@@ -12,7 +12,8 @@ import ApolloConfig from "@/app/ApolloConfig";
 import AppFrame from "@/components/layout/AppFrame";
 
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+// const dongle = Dongle({ weight: "400", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Inventory",
@@ -34,7 +35,9 @@ export default function RootLayout({
         <title>{typeof metadata.title === 'string' ? metadata.title : "Inventory"}</title>
         <link rel="icon" href="/favicon.ico" />
       </head>
-      <body className={inter.className}>
+      <body
+        // className={dongle.className}
+      >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <ApolloConfig>

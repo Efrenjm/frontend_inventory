@@ -1,3 +1,12 @@
+import { ApolloCache, DefaultContext, FetchResult, MutationFunctionOptions } from "@apollo/client";
+import {
+  CreateItemMutation,
+  Exact,
+  ItemInput,
+  UpdateItemMutation,
+  UpdateItemMutationVariables
+} from "@/__generated__/graphql";
+
 export interface Location {
   id: number; /* TODO: CHANGE TO MANDATORY WHEN RETRIEVING DATA */
   state: string;
@@ -47,3 +56,6 @@ export interface FormInvalidValues {
   locationState: invalidNode;
   locationPhoneNumber: invalidNode;
 }
+
+export type CreateItemMutationFunction = (options?: (MutationFunctionOptions<CreateItemMutation, Exact<{item: ItemInput }>, DefaultContext, ApolloCache<any>> | undefined)) => Promise<FetchResult<CreateItemMutation>>
+export type UpdateItemMutationFunction = (options?: MutationFunctionOptions<UpdateItemMutation, UpdateItemMutationVariables, DefaultContext, ApolloCache<any>>) => Promise<FetchResult<UpdateItemMutation>>
