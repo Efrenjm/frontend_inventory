@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import CustomHeader from '@/components/layout/CustomHeader'
@@ -9,6 +9,7 @@ import { body } from '@/theme';
 
 const drawerWidth = 80;
 
+export const TitleContext = createContext({title: "", setTitle: (value: string) => {}});
 
 interface AppFrameProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ interface AppFrameProps {
 export default function AppFrame({ children }: AppFrameProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [title, setTitle] = useState('');
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -38,25 +40,27 @@ export default function AppFrame({ children }: AppFrameProps) {
       maxSnack={3}
       style={{ fontFamily: body.style.fontFamily, fontSize: 22 }}
     >
-      <Box sx={{ display: 'flex' }}>
-        <CustomHeader
-          drawerWidth={drawerWidth}
-          handleDrawerToggle={handleDrawerToggle}
-        />
-        <CustomSidebar
-          drawerWidth={drawerWidth}
-          mobileOpen={mobileOpen}
-          handleDrawerClose={handleDrawerClose}
-          handleDrawerTransitionEnd={handleDrawerTransitionEnd}
-        />
-        <Box
-          component="main"
-          sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
-        >
-          <Toolbar />
-          {children}
+      <TitleContext.Provider value={{ title, setTitle }}>
+        <Box sx={{ display: 'flex' }}>
+          <CustomHeader
+            drawerWidth={drawerWidth}
+            handleDrawerToggle={handleDrawerToggle}
+          />
+          <CustomSidebar
+            drawerWidth={drawerWidth}
+            mobileOpen={mobileOpen}
+            handleDrawerClose={handleDrawerClose}
+            handleDrawerTransitionEnd={handleDrawerTransitionEnd}
+          />
+          <Box
+            component="main"
+            sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+          >
+            <Toolbar />
+            {children}
+          </Box>
         </Box>
-      </Box>
+      </TitleContext.Provider>
     </SnackbarProvider>
   );
 }

@@ -1,5 +1,5 @@
 'use client';
-import * as React from 'react';
+import { useState, useContext } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,6 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import { title } from '@/theme';
+import { TitleContext } from '@/components/layout/AppFrame';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -22,7 +23,7 @@ interface CustomHeaderProps {
 }
 
 export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: CustomHeaderProps) {
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -32,6 +33,8 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const {title: headerTitle} = useContext(TitleContext);
 
   return (
     <AppBar
@@ -63,13 +66,11 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
               display: { sm: 'flex', md: 'flex' },
               flexGrow: 1,
               fontFamily: title.style.fontFamily,
-              // fontWeight: 700,
-              // letterSpacing: '.3rem',
               color: 'primary.main',
               textDecoration: 'none',
             }}
           >
-            Inventory overview
+            {headerTitle}
           </Typography>
 
           <Box sx={{ position: 'fixed', right: 0, top: 0, padding: '10px' }}>

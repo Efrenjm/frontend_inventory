@@ -4,7 +4,6 @@ import {
   TablePagination,
   TextField,
   Toolbar,
-  Tooltip,
   Typography
 } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -119,13 +118,11 @@ export default function TableFrame({
             }
           }}
         />
-        {/* <Tooltip title="Add a new item"> */}
-          <AnimatedIcon
-            icon={'add'}
-            size={36}
-            onClick={() => router.push('/newItem')}
-          />
-        {/* </Tooltip> */}
+        <AnimatedIcon
+          icon={'add'}
+          size={36}
+          onClick={() => router.push('/newItem')}
+        />
       </Toolbar>
       {children}
 

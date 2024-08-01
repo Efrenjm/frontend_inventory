@@ -1,10 +1,20 @@
 'use client';
+import { useContext, useEffect } from "react";
 import { createItem, getAllItems } from "@/utils/queries";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import ItemDetails from "@/components/card/ItemDetails";
 import { useSnackbar } from "notistack";
+import {TitleContext} from "@/components/layout/AppFrame";
 
 export default function NewItemCard() {
+  const {setTitle} = useContext(TitleContext);
+  useEffect(() => {
+      setTitle('New item');
+    },
+    []
+  );
+
+
   const { enqueueSnackbar } = useSnackbar();
 
   const [createMutation, { loading, error }] = useMutation(createItem, {
