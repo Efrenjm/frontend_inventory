@@ -119,13 +119,13 @@ export default function TableFrame({
             }
           }}
         />
-        <Tooltip title="Add a new item">
+        {/* <Tooltip title="Add a new item"> */}
           <AnimatedIcon
             icon={'add'}
             size={36}
             onClick={() => router.push('/newItem')}
           />
-        </Tooltip>
+        {/* </Tooltip> */}
       </Toolbar>
       {children}
 
