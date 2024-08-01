@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo, MouseEvent } from "react";
+import { useState, useEffect, useMemo, MouseEvent } from "react";
 import { TableContainer, Table } from "@mui/material";
 
 import { ModalSettings, Order, SortableColumns, TableFields } from "@/components/table/tableTypes";
@@ -34,13 +34,24 @@ export default function CustomTable({ rows }: CustomTableProps) {
     return searchFilter === '' || row.name.toLowerCase().includes(searchFilter.toLowerCase())
   });
 
+
+  useEffect(() => {
+    if (page > 0 && filteredRows.length <= page * rowsPerPage) {
+      setPage(prev => Math.max(0, prev - 1));
+    }
+  }, [filteredRows, page, rowsPerPage]);
+
   const visibleRows = useMemo(
-    () =>
-      stableSort(filteredRows, getComparator(order, orderBy)).slice(
+    () => {
+      // if (page * rowsPerPage+1 > filteredRows.length && filteredRows.length > 0) {
+      //   setPage((prev)=> prev - 1);
+      // }
+      return stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
-      ),
-    [order, orderBy, page, rowsPerPage, filteredRows],
+      )
+    },
+    [order, orderBy, page, rowsPerPage, filteredRows]
   );
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
