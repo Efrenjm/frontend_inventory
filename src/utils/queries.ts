@@ -1,19 +1,5 @@
 import { gql } from '@/__generated__/gql';
 
-// export const allItemFields = gql(`
-//     fragment AllItemFields on Item {
-//         id
-//         name
-//         description
-//         location {
-//             id
-//             address
-//             phoneNumber
-//             state
-//         }
-//     }
-// `);
-
 export const getAllItems = gql(`
     query GetAllItems {
         getAllItems {
@@ -38,7 +24,6 @@ export const getItemById = gql(`
     }
   }
 `);
-// ${allItemFields}
 
 export const createItem = gql(`
   mutation CreateItem($item: ItemInput!) {
@@ -55,7 +40,6 @@ export const createItem = gql(`
     }
   }
 `);
-// ${allItemFields}
 
 export const updateItem = gql(`
   mutation UpdateItem($item: ItemInput!) {
@@ -72,7 +56,6 @@ export const updateItem = gql(`
     }
   }
 `);
-// ${allItemFields}
 
 export const deleteItem = gql(`
   mutation DeleteItem($id: ID!) {

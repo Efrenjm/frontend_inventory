@@ -13,6 +13,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { viga } from '@/theme';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -46,16 +47,17 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
     <AppBar
       position="fixed"
       sx={{
-        background: '#ffffff00',
+        height: '100px',
+        background: '#f2f2f2',
+        boxShadow: 'none',
         width: {md: `calc(100% - ${drawerWidth}px)`},
         ml: {md: `${drawerWidth}px`}
       }}
     >
-      <Container maxWidth="xl">
+      <Container sx={{width: '100%', display:'flex', alignItems:'center'}}>
         <Toolbar disableGutters>
           <Box sx={{flexGrow: 1, display: {sm: 'flex', md: 'none'}}}>
             <IconButton
-              color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
@@ -64,27 +66,25 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
               <MenuIcon/>
             </IconButton>
           </Box>
-          {/*<AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />*/}
           <Typography
             variant="h5"
-            noWrap
-            component="a"
-            href="/items"
+            // noWrap
+            // href="/items"
             sx={{
               mr: 2,
-              display: {sm: 'flex', md: 'none'},
+              display: {sm: 'flex', md: 'flex'},
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: viga.style.fontFamily,
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'primary.main',
               textDecoration: 'none',
             }}
           >
             Inventory overview
           </Typography>
 
-          <Box sx={{flexGrow: 0}}>
+          <Box sx={{position: 'fixed', right: 0, top: 0, padding:'10px'}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                 <Avatar alt="Profile picture" src="/profile.png"/>

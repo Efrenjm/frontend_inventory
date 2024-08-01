@@ -1,11 +1,8 @@
 'use client';
-import { useState, useMemo, MouseEvent, ChangeEvent, Dispatch, SetStateAction } from "react";
-import {
-  TableContainer,
-  Table, Alert, AlertTitle
-} from "@mui/material";
+import { useState, useMemo, MouseEvent } from "react";
+import { TableContainer, Table, Snackbar } from "@mui/material";
 
-import { ModalSettings, Order, SortableColumns, TableColumns, TableFields } from "@/components/table/tableTypes";
+import { ModalSettings, Order, SortableColumns, TableFields } from "@/components/table/tableTypes";
 import CustomTableHead from "@/components/table/CustomTableHead";
 import CustomTableBody from "@/components/table/CustomTableBody";
 import DeleteModal from "@/components/modal/DeleteModal";
@@ -16,13 +13,13 @@ interface CustomTableProps {
   rows: TableFields[];
 }
 
-export default function CustomTable({rows}: CustomTableProps) {
+export default function CustomTable({ rows }: CustomTableProps) {
   const [order, setOrder] = useState<Order>('asc');
   const [orderBy, setOrderBy] = useState<SortableColumns>('id');
   const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [searchFilter, setSearchFilter] = useState<string>('');
-  const [modalSettings, setModalSettings] = useState<ModalSettings>({open: false});
+  const [modalSettings, setModalSettings] = useState<ModalSettings>({ open: false });
 
   const handleRequestSort = (
     _event: MouseEvent<unknown>,
@@ -37,12 +34,6 @@ export default function CustomTable({rows}: CustomTableProps) {
     return searchFilter === '' || row.name.toLowerCase().includes(searchFilter.toLowerCase())
   });
 
-  const handleFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setPage(0);
-    setSearchFilter(event.target.value);
-  }
-
   const visibleRows = useMemo(
     () =>
       stableSort(filteredRows, getComparator(order, orderBy)).slice(
@@ -55,12 +46,12 @@ export default function CustomTable({rows}: CustomTableProps) {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
 
   const modalHandler = (row: TableFields) => {
-    setModalSettings({row, open: true});
+    setModalSettings({ row, open: true });
   }
 
   return (
     <>
-      {modalSettings.open && <DeleteModal modalSettings={modalSettings} setModalSettings={setModalSettings}/>}
+      {modalSettings.open && <DeleteModal modalSettings={modalSettings} setModalSettings={setModalSettings} />}
 
       <TableFrame
         recordNumber={filteredRows.length}
@@ -71,7 +62,13 @@ export default function CustomTable({rows}: CustomTableProps) {
         searchFilter={searchFilter}
         setSearchFilter={setSearchFilter}
       >
-        <TableContainer >
+        <TableContainer
+          sx={{
+            flex: '1 1 auto',
+            overflow: 'auto',
+            maxHeight: '760px'
+          }}
+        >
           <Table
             aria-labelledby="tableTitle"
             stickyHeader
@@ -85,6 +82,7 @@ export default function CustomTable({rows}: CustomTableProps) {
               rows={visibleRows}
               emptyRows={emptyRows}
               modalHandler={modalHandler}
+              isEmpty={filteredRows.length === 0}
             />
           </Table>
         </TableContainer>

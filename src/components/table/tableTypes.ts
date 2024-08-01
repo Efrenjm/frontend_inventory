@@ -6,7 +6,7 @@ export interface Columns {
   id: TableColumns;
   label: string;
   align: "inherit" | "left" | "center" | "right" | "justify" | undefined;
-  width: string;
+  width: any;
 }
 
 export interface TableFields {

@@ -1,5 +1,5 @@
 'use client';
-import { MouseEvent, ChangeEvent, useEffect, Dispatch, SetStateAction } from "react";
+import { MouseEvent, ChangeEvent } from "react";
 import { useState } from "react";
 
 import {
@@ -9,17 +9,19 @@ import {
   Item,
   UpdateItemMutationFunction
 } from "@/utils/types";
-import BackgroundCard from "@/components/Card/BackgroundCard";
-import SaveButtons from "@/components/Card/SaveButtons";
-import FormFields from "@/components/Card/FormFields";
+import BackgroundCard from "@/components/card/BackgroundCard";
+import SaveButtons from "@/components/card/SaveButtons";
+import FormFields from "@/components/card/FormFields";
 import { generateFormValues } from "@/utils/dataManipulation";
-import BadRequest from "@/components/errors/BadRequest";
 import {
   Item as gqlItem,
 } from '@/__generated__/graphql';
-import { MutationResult, QueryOptions } from "@apollo/client";
+import { on } from "events";
+import { CreateItemMutation } from '../../__generated__/graphql';
+import { createItem } from '../../utils/queries';
 
 interface ItemDetailsProps {
+  title?: string;
   isEditable: boolean;
   isSaving: boolean;
   isNew: boolean;
@@ -28,7 +30,7 @@ interface ItemDetailsProps {
   mutationFunction?: UpdateItemMutationFunction | CreateItemMutationFunction;
 }
 
-export default function ItemDetails({isEditable, isSaving, isNew, mutationConflict, initialValues, mutationFunction}: ItemDetailsProps) {
+export default function ItemDetails({title, isEditable, isSaving, isNew, mutationConflict, initialValues, mutationFunction}: ItemDetailsProps) {
   const [readOnly, setReadOnly] = useState<boolean>(!isEditable);
   const [formValues, setFormValues] = useState<FormValues>(generateFormValues(initialValues));
   const [invalidData, setInvalidData] = useState<FormInvalidValues>({
@@ -88,8 +90,27 @@ export default function ItemDetails({isEditable, isSaving, isNew, mutationConfli
   const handleCreateItem = (e: MouseEvent) => {
     e.preventDefault();
     if (!containsInvalidData() && mutationFunction) {
-      setReadOnly(true);
-      mutationFunction({variables: {item: formValues}});
+      mutationFunction({
+        variables: {item: formValues},
+        onError: (error) => {
+          if (error.message === 'Conflict') {
+            setReadOnly(false);
+            setInvalidData((prevData) => ({
+              ...prevData,
+              id: {
+                error: true,
+                message: 'ID already exists'
+              }
+            }));
+          }
+        },
+        onCompleted: (response) => {
+          if ("createItem" in response) {
+            setFormValues(generateFormValues(response.createItem!));
+            setReadOnly(true);
+          }
+        }
+      });
     }
   };
 
@@ -100,7 +121,7 @@ export default function ItemDetails({isEditable, isSaving, isNew, mutationConfli
   }
 
   return (
-    <BackgroundCard component="form">
+    <BackgroundCard component="form" title={title}>
         <FormFields
           isNew={isNew}
           formValues={formValues}

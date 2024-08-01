@@ -6,6 +6,8 @@ import { AddBox, ArrowBackIosNew, Save } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { Typography } from "@mui/material";
+import AnimatedIcon from "../animations/AnimatedIcon";
+import AnimatedButton from "../animations/AnimatedButton";
 
 interface SaveButtonsProps {
   isEditable: boolean;
@@ -22,37 +24,34 @@ export default function SaveButtons({isEditable, isNew, isLoading, handleSaveIte
     <>
       {isEditable ? (
         <Box display='flex' justifyContent='center'>
-          <LoadingButton
-            variant="contained"
-            startIcon={<Save/>}
-            sx={{
-              padding: '10px 60px'
-            }}
+          <AnimatedButton
+            isLoading={isLoading}
             onClick={handleSaveItem}
-            loading={isLoading}
-            loadingPosition="start"
-          >
-            <span>Save Item</span>
-          </LoadingButton>
+            text={"Save item"}
+            icon={"save"}
+          />
         </Box>
       ) : (
         <Box display='flex' sx={{width: '100%', alignContent: 'space-evenly', justifyContent: 'space-evenly'}}>
-          <Button
-            variant="contained"
-            startIcon={<ArrowBackIosNew/>}
-            sx={{
-              padding: '10px 40px'
-            }}
-            onClick={() => router.push('/items')}
-          >
-            <Typography sx={{
+          <AnimatedButton
+            onClick={()=>router.push('/items')}
+            text="Go back"
+            icon="back_white"
+            iconSize={28}
+            typeProps={{
               display: {xs:'none', sm: 'none', md: 'block'},
-
-            }}>
-              Go back
-            </Typography>
-          </Button>
-          <Button
+            }}
+          />
+          <AnimatedButton
+            onClick={handleCreateNextItem}
+            text={"Add another"}
+            icon={"add_white"}
+            iconSize={28}
+            typeProps={{
+              display: {xs:'none', sm: 'none', md: 'block'},
+            }}
+          />
+          {/* <Button
             variant="contained"
             startIcon={<AddBox/>}
             sx={{
@@ -65,7 +64,7 @@ export default function SaveButtons({isEditable, isNew, isLoading, handleSaveIte
             }}>
               Add another
             </Typography>
-          </Button>
+          </Button> */}
         </Box>
       )}
     </>

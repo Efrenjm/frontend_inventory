@@ -6,7 +6,7 @@ import {
   GetItemByIdQueryVariables
 } from "@/__generated__/graphql";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
-import ItemDetails from '@/components/Card/ItemDetails';
+import ItemDetails from '@/components/card/ItemDetails';
 
 interface CustomCardProps {
   id: number;

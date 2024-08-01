@@ -1,32 +1,37 @@
 'use client';
-import { Dongle, Fira_Sans, Quicksand, Nunito, Gidugu } from 'next/font/google';
+import { Dongle, Fira_Sans, Quicksand, Nunito, Gidugu, Open_Sans, Signika_Negative, Lexend_Deca, Viga } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
 
 /* Debatibles */
-const dongle = Dongle({ /* Use size 28 */
+export const dongle = Dongle({ /* Use size 28 */
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
 });
-// const fira_sans = Fira_Sans({
-//   weight: '500',
-//   subsets: ['latin'],
-//   display: 'swap'
-// })
-// const quicksand = Quicksand({
-//   weight: ['600'],
-//   subsets: ['latin'],
-//   display: 'swap'
-// })
-// const nunito = Nunito({
-//   weight: ['600'],
-//   subsets: ['latin'],
-//   display: 'swap'
-// })
+const fira_sans = Fira_Sans({
+  weight: '500',
+  subsets: ['latin'],
+  display: 'swap'
+})
+const quicksand = Quicksand({
+  weight: ['600'],
+  subsets: ['latin'],
+  display: 'swap'
+})
+const nunito = Nunito({
+  weight: ['600'],
+  subsets: ['latin'],
+  display: 'swap'
+})
+export const viga = Viga({
+  weight: ['400'],
+  subsets: ['latin'],
+  display: 'swap'
+})
 
 const theme = createTheme({
   typography: {
-    fontFamily: dongle.style.fontFamily,
+    fontFamily: [dongle.style.fontFamily, viga.style.fontFamily].join(','),
     fontSize: 24
   },
   palette: {

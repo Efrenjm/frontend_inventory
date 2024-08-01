@@ -6,6 +6,7 @@ import { TableFields } from "@/components/table/tableTypes";
 import TableFrame from "@/components/table/TableFrame";
 import { Skeleton } from "@mui/material";
 import { getAllItems } from "@/utils/queries";
+import { Item } from "@/__generated__/graphql";
 
 export default function PopulatedTable() {
 

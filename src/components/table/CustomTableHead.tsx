@@ -4,24 +4,25 @@ import { visuallyHidden } from "@mui/utils";
 
 import { Order, TableColumns, Columns, SortableColumns } from "./tableTypes";
 
+
 const columns: readonly Columns[] = [
   {
     id: 'id',
     label: 'Id',
     align: 'left',
-    width: '20%'
+    width: '50px'
   },
   {
     id: 'name',
     label: 'Item',
     align: 'left',
-    width: '60%'
+    width: 'auto'/*{xs:'100px', sm:'50%',md:'70%'}*/
   },
   {
     id: 'actions',
     label: 'Actions',
     align: 'center',
-    width: '20%'
+    width: {xs:'100px', sm:'150px', lg:'200px'}
   }
 ];
 
@@ -44,9 +45,11 @@ export default function CustomTableHead({order, orderBy, onRequestSort}: TableHe
         {columns.map(({id, label, align, width}) => (
           <TableCell
             key={id}
-            width={width}
             align={align}
             sortDirection={orderBy === id ? order : false}
+            sx={{
+              width:width
+            }}
           >
             {id === 'actions' ? (
               <p style={{cursor: 'default', userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none'}}>

@@ -3,7 +3,7 @@ import { MouseEvent, ChangeEvent, useEffect } from "react";
 import { generateFormValues } from "@/utils/dataManipulation";
 import { createItem, getAllItems } from "@/utils/queries";
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
-import ItemDetails from "@/components/Card/ItemDetails";
+import ItemDetails from "@/components/card/ItemDetails";
 
 export default function NewItemCard() {
   const [createMutation, {data, loading, error}] = useMutation(createItem, {

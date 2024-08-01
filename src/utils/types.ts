@@ -8,7 +8,7 @@ import {
 } from "@/__generated__/graphql";
 
 export interface Location {
-  id: number; /* TODO: CHANGE TO MANDATORY WHEN RETRIEVING DATA */
+  id: number;
   state: string;
   address?: string;
   phoneNumber?: string;

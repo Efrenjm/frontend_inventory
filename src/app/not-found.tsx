@@ -1,4 +1,4 @@
-import BackgroundCard from "@/components/Card/BackgroundCard";
+import BackgroundCard from "@/components/card/BackgroundCard";
 
 export default function NotFound() {
   return (
