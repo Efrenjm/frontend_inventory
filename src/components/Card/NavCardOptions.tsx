@@ -1,9 +1,8 @@
 'use client';
 import { useRouter } from "next/navigation";
 import { IconButton, Box, Typography, Toolbar } from "@mui/material";
-import { ArrowBack, DeleteForever } from "@mui/icons-material";
+import { DeleteForever } from "@mui/icons-material";
 import dynamic from "next/dynamic";
-import { on } from 'events';
 
 
 const AnimatedIcon = dynamic(
@@ -16,7 +15,7 @@ interface NavCardOptionsProps {
   deletable?: boolean;
 }
 
-export default function NavCardOptions({deletable, title}: NavCardOptionsProps) {
+export default function NavCardOptions({ deletable, title }: NavCardOptionsProps) {
   const router = useRouter();
   return (
     <Toolbar
@@ -24,19 +23,17 @@ export default function NavCardOptions({deletable, title}: NavCardOptionsProps) 
         display: 'flex',
         justifyContent: 'space-between',
         width: '100%',
-        // marginBottom: '40px'
       }}
     >
       <Box sx={{
-        // marginBottom: '40px',
         width: '100%',
         display: 'flex',
         justifyContent: 'space-between'
-        }}
+      }}
       >
         <AnimatedIcon
           icon='back'
-          onClick={() => {router.push('/items')}}
+          onClick={() => { router.push('/items') }}
           size={30}
         />
         {title && (
@@ -46,7 +43,7 @@ export default function NavCardOptions({deletable, title}: NavCardOptionsProps) 
           <IconButton
             size="medium"
           >
-            <DeleteForever fontSize="large" color="warning"/>
+            <DeleteForever fontSize="large" color="warning" />
           </IconButton>
         )}
       </Box>

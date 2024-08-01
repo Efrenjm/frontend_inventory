@@ -6,11 +6,10 @@ import { TableFields } from "@/components/table/tableTypes";
 import TableFrame from "@/components/table/TableFrame";
 import { Skeleton } from "@mui/material";
 import { getAllItems } from "@/utils/queries";
-import { Item } from "@/__generated__/graphql";
 
 export default function PopulatedTable() {
 
-  const {data, loading, error} = useQuery(getAllItems);
+  const { data, loading, error } = useQuery(getAllItems);
 
   let content = <></>;
 
@@ -19,7 +18,7 @@ export default function PopulatedTable() {
       <TableFrame>
         <Box width="100%">
           {Array(5).map((key) => (
-            <Skeleton key={key} animation="wave" sx={{margin: '5px', height: '80px'}} variant="rectangular"/>)
+            <Skeleton key={key} animation="wave" sx={{ margin: '5px', height: '80px' }} variant="rectangular" />)
           )}
         </Box>
       </TableFrame>
@@ -28,12 +27,12 @@ export default function PopulatedTable() {
   if (error) {
     if (error.cause && error.cause.message === "Not found") {
       content = (
-        <CustomTable rows={[]}/>
+        <CustomTable rows={[]} />
       )
     } else {
       content = (
         <TableFrame>
-          <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h3>Ups... Something went wrong</h3>
             <p>Please try again later</p>
           </div>
@@ -53,7 +52,7 @@ export default function PopulatedTable() {
         return null;
       }
     }).filter((item) => !!item);
-    content = <CustomTable rows={rows}/>
+    content = <CustomTable rows={rows} />
   }
 
   return <>{content}</>;

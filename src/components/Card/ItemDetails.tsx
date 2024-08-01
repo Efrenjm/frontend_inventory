@@ -16,9 +16,6 @@ import { generateFormValues } from "@/utils/dataManipulation";
 import {
   Item as gqlItem,
 } from '@/__generated__/graphql';
-import { on } from "events";
-import { CreateItemMutation } from '../../__generated__/graphql';
-import { createItem } from '../../utils/queries';
 
 interface ItemDetailsProps {
   title?: string;
@@ -27,22 +24,24 @@ interface ItemDetailsProps {
   isNew: boolean;
   mutationConflict?: boolean;
   initialValues?: Item | gqlItem;
-  mutationFunction?: UpdateItemMutationFunction | CreateItemMutationFunction;
+  handleMutation?: UpdateItemMutationFunction | CreateItemMutationFunction;
+  handleMutationCompleted?: () => void;
+  handleMutationFailed?: () => void;
 }
 
-export default function ItemDetails({title, isEditable, isSaving, isNew, mutationConflict, initialValues, mutationFunction}: ItemDetailsProps) {
+export default function ItemDetails({ title, isEditable, isSaving, isNew, mutationConflict, initialValues, handleMutation, handleMutationCompleted, handleMutationFailed }: ItemDetailsProps) {
   const [readOnly, setReadOnly] = useState<boolean>(!isEditable);
   const [formValues, setFormValues] = useState<FormValues>(generateFormValues(initialValues));
   const [invalidData, setInvalidData] = useState<FormInvalidValues>({
-    id: {error: false, message: ''},
-    name: {error: false, message: ''},
-    locationId: {error: false, message: ''},
-    locationState: {error: false, message: ''},
-    locationPhoneNumber: {error: false, message: ''}
+    id: { error: false, message: '' },
+    name: { error: false, message: '' },
+    locationId: { error: false, message: '' },
+    locationState: { error: false, message: '' },
+    locationPhoneNumber: { error: false, message: '' }
   });
 
   const handleChanges = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     if (name.startsWith('location.')) {
       const prop = name.split('.')[1];
       setFormValues((prevItem) => ({
@@ -87,11 +86,11 @@ export default function ItemDetails({title, isEditable, isSaving, isNew, mutatio
     return Object.values(dataValidation).reduce((acc, curr) => acc || curr.error, false);
   };
 
-  const handleCreateItem = (e: MouseEvent) => {
+  const handleSaveItem = (e: MouseEvent) => {
     e.preventDefault();
-    if (!containsInvalidData() && mutationFunction) {
-      mutationFunction({
-        variables: {item: formValues},
+    if (!containsInvalidData() && handleMutation) {
+      handleMutation({
+        variables: { item: formValues },
         onError: (error) => {
           if (error.message === 'Conflict') {
             setReadOnly(false);
@@ -103,8 +102,14 @@ export default function ItemDetails({title, isEditable, isSaving, isNew, mutatio
               }
             }));
           }
+          else if (handleMutationFailed) {
+            handleMutationFailed();
+          }
         },
         onCompleted: (response) => {
+          if (handleMutationCompleted) {
+            handleMutationCompleted();
+          }
           if ("createItem" in response) {
             setFormValues(generateFormValues(response.createItem!));
             setReadOnly(true);
@@ -122,22 +127,22 @@ export default function ItemDetails({title, isEditable, isSaving, isNew, mutatio
 
   return (
     <BackgroundCard component="form" title={title}>
-        <FormFields
+      <FormFields
+        isNew={isNew}
+        formValues={formValues}
+        invalidData={invalidData}
+        readOnly={readOnly}
+        handleFormChanges={handleChanges}
+      />
+      {isEditable &&
+        <SaveButtons
+          isEditable={!readOnly}
           isNew={isNew}
-          formValues={formValues}
-          invalidData={invalidData}
-          readOnly={readOnly}
-          handleFormChanges={handleChanges}
+          isLoading={isSaving}
+          handleCreateNextItem={handleCreateNextItem}
+          handleSaveItem={handleSaveItem}
         />
-        {isEditable &&
-          <SaveButtons
-            isEditable={!readOnly}
-            isNew={isNew}
-            isLoading={isSaving}
-            handleCreateNextItem={handleCreateNextItem}
-            handleSaveItem={handleCreateItem}
-          />
-        }
+      }
     </BackgroundCard>
   );
 }

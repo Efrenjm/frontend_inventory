@@ -1,5 +1,5 @@
 'use client';
-import { TableRow, TableBody, TableCell, IconButton, Typography } from "@mui/material";
+import { TableRow, TableBody, TableCell, Typography } from "@mui/material";
 
 import { TableFields } from "@/components/table/tableTypes";
 
@@ -19,26 +19,21 @@ interface TableBodyProps {
   isEmpty: boolean;
 }
 
-export default function CustomTableBody({rows, emptyRows, modalHandler, isEmpty}: TableBodyProps) {
+export default function CustomTableBody({ rows, emptyRows, modalHandler, isEmpty }: TableBodyProps) {
   return (
-    <TableBody
-      // sx={{
-      //   height: '50vh'
-      // }}
-    >
+    <TableBody>
       {!isEmpty ? (
         <>
-          {rows.map((row, index) => (
+          {rows.map((row) => (
             <CustomRow
               key={row.id}
-              index={index}
               row={row}
               modalHandler={modalHandler}
             />
           ))}
           {emptyRows > 0 && (
             <TableRow>
-              <TableCell colSpan={3}/>
+              <TableCell colSpan={3} />
             </TableRow>
           )}
         </>
@@ -49,8 +44,8 @@ export default function CustomTableBody({rows, emptyRows, modalHandler, isEmpty}
               icon='warning'
               size={100}
               sx={{
-                display:'flex',
-                justifyContent:'center',
+                display: 'flex',
+                justifyContent: 'center',
               }}
             />
             <Typography variant='h6'>

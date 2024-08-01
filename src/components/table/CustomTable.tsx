@@ -1,6 +1,6 @@
 'use client';
 import { useState, useMemo, MouseEvent } from "react";
-import { TableContainer, Table, Snackbar } from "@mui/material";
+import { TableContainer, Table } from "@mui/material";
 
 import { ModalSettings, Order, SortableColumns, TableFields } from "@/components/table/tableTypes";
 import CustomTableHead from "@/components/table/CustomTableHead";

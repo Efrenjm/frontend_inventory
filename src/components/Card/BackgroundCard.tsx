@@ -1,5 +1,5 @@
 import { ElementType, ReactNode } from 'react';
-import { Paper, SxProps, Box, Toolbar } from "@mui/material";
+import { Paper, SxProps, Box } from "@mui/material";
 import NavCardOptions from "@/components/card/NavCardOptions";
 
 interface BackgroundCardProps {
@@ -10,7 +10,7 @@ interface BackgroundCardProps {
   component: ElementType;
 }
 
-export default function BackgroundCard({children, sx, deletable, title, component = 'div'}: BackgroundCardProps) {
+export default function BackgroundCard({ children, sx, deletable, title, component = 'div' }: BackgroundCardProps) {
   return (
     <Paper
       component='div'
@@ -19,19 +19,16 @@ export default function BackgroundCard({children, sx, deletable, title, componen
         height: 'auto',
         minWidth: '360px',
         width: '100%',
-        // maxWidth: '800px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        // margin: 'auto',
-        // padding: '40px',
         borderRadius: '20px',
         overflow: 'hidden',
         ...sx
       }}
     >
-      <NavCardOptions deletable={deletable} title={title}/>
+      <NavCardOptions deletable={deletable} title={title} />
       <Box
         component={component}
         sx={{
@@ -41,7 +38,7 @@ export default function BackgroundCard({children, sx, deletable, title, componen
           rowGap: '60px',
           minHeight: '90%',
           height: 'auto',
-          width: {xs:'90%', sm:'80%', md:'80%'},
+          width: { xs: '90%', sm: '80%', md: '80%' },
         }}
       >
         {children}

@@ -10,8 +10,8 @@ interface ItemDetailPageProps {
   }
 }
 
-export default function ItemDetailPage({params, searchParams}: ItemDetailPageProps) {
+export default function ItemDetailPage({ params, searchParams }: ItemDetailPageProps) {
   return (
-    <ItemCard id={parseInt(params.itemSlug)} isEditable={searchParams?.edit}/>
+    <ItemCard id={parseInt(params.itemSlug)} isEditable={searchParams?.edit} />
   );
 }

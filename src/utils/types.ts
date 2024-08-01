@@ -57,5 +57,5 @@ export interface FormInvalidValues {
   locationPhoneNumber: invalidNode;
 }
 
-export type CreateItemMutationFunction = (options?: (MutationFunctionOptions<CreateItemMutation, Exact<{item: ItemInput }>, DefaultContext, ApolloCache<any>> | undefined)) => Promise<FetchResult<CreateItemMutation>>
+export type CreateItemMutationFunction = (options?: (MutationFunctionOptions<CreateItemMutation, Exact<{ item: ItemInput }>, DefaultContext, ApolloCache<any>> | undefined)) => Promise<FetchResult<CreateItemMutation>>
 export type UpdateItemMutationFunction = (options?: MutationFunctionOptions<UpdateItemMutation, UpdateItemMutationVariables, DefaultContext, ApolloCache<any>>) => Promise<FetchResult<UpdateItemMutation>>

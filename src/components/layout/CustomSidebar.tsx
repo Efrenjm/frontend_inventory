@@ -1,14 +1,11 @@
-import * as React from 'react';
+// import * as React from 'react';
+
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import dynamic from 'next/dynamic';
@@ -19,7 +16,6 @@ const AnimatedIcon = dynamic(
   { ssr: false }
 );
 
-// const drawerWidth = 240;
 
 interface CustomSidebarProps {
   drawerWidth: number;
@@ -37,18 +33,10 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
     <div>
       <Toolbar/>
       <List>
-      {/* home: home,
-  document: document,
-  bookmarks: bookmarks,
-  barChart: barChart,
-  clock: clock,
-  location: location,
-  money: money, */}
         {['home', 'document', 'bookmarks', 'barChart', 'clock', 'location', 'money'].map((text, index) => (
           <ListItem
             key={text}
             disablePadding
-            // sx={{color:'primary.contrastText'}}
           >
             <ListItemButton>
               <AnimatedIcon icon={text as keyof (typeof iconMapper)} size={36} />
@@ -82,7 +70,6 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
           keepMounted: true,
         }}
         sx={{
-          // bgcolor:'primary.main',
           display: {sm: 'block', md: 'none'},
           '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
         }}

@@ -11,14 +11,12 @@ const AnimatedIcon = dynamic(
 );
 
 interface CustomRowProps {
-  index: number;
   row: TableFields;
   modalHandler: (row: TableFields) => void;
 }
 
-export default function CustomRow({index, row, modalHandler}: CustomRowProps) {
+export default function CustomRow({ row, modalHandler }: CustomRowProps) {
   const router = useRouter();
-  // const labelId = `enhanced-table-checkbox-${index}`;
   return (
     <TableRow
       key={row.id}
@@ -26,7 +24,7 @@ export default function CustomRow({index, row, modalHandler}: CustomRowProps) {
       onClick={() => {
         router.push(`/items/${row.id}`)
       }}
-      sx={{cursor: 'pointer'}}
+      sx={{ cursor: 'pointer' }}
     >
       <TableCell align="left">
         {row.id}

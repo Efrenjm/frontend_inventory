@@ -8,7 +8,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-export default function ApolloConfig({children}: Readonly<{ children: ReactNode; }>) {
+export default function ApolloConfig({ children }: Readonly<{ children: ReactNode; }>) {
   return (
     <ApolloProvider client={client}>
       {children}

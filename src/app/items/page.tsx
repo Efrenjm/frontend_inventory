@@ -7,7 +7,7 @@ export default function App() {
       display="flex"
       justifyContent="center"
     >
-      <PopulatedTable/>
+      <PopulatedTable />
     </Box>
   );
 }

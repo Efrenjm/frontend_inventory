@@ -2,7 +2,7 @@ import { MouseEvent } from "react";
 import { TableHead, TableRow, TableCell, TableSortLabel, Box } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
-import { Order, TableColumns, Columns, SortableColumns } from "./tableTypes";
+import { Order, Columns, SortableColumns } from "./tableTypes";
 
 
 const columns: readonly Columns[] = [
@@ -16,13 +16,13 @@ const columns: readonly Columns[] = [
     id: 'name',
     label: 'Item',
     align: 'left',
-    width: 'auto'/*{xs:'100px', sm:'50%',md:'70%'}*/
+    width: 'auto'
   },
   {
     id: 'actions',
     label: 'Actions',
     align: 'center',
-    width: {xs:'100px', sm:'150px', lg:'200px'}
+    width: { xs: '100px', sm: '150px', lg: '200px' }
   }
 ];
 
@@ -32,7 +32,7 @@ interface TableHeadProps {
   orderBy: string;
 }
 
-export default function CustomTableHead({order, orderBy, onRequestSort}: TableHeadProps) {
+export default function CustomTableHead({ order, orderBy, onRequestSort }: TableHeadProps) {
 
   const createSortHandler =
     (property: SortableColumns) => (event: MouseEvent<unknown>) => {
@@ -42,17 +42,17 @@ export default function CustomTableHead({order, orderBy, onRequestSort}: TableHe
   return (
     <TableHead>
       <TableRow>
-        {columns.map(({id, label, align, width}) => (
+        {columns.map(({ id, label, align, width }) => (
           <TableCell
             key={id}
             align={align}
             sortDirection={orderBy === id ? order : false}
             sx={{
-              width:width
+              width: width
             }}
           >
             {id === 'actions' ? (
-              <p style={{cursor: 'default', userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none'}}>
+              <p style={{ cursor: 'default', userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none' }}>
                 {label}
               </p>
             ) : (

@@ -1,6 +1,6 @@
 'use client';
 import { MouseEvent, useEffect, useRef } from "react";
-import { Box, IconButton, SxProps } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import { Player } from "@lordicon/react";
 
 import loading from "../../../public/icons/loading.json";
@@ -16,10 +16,9 @@ export const iconMapper = {
 interface LoopedAnimationProps {
   icon: keyof (typeof iconMapper);
   size?: number;
-  onClick?: (event: MouseEvent) => void;
   sx?: SxProps
 }
-export default function LoopedAnimation({ icon, size, onClick, sx }: LoopedAnimationProps) {
+export default function LoopedAnimation({ icon, size, sx }: LoopedAnimationProps) {
   const iconRef = useRef<Player>(null);
 
   const lottie = iconMapper[icon];
@@ -34,15 +33,15 @@ export default function LoopedAnimation({ icon, size, onClick, sx }: LoopedAnima
 
   return (
     <>
-    <Box sx={sx}>
-      {lottie &&
-        <Player
-        ref={iconRef}
-        icon={lottie}
-        size={size ? size : 22}
-        />
-      }
-    </Box>
+      <Box sx={sx}>
+        {lottie &&
+          <Player
+            ref={iconRef}
+            icon={lottie}
+            size={size ? size : 22}
+          />
+        }
+      </Box>
     </>
   );
 }

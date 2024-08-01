@@ -1,5 +1,5 @@
 'use client';
-import { forwardRef, ReactElement, Ref, Dispatch, SetStateAction } from 'react';
+import { forwardRef, ReactElement, Ref } from 'react';
 
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -62,7 +62,6 @@ export default function ModalTemplate({
       </DialogContent>
       <DialogActions>
         {callToCancel && <Button onClick={handleCancel}>{callToCancel}</Button>}
-        {/*<Button onClick={handleCancel}>{callToCancel}</Button>*/}
         <LoadingButton
           variant="contained"
           onClick={handleAction}

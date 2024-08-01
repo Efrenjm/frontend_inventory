@@ -1,12 +1,11 @@
 import { LoadingButton } from "@mui/lab";
-import AnimatedIcon from "./AnimatedIcon";
 import { SxProps, Typography } from "@mui/material";
 import add from "../../../public/icons/add.json";
 import addWhite from "../../../public/icons/add_white.json";
 import back from "../../../public/icons/back.json";
 import backWhite from "../../../public/icons/back_white.json";
 import save from "../../../public/icons/save.json";
-import { MouseEvent, useEffect, useRef } from "react";
+import { MouseEvent, useRef } from "react";
 import { Player } from "@lordicon/react";
 
 
@@ -28,7 +27,7 @@ interface AnimatedButtonProps {
   sx?: SxProps;
   typeProps?: SxProps;
 }
-export default function AnimatedButton({isLoading, onClick, text, icon, iconSize, fontSize, sx, typeProps}: AnimatedButtonProps) {
+export default function AnimatedButton({ isLoading, onClick, text, icon, iconSize, fontSize, sx, typeProps }: AnimatedButtonProps) {
   const iconRef = useRef<Player>(null);
   const lottie = iconMapper[icon];
 
@@ -40,7 +39,7 @@ export default function AnimatedButton({isLoading, onClick, text, icon, iconSize
           ref={iconRef}
           icon={lottie}
           size={iconSize ? iconSize : 22}
-          onComplete={() => setTimeout(()=>iconRef.current?.goToFirstFrame(),800)}
+          onComplete={() => setTimeout(() => iconRef.current?.goToFirstFrame(), 800)}
         />
       )}
       sx={{
@@ -54,7 +53,7 @@ export default function AnimatedButton({isLoading, onClick, text, icon, iconSize
     >
       <Typography
         variant="button"
-        fontSize={fontSize? fontSize : '1.6rem'}
+        fontSize={fontSize ? fontSize : '1.6rem'}
         sx={typeProps}
       >
         {text}

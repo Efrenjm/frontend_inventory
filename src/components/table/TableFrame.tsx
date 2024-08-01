@@ -28,15 +28,15 @@ interface TableFrameProps {
 }
 
 export default function TableFrame({
-                                     children,
-                                     recordNumber,
-                                     page,
-                                     setPage,
-                                     rowsPerPage,
-                                     setRowsPerPage,
-                                     searchFilter,
-                                     setSearchFilter
-                                   }: TableFrameProps) {
+  children,
+  recordNumber,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage,
+  searchFilter,
+  setSearchFilter
+}: TableFrameProps) {
 
   const router = useRouter();
 
@@ -75,7 +75,7 @@ export default function TableFrame({
         justifyContent: "space-between",
         alignItems: "center",
         borderRadius: '20px',
-        paddingX: {xs:'0px', sm:'30px', md:'60px'}
+        paddingX: { xs: '0px', sm: '30px', md: '60px' }
       }}
     >
       <Toolbar
@@ -83,15 +83,15 @@ export default function TableFrame({
           minHeight: '120px',
           height: '120px',
           maxHeight: '120px',
-          pl: {xs: 1, sm: 2},
-          pr: {xs: 1, sm: 1},
+          pl: { xs: 1, sm: 2 },
+          pr: { xs: 1, sm: 1 },
           width: '100%',
         }}
       >
         <Typography
           sx={{
             flex: '1 1 100%',
-            fontSize: {xs: '1.7rem',sm:'2.2rem', md:'2.5rem'},
+            fontSize: { xs: '1.7rem', sm: '2.2rem', md: '2.5rem' },
             paddingLeft: '10px',
           }}
           variant="h6"
@@ -111,8 +111,6 @@ export default function TableFrame({
           sx={{
             width: '75%',
             maxWidth: '300px',
-            // paddingY: '0',
-            // fontSize: '1.2rem',
           }}
           InputProps={{
             sx: {
@@ -129,7 +127,7 @@ export default function TableFrame({
           />
         </Tooltip>
       </Toolbar>
-        {children}
+      {children}
 
       <TablePagination
         rowsPerPageOptions={[10, 25, 50]}
@@ -152,10 +150,10 @@ export default function TableFrame({
             }
           },
           actions: {
-            previousButton: {size: 'small', sx:{padding:0}},
-            previousButtonIcon: {fontSize: 'small'},
-            nextButton: {size: 'small', sx:{padding:0}},
-            nextButtonIcon: {fontSize: 'small'},
+            previousButton: { size: 'small', sx: { padding: 0 } },
+            previousButtonIcon: { fontSize: 'small' },
+            nextButton: { size: 'small', sx: { padding: 0 } },
+            nextButtonIcon: { fontSize: 'small' },
           }
         }}
       />

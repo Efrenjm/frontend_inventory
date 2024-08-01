@@ -9,13 +9,10 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { viga } from '@/theme';
+import { title } from '@/theme';
 
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 interface CustomHeaderProps {
@@ -24,20 +21,13 @@ interface CustomHeaderProps {
   handleDrawerToggle: () => void;
 }
 
-export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: CustomHeaderProps) {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: CustomHeaderProps) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -50,33 +40,31 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
         height: '100px',
         background: '#f2f2f2',
         boxShadow: 'none',
-        width: {md: `calc(100% - ${drawerWidth}px)`},
-        ml: {md: `${drawerWidth}px`}
+        width: { md: `calc(100% - ${drawerWidth}px)` },
+        ml: { md: `${drawerWidth}px` }
       }}
     >
-      <Container sx={{width: '100%', display:'flex', alignItems:'center'}}>
+      <Container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
         <Toolbar disableGutters>
-          <Box sx={{flexGrow: 1, display: {sm: 'flex', md: 'none'}}}>
+          <Box sx={{ flexGrow: 1, display: { sm: 'flex', md: 'none' } }}>
             <IconButton
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{mr: 2, display: {md: 'none'}}}
+              sx={{ mr: 2, display: { md: 'none' } }}
             >
-              <MenuIcon/>
+              <MenuIcon />
             </IconButton>
           </Box>
           <Typography
             variant="h5"
-            // noWrap
-            // href="/items"
             sx={{
               mr: 2,
-              display: {sm: 'flex', md: 'flex'},
+              display: { sm: 'flex', md: 'flex' },
               flexGrow: 1,
-              fontFamily: viga.style.fontFamily,
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontFamily: title.style.fontFamily,
+              // fontWeight: 700,
+              // letterSpacing: '.3rem',
               color: 'primary.main',
               textDecoration: 'none',
             }}
@@ -84,14 +72,14 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
             Inventory overview
           </Typography>
 
-          <Box sx={{position: 'fixed', right: 0, top: 0, padding:'10px'}}>
+          <Box sx={{ position: 'fixed', right: 0, top: 0, padding: '10px' }}>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                <Avatar alt="Profile picture" src="/profile.png"/>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Profile picture" src="/profile.png" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{mt: '45px'}}
+              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{

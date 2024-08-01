@@ -10,7 +10,7 @@ interface FormFieldsProps {
   handleFormChanges?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FormFields({formValues, invalidData, readOnly, isNew, handleFormChanges}: FormFieldsProps) {
+export default function FormFields({ formValues, invalidData, readOnly, isNew, handleFormChanges }: FormFieldsProps) {
   return (
     <Grid container spacing={2} columns={12} >
       <Grid item sm={4}>
@@ -25,7 +25,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly || !isNew? "filled" : "standard"}
+          variant={readOnly || !isNew ? "filled" : "standard"}
           fullWidth
         />
       </Grid>
@@ -41,7 +41,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly? "filled" : "standard"}
+          variant={readOnly ? "filled" : "standard"}
           fullWidth
         />
       </Grid>
@@ -55,7 +55,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly? "filled" : "standard"}
+          variant={readOnly ? "filled" : "standard"}
           multiline
           fullWidth
         />
@@ -72,7 +72,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly || !isNew? "filled" : "standard"}
+          variant={readOnly || !isNew ? "filled" : "standard"}
         />
       </Grid>
       <Grid item sm={6}>
@@ -87,7 +87,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly || !isNew? "filled" : "standard"}
+          variant={readOnly || !isNew ? "filled" : "standard"}
           multiline
           fullWidth
         />
@@ -105,7 +105,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly || !isNew? "filled" : "standard"}
+          variant={readOnly || !isNew ? "filled" : "standard"}
           fullWidth
         />
       </Grid>
@@ -119,7 +119,7 @@ export default function FormFields({formValues, invalidData, readOnly, isNew, ha
             readOnly: readOnly || !isNew,
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
-          variant={readOnly || !isNew? "filled" : "standard"}
+          variant={readOnly || !isNew ? "filled" : "standard"}
           multiline
           fullWidth
         />
