@@ -43,9 +43,6 @@ export default function CustomTable({ rows }: CustomTableProps) {
 
   const visibleRows = useMemo(
     () => {
-      // if (page * rowsPerPage+1 > filteredRows.length && filteredRows.length > 0) {
-      //   setPage((prev)=> prev - 1);
-      // }
       return stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,

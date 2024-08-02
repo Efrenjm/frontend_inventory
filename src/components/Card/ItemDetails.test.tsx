@@ -5,9 +5,5 @@ import { render, screen } from '@testing-library/react';
 describe('ItemCard tests', () => {
   test('renders ItemCard component', () => {
     expect(true).toBeTruthy();
-    // render(<ItemCard />);
-    // const textFields = screen.getAllByRole('textbox');
-
-    // expect(textFields.length).toBe(7);
   })
 });

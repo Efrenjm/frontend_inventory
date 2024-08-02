@@ -1,16 +1,12 @@
 'use client';
-import { MouseEvent, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Box, SxProps } from "@mui/material";
 import { Player } from "@lordicon/react";
 
-import loading from "../../../public/icons/loading.json";
-import notFound from "../../../public/icons/notfound.json";
 import warning from "../../../public/icons/warning.json";
 
 export const iconMapper = {
-  loading: loading,
   warning: warning,
-  notFound: notFound,
 };
 
 interface LoopedAnimationProps {

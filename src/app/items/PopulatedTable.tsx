@@ -6,6 +6,9 @@ import { TableFields } from "@/components/table/tableTypes";
 import TableFrame from "@/components/table/TableFrame";
 import { Skeleton } from "@mui/material";
 import { getAllItems } from "@/utils/queries";
+import Searching from "@/components/animations/Searching";
+
+
 
 export default function PopulatedTable() {
 
@@ -13,33 +16,23 @@ export default function PopulatedTable() {
 
   let content = <></>;
 
-  if (loading) {
+  if (loading || (error && error.message !== "Not found")) {
     content = (
       <TableFrame>
-        <Box width="100%">
-          {Array(5).map((key) => (
-            <Skeleton key={key} animation="wave" sx={{ margin: '5px', height: '80px' }} variant="rectangular" />)
-          )}
+        <Box width="100%" sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+          <Searching error={!!error}/>
         </Box>
       </TableFrame>
     )
   }
-  if (error) {
-    if (error.cause && error.cause.message === "Not found") {
-      content = (
-        <CustomTable rows={[]} />
-      )
-    } else {
-      content = (
-        <TableFrame>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <h3>Ups... Something went wrong</h3>
-            <p>Please try again later</p>
-          </div>
-        </TableFrame>
-      )
-    }
+
+
+  if (error?.message === "Not found") {
+    content = (
+      <CustomTable rows={[]} />
+    )
   }
+
 
   if (data && data.getAllItems) {
     const rows: TableFields[] = data.getAllItems.map((item) => {
@@ -55,8 +48,5 @@ export default function PopulatedTable() {
     content = <CustomTable rows={rows} />
   }
 
-  return <>{content}</>;
+  return (<>{content}</>)
 }
-
-
-

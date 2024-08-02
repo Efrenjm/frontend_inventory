@@ -9,7 +9,7 @@ import { body } from '@/theme';
 
 const drawerWidth = 80;
 
-export const TitleContext = createContext({title: "", setTitle: (value: string) => {}});
+export const TitleContext = createContext({ title: "", setTitle: (value: string) => { } });
 
 interface AppFrameProps {
   children: React.ReactNode;
@@ -54,7 +54,12 @@ export default function AppFrame({ children }: AppFrameProps) {
           />
           <Box
             component="main"
-            sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${drawerWidth}px)` } }}
+            sx={{
+              flexGrow: 1,
+              p: 3,
+              width: { md: `calc(100% - ${drawerWidth}px)` },
+              mt: { xs: 8, sm: 4 }
+            }}
           >
             <Toolbar />
             {children}

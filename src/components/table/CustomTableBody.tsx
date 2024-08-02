@@ -2,10 +2,10 @@
 import { TableRow, TableBody, TableCell, Typography } from "@mui/material";
 
 import { TableFields } from "@/components/table/tableTypes";
-
-
 import CustomRow from "@/components/table/CustomRow";
 import dynamic from 'next/dynamic';
+import NotFound from "@/components/animations/NotFound";
+import { title } from '../../theme';
 
 const LoopedAnimation = dynamic(
   () => import('@/components/animations/LoopedAnimation'),
@@ -40,17 +40,7 @@ export default function CustomTableBody({ rows, emptyRows, modalHandler, isEmpty
       ) : (
         <TableRow>
           <TableCell colSpan={3} align="center">
-            <LoopedAnimation
-              icon='warning'
-              size={100}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            />
-            <Typography variant='h6'>
-              No items found
-            </Typography>
+             <NotFound title="No items found" message="Click on the plus sign button to create a new one" />
           </TableCell>
         </TableRow>
       )}

@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from "next/navigation";
-import { IconButton, Box, Typography, Toolbar } from "@mui/material";
+import { IconButton, Box, Typography, Toolbar, SxProps } from "@mui/material";
 import { DeleteForever } from "@mui/icons-material";
 import dynamic from "next/dynamic";
 
@@ -13,9 +13,10 @@ const AnimatedIcon = dynamic(
 interface NavCardOptionsProps {
   title?: string;
   deletable?: boolean;
+  sx: SxProps;
 }
 
-export default function NavCardOptions({ deletable, title }: NavCardOptionsProps) {
+export default function NavCardOptions({ deletable, title, sx }: NavCardOptionsProps) {
   const router = useRouter();
   return (
     <Toolbar
@@ -23,6 +24,7 @@ export default function NavCardOptions({ deletable, title }: NavCardOptionsProps
         display: 'flex',
         justifyContent: 'space-between',
         width: '100%',
+        ...sx
       }}
     >
       <Box sx={{

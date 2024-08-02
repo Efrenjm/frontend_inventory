@@ -21,9 +21,7 @@ export default function ItemDetailPage({ params, searchParams }: ItemDetailPageP
       } else {
         setTitle('Item details');
       }
-    },
-    []
-  );
+  }, [searchParams, setTitle]);
   return (
     <ItemCard id={parseInt(params.itemSlug)} isEditable={searchParams?.edit} />
   );

@@ -17,6 +17,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="id"
           label="Id"
+          type="number"
           value={formValues.id}
           onChange={handleFormChanges}
           error={invalidData?.id?.error}
@@ -26,6 +27,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly || !isNew ? "filled" : "standard"}
+          required={isNew}
           fullWidth
         />
       </Grid>
@@ -42,6 +44,8 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly ? "filled" : "standard"}
+          required={isNew || !readOnly}
+          inputProps={{ maxLength: 50 }}
           fullWidth
         />
       </Grid>
@@ -56,6 +60,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly ? "filled" : "standard"}
+          inputProps={{ maxLength: 200 }}
           multiline
           fullWidth
         />
@@ -64,6 +69,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="location.id"
           label="Location id"
+          type="number"
           value={formValues.location.id}
           onChange={handleFormChanges}
           error={invalidData?.locationId?.error}
@@ -73,7 +79,8 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly || !isNew ? "filled" : "standard"}
-        />
+          required={isNew}
+          />
       </Grid>
       <Grid item sm={6}>
         <TextField
@@ -88,12 +95,13 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly || !isNew ? "filled" : "standard"}
+          inputProps={{ maxLength: 20 }}
           multiline
           fullWidth
-        />
+          required={isNew}
+          />
       </Grid>
       <Grid item sm={6}>
-
         <TextField
           name="location.phoneNumber"
           label="Phone Number"
@@ -106,6 +114,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly || !isNew ? "filled" : "standard"}
+          inputProps={{ maxLength: 10 }}
           fullWidth
         />
       </Grid>
@@ -120,6 +129,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
             startAdornment: readOnly && <InputAdornment position="start">&nbsp;</InputAdornment>
           }}
           variant={readOnly || !isNew ? "filled" : "standard"}
+          inputProps={{ maxLength: 200 }}
           multiline
           fullWidth
         />

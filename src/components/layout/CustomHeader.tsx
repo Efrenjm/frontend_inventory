@@ -47,7 +47,7 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
         ml: { md: `${drawerWidth}px` }
       }}
     >
-      <Container sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+      <Container sx={{height:"8rem", width: '100%', display: 'flex', alignItems: 'center' }}>
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { sm: 'flex', md: 'none' } }}>
             <IconButton

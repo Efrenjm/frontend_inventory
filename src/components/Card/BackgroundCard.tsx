@@ -6,11 +6,10 @@ interface BackgroundCardProps {
   children?: ReactNode;
   sx?: SxProps;
   deletable?: boolean;
-  title?: string;
   component: ElementType;
 }
 
-export default function BackgroundCard({ children, sx, deletable, title, component = 'div' }: BackgroundCardProps) {
+export default function BackgroundCard({ children, sx, deletable, component = 'div' }: BackgroundCardProps) {
   return (
     <Paper
       component='div'
@@ -25,19 +24,28 @@ export default function BackgroundCard({ children, sx, deletable, title, compone
         justifyContent: 'center',
         borderRadius: '20px',
         overflow: 'hidden',
+        position: 'relative',
         ...sx
       }}
     >
-      <NavCardOptions deletable={deletable} title={title} />
+      <NavCardOptions
+        deletable={deletable}
+        sx={{
+          position: 'absolute',
+          top: 0,
+          mt: '30px',
+        }}
+      />
       <Box
         component={component}
         sx={{
+          position:'absolute',
+          top: 0,
+          mt: '100px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: component === 'form' ? 'center' : 'flex-start',
           rowGap: '60px',
-          minHeight: '90%',
-          height: 'auto',
           width: { xs: '90%', sm: '80%', md: '80%' },
         }}
       >

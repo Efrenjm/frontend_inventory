@@ -101,8 +101,7 @@ export default function ItemDetails({ title, isEditable, isSaving, isNew, mutati
                 message: 'ID already exists'
               }
             }));
-          }
-          else if (handleMutationFailed) {
+          } else if (handleMutationFailed) {
             handleMutationFailed();
           }
         },
@@ -126,7 +125,7 @@ export default function ItemDetails({ title, isEditable, isSaving, isNew, mutati
   }
 
   return (
-    <BackgroundCard component="form" title={title}>
+    <BackgroundCard component="form">
       <FormFields
         isNew={isNew}
         formValues={formValues}

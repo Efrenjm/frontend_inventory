@@ -8,6 +8,10 @@ import {
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import ItemDetails from '@/components/card/ItemDetails';
 import { useSnackbar } from "notistack";
+import Searching from "@/components/animations/Searching";
+import BackgroundCard from "@/components/card/BackgroundCard";
+import { Box } from "@mui/material";
+import NotFound from "@/components/animations/NotFound";
 
 interface CustomCardProps {
   id: number;
@@ -36,6 +40,20 @@ export default function ItemCard({ id, isEditable }: CustomCardProps) {
   };
   return (
     <>
+      {queryLoading || (queryError && queryError.message !== "Not found") && (
+        <BackgroundCard component="div">
+          <Box width="100%" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Searching error={!!queryError} />
+          </Box>
+        </BackgroundCard>
+      )}
+      {queryError?.message === 'Not found' && (
+        <BackgroundCard component="div">
+          <Box width="100%" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <NotFound title="This item doesn't exist" message=""/>
+          </Box>
+        </BackgroundCard>
+      )}
       {(!queryLoading && !queryError) && (
         <ItemDetails
           initialValues={queryData?.getItemById!}

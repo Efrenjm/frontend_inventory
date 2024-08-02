@@ -10,10 +10,7 @@ export default function NewItemCard() {
   const {setTitle} = useContext(TitleContext);
   useEffect(() => {
       setTitle('New item');
-    },
-    []
-  );
-
+  }, [setTitle]);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -26,8 +23,8 @@ export default function NewItemCard() {
     enqueueSnackbar('Item created successfully.', { variant: 'success' });
   }
   const mutationFailed = () => {
-    if (error?.message === "Conflict") {
-      enqueueSnackbar('An error occurred. Please try again later.', { variant: 'error' });
+    if (error?.message !== "Conflict") {
+      enqueueSnackbar('This service is not available. Please try again later.', { variant: 'error' });
     }
   }
 
