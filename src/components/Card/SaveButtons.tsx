@@ -12,12 +12,11 @@ const AnimatedButton = dynamic(
 interface SaveButtonsProps {
   isEditable: boolean;
   isLoading: boolean;
-  isNew: boolean;
   handleSaveItem: (e: MouseEvent) => void;
   handleCreateNextItem?: (e: MouseEvent) => void;
 }
 
-export default function SaveButtons({ isEditable, isNew, isLoading, handleSaveItem, handleCreateNextItem }: SaveButtonsProps) {
+export default function SaveButtons({ isEditable, isLoading, handleSaveItem, handleCreateNextItem }: SaveButtonsProps) {
   const router = useRouter();
 
   return (

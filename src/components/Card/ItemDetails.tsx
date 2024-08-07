@@ -18,18 +18,16 @@ import {
 } from '@/__generated__/graphql';
 
 interface ItemDetailsProps {
-  title?: string;
   isEditable: boolean;
   isSaving: boolean;
   isNew: boolean;
-  mutationConflict?: boolean;
   initialValues?: Item | gqlItem;
   handleMutation?: UpdateItemMutationFunction | CreateItemMutationFunction;
   handleMutationCompleted?: () => void;
   handleMutationFailed?: () => void;
 }
 
-export default function ItemDetails({ title, isEditable, isSaving, isNew, mutationConflict, initialValues, handleMutation, handleMutationCompleted, handleMutationFailed }: ItemDetailsProps) {
+export default function ItemDetails({ isEditable, isSaving, isNew, initialValues, handleMutation, handleMutationCompleted, handleMutationFailed }: ItemDetailsProps) {
   const [readOnly, setReadOnly] = useState<boolean>(!isEditable);
   const [formValues, setFormValues] = useState<FormValues>(generateFormValues(initialValues));
   const [invalidData, setInvalidData] = useState<FormInvalidValues>({
@@ -136,7 +134,6 @@ export default function ItemDetails({ title, isEditable, isSaving, isNew, mutati
       {isEditable &&
         <SaveButtons
           isEditable={!readOnly}
-          isNew={isNew}
           isLoading={isSaving}
           handleCreateNextItem={handleCreateNextItem}
           handleSaveItem={handleSaveItem}

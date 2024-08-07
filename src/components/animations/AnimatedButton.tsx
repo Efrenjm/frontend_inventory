@@ -1,4 +1,5 @@
-import { LoadingButton } from "@mui/lab";
+// import { LoadingButton } from "@mui/lab";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { SxProps, Typography } from "@mui/material";
 import add from "../../../public/icons/add.json";
 import addWhite from "../../../public/icons/add_white.json";
@@ -50,11 +51,14 @@ export default function AnimatedButton({ isLoading, onClick, text, icon, iconSiz
       onMouseEnter={() => iconRef.current?.playFromBeginning()}
       loading={isLoading}
       loadingPosition="start"
+      aria-label={'save'}
+      data-testid={'save-button'}
     >
       <Typography
         variant="button"
         fontSize={fontSize ? fontSize : '1.6rem'}
         sx={typeProps}
+
       >
         {text}
       </Typography>

@@ -33,7 +33,6 @@ export default function NewItemCard() {
       isEditable={true}
       isNew={true}
       isSaving={loading}
-      mutationConflict={error?.message === "Conflict"}
       handleMutation={createMutation}
       handleMutationCompleted={mutationCompleted}
       handleMutationFailed={mutationFailed}

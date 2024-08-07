@@ -18,6 +18,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
           name="id"
           label="Id"
           type="number"
+          data-testid='form-fields'
           value={formValues.id}
           onChange={handleFormChanges}
           error={invalidData?.id?.error}
@@ -35,6 +36,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="name"
           label="Item"
+          data-testid='form-fields'
           value={formValues.name}
           onChange={handleFormChanges}
           error={invalidData?.name?.error}
@@ -53,6 +55,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="description"
           label="Description"
+          data-testid='form-fields'
           value={formValues.description}
           onChange={handleFormChanges}
           InputProps={{
@@ -70,6 +73,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
           name="location.id"
           label="Location id"
           type="number"
+          data-testid='form-fields'
           value={formValues.location.id}
           onChange={handleFormChanges}
           error={invalidData?.locationId?.error}
@@ -86,6 +90,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="location.state"
           label="State"
+          data-testid='form-fields'
           value={formValues.location.state}
           onChange={handleFormChanges}
           error={invalidData?.locationState?.error}
@@ -105,6 +110,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="location.phoneNumber"
           label="Phone Number"
+          data-testid='form-fields'
           value={formValues.location.phoneNumber}
           onChange={handleFormChanges}
           error={invalidData?.locationPhoneNumber?.error}
@@ -122,6 +128,7 @@ export default function FormFields({ formValues, invalidData, readOnly, isNew, h
         <TextField
           name="location.address"
           label="Address"
+          data-testid='form-fields'
           value={formValues.location.address}
           onChange={handleFormChanges}
           InputProps={{

@@ -22,9 +22,10 @@ export default function CustomRow({ row, modalHandler }: CustomRowProps) {
       key={row.id}
       hover
       onClick={() => {
-        router.push(`/items/${row.id}`)
+        router.push(`/items/${row.id}`);
       }}
       sx={{ cursor: 'pointer' }}
+      data-testid="custom-row"
     >
       <TableCell align="left">
         {row.id}
