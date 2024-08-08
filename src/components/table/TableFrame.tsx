@@ -14,7 +14,6 @@ const AnimatedIcon = dynamic(
   { ssr: false }
 );
 
-
 interface TableFrameProps {
   children: ReactNode;
   recordNumber?: number;

@@ -8,10 +8,12 @@ import {
 import { useMutation } from "@apollo/client/react/hooks/useMutation";
 import ItemDetails from '@/components/card/ItemDetails';
 import { useSnackbar } from "notistack";
-import Searching from "@/components/animations/Searching";
 import BackgroundCard from "@/components/card/BackgroundCard";
 import { Box } from "@mui/material";
-import NotFound from "@/components/animations/NotFound";
+import dynamic from 'next/dynamic'
+
+const Searching = dynamic(() => import('@/components/animations/Searching'), {ssr: false})
+const NotFound = dynamic(() => import('@/components/animations/NotFound'), {ssr: false})
 
 interface CustomCardProps {
   id: number;

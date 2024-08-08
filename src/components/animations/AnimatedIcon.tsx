@@ -1,6 +1,6 @@
 'use client';
 import { MouseEvent, useRef } from "react";
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import { Player } from "@lordicon/react";
 
 import add from "../../../public/icons/add.json";
@@ -46,6 +46,7 @@ export default function AnimatedIcon({ icon, size, onClick }: AnimatedIconProps)
       onClick={onClick}
       onMouseEnter={() => iconRef.current?.playFromBeginning()}
       size="small"
+      aria-label={icon}
     >
       {lottie &&
         <Player

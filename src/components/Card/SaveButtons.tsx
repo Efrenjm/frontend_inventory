@@ -3,6 +3,7 @@ import { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import dynamic from "next/dynamic";
+// import AnimatedButton from "@/components/animations/AnimatedButton";
 
 const AnimatedButton = dynamic(
   () => import('@/components/animations/AnimatedButton'),

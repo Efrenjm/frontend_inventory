@@ -2,6 +2,9 @@ import { render, screen, fireEvent, act, waitFor } from '@testing-library/react'
 import { MockedProvider } from '@apollo/client/testing';
 import { getItemById, updateItem, createItem } from '@/utils/queries';
 import ItemDetails from './ItemDetails';
+import { MouseEvent } from "react";
+import { iconMapper } from "@/components/animations/AnimatedIcon";
+import { SxProps } from "@mui/material";
 
 jest.mock("next/navigation", () => ({
   useRouter() {
@@ -10,6 +13,18 @@ jest.mock("next/navigation", () => ({
     };
   }
 }));
+jest.mock('@/components/animations/AnimatedButton', () => {
+  return function AnimatedButton({ text, onClick, icon, isLoading, iconSize, fontSize, sx, typeProps }:{text: string, icon: string, onClick: (event: MouseEvent) => void, isLoading: boolean, iconSize: number, fontSize: string, sx: SxProps, typeProps: SxProps}) {
+    return (
+      <button onClick={onClick} aria-label={icon}>{text}</button>
+    )
+  }
+});
+jest.mock('@/components/animations/AnimatedIcon', () => {
+  return function AnimatedIcon({ text, icon, onClick }:{text: string, icon: string, onClick: (event: MouseEvent) => void}) {
+    return <button onClick={onClick} aria-label={icon}>{text}</button>
+  }
+});
 
 const mocks = [
   {
@@ -60,10 +75,12 @@ const mocks = [
         createItem: {
           id: '2',
           name: 'New Item',
+          description: 'Item description',
           location: {
             id: '2',
             state: 'CA',
             phoneNumber: '0987654321',
+            address: '123 Test St',
           },
         },
       },
@@ -75,25 +92,28 @@ describe('ItemDetails', () => {
   const initialValues = {
     id: '1',
     name: 'Test Item',
+    description: 'Item description',
     location: {
       id: '1',
       state: 'NY',
-      phoneNumber: '1234567890'
+      phoneNumber: '1234567890',
+      address: '123 Test St',
     }
   };
 
-  it('renders correctly with initial values', () => {
-
-    render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <ItemDetails
-          isEditable={true}
-          isSaving={false}
-          isNew={false}
-          initialValues={initialValues}
-        />
-      </MockedProvider>
-    );
+  it('renders correctly with initial values',  async() => {
+    await act(async () => {
+      render(
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <ItemDetails
+            isEditable={true}
+            isSaving={false}
+            isNew={false}
+            initialValues={initialValues}
+          />
+        </MockedProvider>
+      );
+    });
 
     expect(screen.getByDisplayValue('Test Item')).toBeInTheDocument();
     expect(screen.getByDisplayValue('NY')).toBeInTheDocument();
@@ -168,17 +188,12 @@ describe('ItemDetails', () => {
     })
   });
 
-  it('calls handleMutation on save', async () => {
-    const handleMutation = jest.fn().mockResolvedValue({
-      data: {updateItem: {id: '1', name: 'Updated Item'}}
-    });
+  it('calls handleMutation on save',  async() => {
+    const handleMutation = jest.fn();
     const handleMutationCompleted = jest.fn();
     const handleMutationFailed = jest.fn();
 
-    // beforeAll(() => {
-    //   parent = mount(<Parent />)
-    // });
-    const {getByText, getAllByRole, getByRole, queryAllByRole} = render(
+    render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <ItemDetails
           isEditable={true}
@@ -191,52 +206,43 @@ describe('ItemDetails', () => {
       </MockedProvider>
     );
 
-    await waitFor(() => {
-      // act(() => {
-      //   fireEvent.click(screen.getByText('button', {name: 'Save item'}));
-      // })
-      return expect(getByText('Save item')).toBeInTheDocument()
+    const saveButton =  await waitFor(() => screen.getByRole('button', {name: 'Save item'}));
+
+    act(() => {
+      fireEvent.change(screen.getByRole('spinbutton', { name: 'Id' }), { target: { value: initialValues.id } });
+      fireEvent.change(screen.getByRole('textbox', { name: 'Item' }), { target: { value: initialValues.name } });
+      fireEvent.change(screen.getByRole('textbox', { name: 'Description' }), { target: { value: initialValues.description } });
+      fireEvent.change(screen.getByRole('spinbutton', { name: 'Location id' }), { target: { value: initialValues.location.id } });
+      fireEvent.change(screen.getByRole('textbox', { name: 'State' }), { target: { value: initialValues.location.state } });
+      fireEvent.change(screen.getByRole('textbox', { name: 'Phone Number' }), { target: { value: initialValues.location.phoneNumber } });
+      fireEvent.change(screen.getByRole('textbox', { name: 'Address' }), { target: { value: initialValues.location.address } });
+
+      fireEvent.click(saveButton);
+
+      expect(handleMutation).toHaveBeenCalledWith({
+        variables: { item: initialValues },
+        onCompleted: expect.any(Function),
+        onError: expect.any(Function)
+      });
     });
-
-    /*TODO: Button not found
-    * Usando getByRole('button', {name: 'Save item'}):
-    * Error: Unable to find role="button" and name "Save item"
-    *
-    * Usando getByText('Save item'):
-    * Error: Unable to find an element with the text: Save item. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
-    * */
-    // act(() => {
-    //   fireEvent.click(screen.getByText('Save item'));
-    // })
-
-    // expect(handleMutation).toHaveBeenCalledWith({
-    //   variables: { item: initialValues },
-    //   onError: expect.any(Function),
-    //   onCompleted: expect.any(Function)
-    // });
-    //
-    // await act(async () => {
-    //   await handleMutation.mock.calls[0][0].onCompleted({ updateItem: { id: '1', name: 'Updated Item' } });
-    // });
-    //
-    // expect(handleMutationCompleted).toHaveBeenCalled();
   });
 
-  // it('updates form values on change', () => {
-  //   const {getAllByRole} = render(
-  //     <MockedProvider mocks={mocks} addTypename={false}>
-  //       <ItemDetails
-  //         isEditable={true}
-  //         isSaving={false}
-  //         isNew={false}
-  //         initialValues={initialValues}
-  //       />
-  //     </MockedProvider>
-  //   );
-  //
-  //   fireEvent.change(screen.getByLabelText('Name'), {target: {value: 'Updated Item'}});
-  //   expect(screen.getByDisplayValue('Updated Item')).toBeInTheDocument();
-  // });
+  it('Goes to /items when click on the header back button', () => {
+    const {getByRole} = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <ItemDetails
+          isEditable={true}
+          isSaving={false}
+          isNew={false}
+          initialValues={initialValues}
+        />
+      </MockedProvider>
+    );
+    const backButton = getByRole('button', {name: 'Back'});
+
+    fireEvent.click(backButton);
+    expect(screen.getByDisplayValue('Updated Item')).toBeInTheDocument();
+  });
 
   // it('validates form values correctly', () => {
   //   render(

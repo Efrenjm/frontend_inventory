@@ -4,8 +4,11 @@ import { TableRow, TableBody, TableCell, Typography } from "@mui/material";
 import { TableFields } from "@/components/table/tableTypes";
 import CustomRow from "@/components/table/CustomRow";
 import dynamic from 'next/dynamic';
-import NotFound from "@/components/animations/NotFound";
-import { title } from '../../theme';
+
+const NotFound = dynamic(
+  ()=>import('@/components/animations/NotFound'),
+  {ssr:false}
+);
 
 const LoopedAnimation = dynamic(
   () => import('@/components/animations/LoopedAnimation'),

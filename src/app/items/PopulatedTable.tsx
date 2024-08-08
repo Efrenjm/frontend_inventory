@@ -4,11 +4,10 @@ import Box from "@mui/material/Box";
 import { useQuery } from "@apollo/client";
 import { TableFields } from "@/components/table/tableTypes";
 import TableFrame from "@/components/table/TableFrame";
-import { Skeleton } from "@mui/material";
 import { getAllItems } from "@/utils/queries";
-import Searching from "@/components/animations/Searching";
+import dynamic from "next/dynamic";
 
-
+const Searching = dynamic(() => import('@/components/animations/Searching'), {ssr: false})
 
 export default function PopulatedTable() {
 

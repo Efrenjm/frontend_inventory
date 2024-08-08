@@ -1,7 +1,6 @@
 'use client';
 import { useRouter } from "next/navigation";
-import { IconButton, Box, Typography, Toolbar, SxProps } from "@mui/material";
-import { DeleteForever } from "@mui/icons-material";
+import { Box, Typography, Toolbar, SxProps } from "@mui/material";
 import dynamic from "next/dynamic";
 
 
@@ -38,16 +37,6 @@ export default function NavCardOptions({ deletable, title, sx }: NavCardOptionsP
           onClick={() => { router.push('/items') }}
           size={30}
         />
-        {title && (
-          <Typography variant='h4'>{title}</Typography>
-        )}
-        {deletable && (
-          <IconButton
-            size="medium"
-          >
-            <DeleteForever fontSize="large" color="warning" />
-          </IconButton>
-        )}
       </Box>
     </Toolbar>
   )

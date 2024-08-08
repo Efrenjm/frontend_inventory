@@ -1,4 +1,3 @@
-// import { LoadingButton } from "@mui/lab";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { SxProps, Typography } from "@mui/material";
 import add from "../../../public/icons/add.json";
@@ -51,8 +50,8 @@ export default function AnimatedButton({ isLoading, onClick, text, icon, iconSiz
       onMouseEnter={() => iconRef.current?.playFromBeginning()}
       loading={isLoading}
       loadingPosition="start"
-      aria-label={'save'}
-      data-testid={'save-button'}
+      aria-label={text}
+      // data-testid={text.replace(/\s+/g, '-').toLowerCase()}
     >
       <Typography
         variant="button"
