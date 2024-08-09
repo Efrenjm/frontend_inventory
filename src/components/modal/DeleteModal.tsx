@@ -9,15 +9,6 @@ import { useMutation } from '@apollo/client/react/hooks/useMutation';
 import { deleteItem, getAllItems } from "@/utils/queries";
 import { useSnackbar } from 'notistack';
 
-const Transition = forwardRef(function Transition(
-  props: TransitionProps & {
-    children: ReactElement<any, any>;
-  },
-  ref: Ref<unknown>,
-) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 interface DeleteModalProps {
   modalSettings: ModalSettings;
   setModalSettings: Dispatch<SetStateAction<ModalSettings>>;
@@ -58,51 +49,6 @@ export default function DeleteModal({ setModalSettings, modalSettings }: DeleteM
     handleCancel: () => handleClose(),
     loading: false
   });
-
-  // useEffect(() => {
-  //   if (loading) {
-  //     setModalProps((prevModalProps) => ({
-  //       ...prevModalProps,
-  //       title: 'Deleting...',
-  //       description: 'Please wait...',
-  //       callToAction: 'Deleting',
-  //       loading: true
-  //     }))
-  //   } else if (data) {
-  //     setModalProps((prevModalProps) => ({
-  //       ...prevModalProps,
-  //       title: 'Deleted',
-  //       description: `${modalSettings.row!.name} has been deleted successfully.`,
-  //       disabled: false,
-  //       loading: false,
-  //       callToCancel: undefined,
-  //       callToAction: 'Close',
-  //       handleAction: handleClose
-  //     }));
-  //   } else if (error) {
-  //     if (error.message === "Not found") {
-  //       setModalProps((prevModalProps) => ({
-  //         ...prevModalProps,
-  //         title: 'An error occurred',
-  //         loading: false,
-  //         description: "The selected item doesn't exist.",
-  //         callToAction: 'Close',
-  //         handleAction: handleClose,
-  //         callToCancel: undefined
-  //       }))
-  //     } else {
-  //       setModalProps((prevModalProps) => ({
-  //         ...prevModalProps,
-  //         title: 'An error occurred',
-  //         loading: false,
-  //         description: "The request couldn't be completed. Please try again later.",
-  //         disabled: false,
-  //         callToCancel: 'Cancel',
-  //         callToAction: 'Delete'
-  //       }))
-  //     }
-  //   }
-  // }, [error, handleClose, data, modalSettings, loading]);
 
   return (
     <>

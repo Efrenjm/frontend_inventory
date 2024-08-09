@@ -5,24 +5,21 @@ import ItemDetails from './ItemDetails';
 import { MouseEvent } from "react";
 import { iconMapper } from "@/components/animations/AnimatedIcon";
 import { SxProps } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 jest.mock("next/navigation", () => ({
-  useRouter() {
-    return {
-      prefetch: () => null
-    };
-  }
+  useRouter: jest.fn(),
 }));
 jest.mock('@/components/animations/AnimatedButton', () => {
   return function AnimatedButton({ text, onClick, icon, isLoading, iconSize, fontSize, sx, typeProps }:{text: string, icon: string, onClick: (event: MouseEvent) => void, isLoading: boolean, iconSize: number, fontSize: string, sx: SxProps, typeProps: SxProps}) {
     return (
-      <button onClick={onClick} aria-label={icon}>{text}</button>
+      <button onClick={onClick} aria-label={text}>{text}</button>
     )
   }
 });
 jest.mock('@/components/animations/AnimatedIcon', () => {
   return function AnimatedIcon({ text, icon, onClick }:{text: string, icon: string, onClick: (event: MouseEvent) => void}) {
-    return <button onClick={onClick} aria-label={icon}>{text}</button>
+    return <button onClick={onClick} aria-label={icon}>_</button>
   }
 });
 
@@ -227,7 +224,10 @@ describe('ItemDetails', () => {
     });
   });
 
-  it('Goes to /items when click on the header back button', () => {
+  it('Goes to /items when click in the header back button', () => {
+    const push = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({push});
+
     const {getByRole} = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <ItemDetails
@@ -238,10 +238,60 @@ describe('ItemDetails', () => {
         />
       </MockedProvider>
     );
-    const backButton = getByRole('button', {name: 'Back'});
-
+    const backButton = getByRole('button', {name: 'back'});
     fireEvent.click(backButton);
-    expect(screen.getByDisplayValue('Updated Item')).toBeInTheDocument();
+
+    expect(push).toHaveBeenCalledWith('/items');
+  });
+
+
+  /*TODO: Tests de cambios en estado*/
+
+  // it('Goes to /items when click in the bottom navigation back button', async () => {
+  //   const push = jest.fn();
+  //   (useRouter as jest.Mock).mockReturnValue({push});
+  //
+  //   const {getByRole, rerender} = render(
+  //     <MockedProvider mocks={mocks} addTypename={false}>
+  //       <ItemDetails
+  //         isEditable={true}
+  //         isSaving={false}
+  //         isNew={true}
+  //       />
+  //     </MockedProvider>
+  //   );
+  //   const saveButton = getByRole('button', {name: 'Save item'});
+  //
+  //   act(() => {
+  //     fireEvent.change(screen.getByRole('spinbutton', { name: 'Id' }), { target: { value: initialValues.id } });
+  //     fireEvent.change(screen.getByRole('textbox', { name: 'Item' }), { target: { value: initialValues.name } });
+  //     fireEvent.change(screen.getByRole('textbox', { name: 'Description' }), { target: { value: initialValues.description } });
+  //     fireEvent.change(screen.getByRole('spinbutton', { name: 'Location id' }), { target: { value: initialValues.location.id } });
+  //     fireEvent.change(screen.getByRole('textbox', { name: 'State' }), { target: { value: initialValues.location.state } });
+  //     fireEvent.change(screen.getByRole('textbox', { name: 'Phone Number' }), { target: { value: initialValues.location.phoneNumber } });
+  //     fireEvent.change(screen.getByRole('textbox', { name: 'Address' }), { target: { value: initialValues.location.address } });
+  //     fireEvent.click(saveButton);
+  //   });
+
+
+    // rerender(
+    //   <MockedProvider mocks={mocks} addTypename={false}>
+    //     <ItemDetails
+    //       isEditable={true}
+    //       isSaving={false}
+    //       isNew={true}
+    //     />
+    //   </MockedProvider>
+    // )
+
+
+    // await waitFor(() => {
+    //   expect(saveButton).not.toBeInTheDocument();
+    //   const backButton = getByRole('button', {name: 'Go back'});
+    //   // getByRole('button', {name: 'Go back'})
+    // });
+    // fireEvent.click(backButton);
+    // expect(push).toHaveBeenCalledWith('/items');
   });
 
   // it('validates form values correctly', () => {
@@ -295,4 +345,4 @@ describe('ItemDetails', () => {
   //   fireEvent.click(screen.getByText('Create Next'));
   //   expect(screen.getByDisplayValue('')).toBeInTheDocument();
   // });
-});
+// });

@@ -25,7 +25,7 @@ export default function CustomRow({ row, modalHandler }: CustomRowProps) {
         router.push(`/items/${row.id}`);
       }}
       sx={{ cursor: 'pointer' }}
-      data-testid="custom-row"
+      data-testid={`custom-row-${row.id}`}
     >
       <TableCell align="left">
         {row.id}
