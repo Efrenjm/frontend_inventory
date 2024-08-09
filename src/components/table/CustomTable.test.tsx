@@ -1,21 +1,22 @@
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import { getAllItems } from '@/utils/queries';
+import { deleteItem, getAllItems } from '@/utils/queries';
 import { Dispatch, MouseEvent, SetStateAction } from "react";
 import CustomTable from "@/components/table/CustomTable";
 import { useRouter } from "next/navigation";
 import ItemDetails from "@/components/card/ItemDetails";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import { LoadingButton } from "@mui/lab";
+import { CustomModalProps } from "@/components/modal/ModalTemplate";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
-// jest.mock('@/components/animations/AnimatedButton', () => {
-//   return function AnimatedButton({ text, onClick, icon, isLoading, iconSize, fontSize, sx, typeProps }:{text: string, icon: string, onClick: (event: MouseEvent) => void, isLoading: boolean, iconSize: number, fontSize: string, sx: SxProps, typeProps: SxProps}) {
-//     return (
-//       <button onClick={onClick} aria-label={text}>{text}</button>
-//     )
-//   }
-// });
 jest.mock('@/components/animations/AnimatedIcon', () => {
   return function AnimatedIcon({ text, icon, onClick }:{text: string, icon: string, onClick: (event: MouseEvent) => void}) {
     return <button onClick={onClick} aria-label={icon}>_</button>
@@ -32,14 +33,36 @@ jest.mock('@/components/animations/LoopedAnimation', () => {
     return <div>{icon}</div>
   }
 });
-
-jest.mock('@/components/modal/DeleteModal',()=>{
-  return function ModalTemplate(props:any) {
+//
+// jest.mock('@/components/modal/DeleteModal',()=>{
+//   return function ModalTemplate({open, title, description, callToAction, handleAction, callToCancel, handleCancel, loading, disabled}: CustomModalProps) {
+//     return (
+//       <dialog data-testid='modal' open={open}>
+//         <h5>{title}</h5>
+//         <p>{description}</p>
+//         <menu>
+//           <button onClick={handleAction}>{callToAction}</button>
+//           <button onClick={handleCancel}>{callToCancel}</button>
+//         </menu>
+//       </dialog>
+//     )
+//   }
+// })
+jest.mock('@/components/modal/ModalTemplate',()=>{
+  return function ModalTemplate({open, title, description, callToAction, handleAction, callToCancel, handleCancel, loading, disabled}: CustomModalProps) {
     return (
-      <div data-testid='modal'>modal</div>
+      <dialog data-testid='modal' open={open}>
+        <h5>{title}</h5>
+        <p>{description}</p>
+        <menu>
+          <button onClick={handleAction}>{callToAction}</button>
+          <button onClick={handleCancel}>{callToCancel}</button>
+        </menu>
+      </dialog>
     )
   }
 })
+
 const mocks = [
   {
     request: {
@@ -61,6 +84,17 @@ const mocks = [
       },
     },
   },
+  {
+    request: {
+      query: deleteItem,
+      variables: {id: '1'},
+    },
+    result: {
+      data: {
+        deleteItem: { success: true, id: '1' },
+      },
+    },
+  },
 ];
 
 describe('CustomTable', () => {
@@ -71,7 +105,7 @@ describe('CustomTable', () => {
     },
     {
       id: 2,
-      name: 'Item 2'
+      name: 'Item 2 to filter'
     }
   ];
 
@@ -115,8 +149,8 @@ describe('CustomTable', () => {
         <CustomTable rows={rows}/>
       </MockedProvider>
     );
-    const backButton = getAllByRole('button', {name: 'edit'})[0];
-    fireEvent.click(backButton);
+    const editButton = getAllByRole('button', {name: 'edit'})[0];
+    fireEvent.click(editButton);
 
     expect(push).toHaveBeenCalledWith('/items/1?edit=true');
   });
@@ -136,6 +170,33 @@ describe('CustomTable', () => {
     await waitFor(() => {
       expect(screen.getByTestId('modal')).toBeInTheDocument();
     });
+  });
+
+  it('redirects to /newItem when the add button is clicked', async () => {
+    const push = jest.fn();
+    (useRouter as jest.Mock).mockReturnValue({push});
+
+    const {getByRole} = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <CustomTable rows={rows}/>
+      </MockedProvider>
+    );
+    const addButton = getByRole('button', {name: 'add'});
+    fireEvent.click(addButton);
+
+    expect(push).toHaveBeenCalledWith('/newItem');
+  });
+
+  it('filters by name', async () => {
+    const {getByRole} = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <CustomTable rows={rows}/>
+      </MockedProvider>
+    );
+    const addButton = getByRole('input', {name: 'add'});
+    fireEvent.click(addButton);
+
+    expect(push).toHaveBeenCalledWith('/newItem');
   });
 });
 
