@@ -1,11 +1,19 @@
 import BackgroundCard from "@/components/card/BackgroundCard";
+import { Typography } from "@mui/material";
+import dynamic from "next/dynamic";
 
-export default function NotFound() {
+const NotFound = dynamic(
+  () => import('@/components/animations/NotFound'),
+  { ssr: false }
+);
+
+export default function NotFoundPage() {
   return (
     <BackgroundCard component="div">
       <main className="not-found">
-        <h1>Not found</h1>
-        <p>Unfortunately, we could not find the requested page.</p>
+        <NotFound
+          title="Oops, something went wrong"
+          message="Unfortunately, the page you requested doesn't exist"/>
       </main>
     </BackgroundCard>
   )

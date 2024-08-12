@@ -10,18 +10,26 @@ jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 jest.mock('@/components/animations/AnimatedIcon', () => {
-  return function AnimatedIcon({ text, icon, onClick }:{text: string, icon: string, onClick: (event: MouseEvent) => void}) {
+  return function AnimatedIcon({text, icon, onClick}: {
+    text: string,
+    icon: string,
+    onClick: (event: MouseEvent) => void
+  }) {
     return <button onClick={onClick} aria-label={icon}>_</button>
   }
 });
 
 jest.mock('@/components/animations/NotFound', () => {
-  return function AnimatedIcon({ title, message, }:{title: string, message: string, onClick: (event: MouseEvent) => void}) {
+  return function AnimatedIcon({title, message,}: {
+    title: string,
+    message: string,
+    onClick: (event: MouseEvent) => void
+  }) {
     return <div>{title}</div>
   }
 });
 jest.mock('@/components/animations/LoopedAnimation', () => {
-  return function AnimatedIcon({ size, icon, sx }:{size: number, icon: string, sx: any}) {
+  return function AnimatedIcon({size, icon, sx}: { size: number, icon: string, sx: any }) {
     return <div>{icon}</div>
   }
 });
@@ -40,8 +48,18 @@ jest.mock('@/components/animations/LoopedAnimation', () => {
 //     )
 //   }
 // })
-jest.mock('@/components/modal/ModalTemplate',()=>{
-  return function ModalTemplate({open, title, description, callToAction, handleAction, callToCancel, handleCancel, loading, disabled}: CustomModalProps) {
+jest.mock('@/components/modal/ModalTemplate', () => {
+  return function ModalTemplate({
+                                  open,
+                                  title,
+                                  description,
+                                  callToAction,
+                                  handleAction,
+                                  callToCancel,
+                                  handleCancel,
+                                  loading,
+                                  disabled
+                                }: CustomModalProps) {
     return (
       <dialog data-testid='modal' open={open}>
         <h5>{title}</h5>
@@ -63,16 +81,17 @@ const mocks = [
     },
     result: {
       data: {
-        items: [
-          {
-            id: '1',
-            name: 'Item 1'
-          },
-          {
-            id: '2',
-            name: 'Item 2'
-          }
-        ]
+        getAllItems: [
+            {
+              id: '1',
+              name: 'Item 1'
+            },
+            {
+              id: '2',
+              name: 'Item 2'
+            }
+          ]
+
       },
     },
   },
@@ -83,7 +102,9 @@ const mocks = [
     },
     result: {
       data: {
-        id: null,
+        deleteItem: {
+          id: '1'
+        }
       },
     },
   },
@@ -101,7 +122,7 @@ describe('CustomTable', () => {
     }
   ];
 
-  it('renders correctly with initial values',  async() => {
+  it('renders correctly with initial values', async () => {
     await act(async () => {
       render(
         <MockedProvider mocks={mocks} addTypename={false}>
@@ -115,7 +136,22 @@ describe('CustomTable', () => {
     expect(screen.getByText('Item 2 to filter')).toBeInTheDocument();
   });
 
-  it('redirects to items/{id} when a row is clicked', async() => {
+  it('filters by item name', async () => {
+    const {getByRole, queryByText} = render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <CustomTable rows={rows}/>
+      </MockedProvider>
+    );
+    const searchInput = getByRole('searchbox', {name: 'Search items'});
+    fireEvent.change(searchInput, {target: {value: 'filter'}});
+
+    expect(queryByText('1')).not.toBeInTheDocument();
+    expect(queryByText('Item 1')).not.toBeInTheDocument();
+    expect(queryByText('2')).toBeInTheDocument();
+    expect(queryByText('Item 2 to filter')).toBeInTheDocument();
+  });
+
+  it('redirects to items/{id} when a row is clicked', async () => {
     const push = jest.fn();
     (useRouter as jest.Mock).mockReturnValue({push});
 
@@ -178,20 +214,4 @@ describe('CustomTable', () => {
 
     expect(push).toHaveBeenCalledWith('/newItem');
   });
-
-  it('filters by item name', async () => {
-    const {getByRole, queryByText} = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <CustomTable rows={rows}/>
-      </MockedProvider>
-    );
-    const searchInput = getByRole('searchbox', {name: 'Search items'});
-    fireEvent.change(searchInput, { target: { value: 'filter' } });
-
-    expect(queryByText('1')).not.toBeInTheDocument();
-    expect(queryByText('Item 1')).not.toBeInTheDocument();
-    expect(queryByText('2')).toBeInTheDocument();
-    expect(queryByText('Item 2 to filter')).toBeInTheDocument();
-  });
 });
-

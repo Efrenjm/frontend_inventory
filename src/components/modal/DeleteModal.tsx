@@ -41,7 +41,7 @@ export default function DeleteModal({ setModalSettings, modalSettings }: DeleteM
     open: modalSettings.open,
     title: `Are you sure you want to delete ${modalSettings.row!.name}?`,
     description: 'This action cannot be undone.',
-    callToAction: 'Delete',
+    callToAction: 'Confirm',
     handleAction: () => handleDelete(modalSettings.row!.id),
     callToCancel: 'Cancel',
     handleCancel: () => handleClose(),
