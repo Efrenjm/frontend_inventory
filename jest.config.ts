@@ -14,8 +14,11 @@ const config: Config = {
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': 'babel-jest',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@apollo/client)/)', // Agrega excepciones aquí
+  ],
 };
 
 export default createJestConfig(config);

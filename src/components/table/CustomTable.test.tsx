@@ -4,14 +4,6 @@ import { deleteItem, getAllItems } from '@/utils/queries';
 import { Dispatch, MouseEvent, SetStateAction } from "react";
 import CustomTable from "@/components/table/CustomTable";
 import { useRouter } from "next/navigation";
-import ItemDetails from "@/components/card/ItemDetails";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import { LoadingButton } from "@mui/lab";
 import { CustomModalProps } from "@/components/modal/ModalTemplate";
 
 jest.mock("next/navigation", () => ({
@@ -91,7 +83,7 @@ const mocks = [
     },
     result: {
       data: {
-        deleteItem: { success: true, id: '1' },
+        id: null,
       },
     },
   },
@@ -120,7 +112,7 @@ describe('CustomTable', () => {
     expect(screen.getByText('1')).toBeInTheDocument();
     expect(screen.getByText('Item 1')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
-    expect(screen.getByText('Item 2')).toBeInTheDocument();
+    expect(screen.getByText('Item 2 to filter')).toBeInTheDocument();
   });
 
   it('redirects to items/{id} when a row is clicked', async() => {
@@ -187,16 +179,19 @@ describe('CustomTable', () => {
     expect(push).toHaveBeenCalledWith('/newItem');
   });
 
-  it('filters by name', async () => {
-    const {getByRole} = render(
+  it('filters by item name', async () => {
+    const {getByRole, queryByText} = render(
       <MockedProvider mocks={mocks} addTypename={false}>
         <CustomTable rows={rows}/>
       </MockedProvider>
     );
-    const addButton = getByRole('input', {name: 'add'});
-    fireEvent.click(addButton);
+    const searchInput = getByRole('searchbox', {name: 'Search items'});
+    fireEvent.change(searchInput, { target: { value: 'filter' } });
 
-    expect(push).toHaveBeenCalledWith('/newItem');
+    expect(queryByText('1')).not.toBeInTheDocument();
+    expect(queryByText('Item 1')).not.toBeInTheDocument();
+    expect(queryByText('2')).toBeInTheDocument();
+    expect(queryByText('Item 2 to filter')).toBeInTheDocument();
   });
 });
 

@@ -1,11 +1,9 @@
 'use client';
-import { forwardRef, useState, useEffect, ReactElement, Ref, Dispatch, SetStateAction, useCallback } from 'react';
+import { useState, Dispatch, SetStateAction, useCallback } from 'react';
 
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 import { ModalSettings } from "@/components/table/tableTypes";
 import ModalTemplate, { CustomModalProps } from "@/components/modal/ModalTemplate";
-import { useMutation } from '@apollo/client/react/hooks/useMutation';
+import { useMutation } from '@apollo/client';
 import { deleteItem, getAllItems } from "@/utils/queries";
 import { useSnackbar } from 'notistack';
 
