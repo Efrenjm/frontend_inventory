@@ -56,12 +56,11 @@ export default function AppFrame({ children }: AppFrameProps) {
             component="main"
             sx={{
               flexGrow: 1,
-              p: 3,
               width: { md: `calc(100% - ${drawerWidth}px)` },
-              mt: { xs: 8, sm: 4 }
+
             }}
           >
-            <Toolbar />
+            <Toolbar sx={{mb:'50px'}}/>
             {children}
           </Box>
         </Box>

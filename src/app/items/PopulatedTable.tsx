@@ -18,7 +18,14 @@ export default function PopulatedTable() {
   if (loading || (error && error.message !== "Not found")) {
     content = (
       <TableFrame>
-        <Box width="100%" sx={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+        <Box
+          width="100%"
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems:'center'
+          }}
+        >
           <Searching error={!!error}/>
         </Box>
       </TableFrame>

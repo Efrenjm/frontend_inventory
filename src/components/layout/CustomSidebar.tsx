@@ -71,17 +71,23 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
         }}
         sx={{
           display: {sm: 'block', md: 'none'},
-          '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+          },
         }}
       >
         {drawer}
-        <Typography
-          sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: '10px'
-          }}
-          variant='caption'><a href="https://lordicon.com/">Icons by Lordicon.com</a></Typography>
+        {/*<Typography*/}
+        {/*  sx={{*/}
+        {/*    position: 'fixed',*/}
+        {/*    bottom: 0,*/}
+        {/*    left: '10px'*/}
+        {/*  }}*/}
+        {/*  variant='caption'*/}
+        {/*>*/}
+        {/*  <a href="https://lordicon.com/">Icons by Lordicon.com</a>*/}
+        {/*</Typography>*/}
       </Drawer>
       <Drawer
         variant="permanent"
@@ -90,18 +96,24 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
         }}
         sx={{
           display: {xs: 'none', md: 'block'},
-          '& .MuiDrawer-paper': {boxSizing: 'border-box', width: drawerWidth},
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
+            width: drawerWidth,
+          },
         }}
         open
       >
         {drawer}
-        <Typography
-          sx={{
-            position: 'fixed',
-            bottom: 0,
-            left: '10px'
-          }}
-          variant='caption'><a href="https://lordicon.com/">Icons by Lordicon.com</a></Typography>
+        {/*<Typography*/}
+        {/*  sx={{*/}
+        {/*    position: 'fixed',*/}
+        {/*    bottom: 0,*/}
+        {/*    left: '10px'*/}
+        {/*  }}*/}
+        {/*  variant='caption'*/}
+        {/*>*/}
+        {/*  <a href="https://lordicon.com/">Icons by Lordicon.com</a>*/}
+        {/*</Typography>*/}
       </Drawer>
     </Box>
   );

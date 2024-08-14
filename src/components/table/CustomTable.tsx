@@ -1,4 +1,5 @@
 'use client';
+import styles from "./styles.module.css";
 import { useState, useEffect, useMemo, MouseEvent } from "react";
 import { TableContainer, Table } from "@mui/material";
 

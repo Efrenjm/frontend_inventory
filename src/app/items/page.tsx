@@ -11,11 +11,11 @@ export default function App() {
   }, [setTitle]);
 
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-    >
+    // <Box
+    //   display="flex"
+    //   justifyContent="center"
+    // >
       <PopulatedTable />
-    </Box>
+    // </Box>
   );
 }

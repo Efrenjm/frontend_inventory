@@ -64,26 +64,28 @@ export default function TableFrame({
         minHeight: '600px',
         height: '85vh',
         maxHeight: '960px',
-        minWidth: '360px',
+        minWidth: '345px',
         width: '100%',
-        mb: 2,
+        // mb: 2,
         overflow: 'hidden',
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
         alignItems: "center",
         borderRadius: '20px',
-        paddingX: { xs: '0px', sm: '30px', md: '60px' }
+        paddingX: { xs: '0px', sm: '30px', md: '60px' },
       }}
     >
       <Toolbar
         sx={{
-          minHeight: '120px',
-          height: '120px',
-          maxHeight: '120px',
+          // minHeight: '100px',
+          // height: '100px',
+          // maxHeight: '100px',
+          // paddingY: '25px',
+          width: '100%',
+          flexShrink: 0,
           pl: { xs: 1, sm: 2 },
           pr: { xs: 1, sm: 1 },
-          width: '100%',
         }}
       >
         <Typography
@@ -136,6 +138,8 @@ export default function TableFrame({
         sx={{
           alignSelf: 'flex-end',
           minHeight: '60px',
+          flexShrink: 0,
+          width: '100%'
         }}
         slotProps={{
           select: {

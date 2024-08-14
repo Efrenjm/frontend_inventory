@@ -38,7 +38,7 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
 
   return (
     <AppBar
-      position="fixed"
+      // position="fixed"
       sx={{
         height: '100px',
         background: '#f2f2f2',
@@ -47,9 +47,17 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
         ml: { md: `${drawerWidth}px` }
       }}
     >
-      <Container sx={{height:"8rem", width: '100%', display: 'flex', alignItems: 'center' }}>
+      <Container>
         <Toolbar disableGutters>
-          <Box sx={{ flexGrow: 1, display: { sm: 'flex', md: 'none' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: {
+                sm: 'flex',
+                md: 'none'
+              }
+            }}
+          >
             <IconButton
               aria-label="open drawer"
               edge="start"
@@ -66,6 +74,7 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
               display: { sm: 'flex', md: 'flex' },
               flexGrow: 1,
               fontFamily: title.style.fontFamily,
+              fontSize: {xs: '1.8rem', sm: '2.5rem', md: '3rem'},
               color: 'primary.main',
               textDecoration: 'none',
             }}
@@ -73,7 +82,14 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
             {headerTitle}
           </Typography>
 
-          <Box sx={{ position: 'fixed', right: 0, top: 0, padding: '10px' }}>
+          <Box
+            sx={{
+              // position: 'fixed',
+              // right: 0,
+              // top: 0,
+              // padding: '10px'
+            }}
+          >
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Profile picture" src="/profile.png" />
