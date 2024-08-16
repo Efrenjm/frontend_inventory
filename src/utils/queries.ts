@@ -5,6 +5,7 @@ export const getAllItems = gql(`
         getAllItems {
             id
             name
+            description
         }
     }
 `);

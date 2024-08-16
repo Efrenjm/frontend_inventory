@@ -1,5 +1,5 @@
 'use client';
-import { TableRow, TableBody, TableCell, Typography } from "@mui/material";
+import { TableRow, TableBody, TableCell, Typography, useMediaQuery } from "@mui/material";
 
 import { TableFields } from "@/components/table/tableTypes";
 import CustomRow from "@/components/table/CustomRow";
@@ -23,6 +23,28 @@ interface TableBodyProps {
 }
 
 export default function CustomTableBody({ rows, emptyRows, modalHandler, isEmpty }: TableBodyProps) {
+  const breakpoints = {
+    xs: useMediaQuery((theme:any)=>theme.breakpoints.up('xs')),
+    sm: useMediaQuery((theme:any)=>theme.breakpoints.up('sm')),
+    md: useMediaQuery((theme:any)=>theme.breakpoints.up('md')),
+    lg: useMediaQuery((theme:any)=>theme.breakpoints.up('lg')),
+    xl: useMediaQuery((theme:any)=>theme.breakpoints.up('xl')),
+  }
+  let colspan = 4;
+  let iconSize = 180;
+  if (breakpoints.lg) {
+    iconSize = 180;
+  } else if (breakpoints.md) {
+    iconSize = 160;
+  } else if (breakpoints.sm) {
+    iconSize = 140;
+    colspan = 4;
+  } else if (breakpoints.xs) {
+    iconSize = 120;
+    colspan = 3;
+  }
+
+
   return (
     <TableBody>
       {!isEmpty ? (
@@ -36,14 +58,18 @@ export default function CustomTableBody({ rows, emptyRows, modalHandler, isEmpty
           ))}
           {emptyRows > 0 && (
             <TableRow>
-              <TableCell colSpan={3} />
+              <TableCell colSpan={colspan} />
             </TableRow>
           )}
         </>
       ) : (
         <TableRow>
-          <TableCell colSpan={3} align="center">
-             <NotFound title="No items found" message="Click on the plus sign button to create a new one" />
+          <TableCell colSpan={colspan} align="center">
+             <NotFound
+               title="No items found"
+               message="Click on the plus sign button to create a new one"
+               size={iconSize}
+             />
           </TableCell>
         </TableRow>
       )}

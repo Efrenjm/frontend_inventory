@@ -1,6 +1,7 @@
 'use client';
 import { Dongle, Hind_Vadodara } from 'next/font/google';
 import { createTheme } from '@mui/material/styles';
+import { useMediaQuery } from "@mui/material";
 
 export const body = Dongle({
   weight: '400',
@@ -11,7 +12,7 @@ export const title = Hind_Vadodara({
   weight: ['700'],
   subsets: ['latin'],
   display: 'swap'
-})
+});
 
 const theme = createTheme({
   typography: {

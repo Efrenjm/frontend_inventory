@@ -1,5 +1,4 @@
 'use client';
-import styles from "./styles.module.css";
 import { useState, useEffect, useMemo, MouseEvent } from "react";
 import { TableContainer, Table } from "@mui/material";
 
@@ -75,7 +74,7 @@ export default function CustomTable({ rows }: CustomTableProps) {
           sx={{
             flex: '1 1 auto',
             overflow: 'auto',
-            maxHeight: '760px'
+            // maxHeight: '760px'
           }}
         >
           <Table

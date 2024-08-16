@@ -1,5 +1,4 @@
 'use client';
-import Box from "@mui/material/Box";
 import PopulatedTable from "./PopulatedTable";
 import { useContext, useEffect } from "react";
 import { TitleContext } from "@/components/layout/AppFrame";
@@ -11,11 +10,6 @@ export default function App() {
   }, [setTitle]);
 
   return (
-    // <Box
-    //   display="flex"
-    //   justifyContent="center"
-    // >
-      <PopulatedTable />
-    // </Box>
+    <PopulatedTable />
   );
 }

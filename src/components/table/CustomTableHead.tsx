@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import { TableHead, TableRow, TableCell, TableSortLabel, Box } from "@mui/material";
+import { TableHead, TableRow, TableCell, TableSortLabel, Box, useMediaQuery, Typography } from "@mui/material";
 import { visuallyHidden } from "@mui/utils";
 
 import { Order, Columns, SortableColumns } from "./tableTypes";
@@ -19,12 +19,20 @@ const columns: readonly Columns[] = [
     width: 'auto'
   },
   {
+    id: 'description',
+    label: 'Description',
+    align: 'left',
+    width: 'auto'
+  },
+  {
     id: 'actions',
     label: 'Actions',
     align: 'center',
     width: { xs: '100px', sm: '150px', lg: '200px' }
   }
 ];
+
+const headerFontSize = {xs: '1.75rem', sm:'2rem', md:'2.25rem', lg:'2.5rem'};
 
 interface TableHeadProps {
   onRequestSort: (event: MouseEvent<unknown>, property: SortableColumns) => void;
@@ -34,43 +42,55 @@ interface TableHeadProps {
 
 export default function CustomTableHead({ order, orderBy, onRequestSort }: TableHeadProps) {
 
-  const createSortHandler =
-    (property: SortableColumns) => (event: MouseEvent<unknown>) => {
+  const createSortHandler = (property: SortableColumns) => (event: MouseEvent<unknown>) => {
       onRequestSort(event, property);
-    };
+  };
 
+  const upSmallView= useMediaQuery((theme:any)=>theme.breakpoints.up('sm'));
   return (
     <TableHead>
       <TableRow>
-        {columns.map(({ id, label, align, width }) => (
-          <TableCell
-            key={id}
-            align={align}
-            sortDirection={orderBy === id ? order : false}
-            sx={{
-              width: width
-            }}
-          >
-            {id === 'actions' ? (
-              <p style={{ cursor: 'default', userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none' }}>
-                {label}
-              </p>
-            ) : (
-              <TableSortLabel
-                active={orderBy === id}
-                direction={orderBy === id ? order : 'asc'}
-                onClick={createSortHandler(id)}
-              >
-                {label}
-                {orderBy === id ? (
-                  <Box component="span" sx={visuallyHidden}>
-                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </Box>
-                ) : null}
-              </TableSortLabel>
-            )}
-          </TableCell>
-        ))}
+        {columns.map(({ id, label, align, width }) => {
+          if(!upSmallView && id === 'description') {
+            return
+          }
+          return (
+            <TableCell
+              key={id}
+              align={align}
+              sortDirection={orderBy === id ? order : false}
+              sx={{
+                width: width
+              }}
+            >
+              {id === 'actions' ? (
+                <Typography
+                  style={{ cursor: 'default', userSelect: 'none', WebkitUserSelect: 'none', MozUserSelect: 'none' }}
+                  fontSize={headerFontSize}
+                >
+                  {label}
+                </Typography>
+              ) : (
+                <TableSortLabel
+                  active={orderBy === id}
+                  direction={orderBy === id ? order : 'asc'}
+                  onClick={createSortHandler(id)}
+                >
+                  <Typography
+                    fontSize={headerFontSize}
+                  >
+                  {label}
+                  </Typography>
+                  {orderBy === id ? (
+                    <Box component="span" sx={visuallyHidden}>
+                      {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                    </Box>
+                  ) : null}
+                </TableSortLabel>
+              )}
+            </TableCell>
+          )
+        })}
       </TableRow>
     </TableHead>
   );

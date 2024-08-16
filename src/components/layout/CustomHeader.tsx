@@ -73,8 +73,11 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
               mr: 2,
               display: { sm: 'flex', md: 'flex' },
               flexGrow: 1,
+              // margin: 'auto',
               fontFamily: title.style.fontFamily,
-              fontSize: {xs: '1.8rem', sm: '2.5rem', md: '3rem'},
+              fontSize: {xs: '2.5rem', sm:'2.75rem', md:'3rem', lg:'3.25rem'},
+              lineHeight: 1.2,
+                //{xs: '1.8rem', sm: '2.5rem', md: '3rem'},
               color: 'primary.main',
               textDecoration: 'none',
             }}

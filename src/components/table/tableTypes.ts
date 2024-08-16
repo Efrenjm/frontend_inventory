@@ -1,6 +1,6 @@
 export type Order = 'asc' | 'desc';
-export type SortableColumns = 'id' | 'name';
-export type TableColumns = 'id' | 'name' | 'actions';
+export type SortableColumns = 'id' | 'name' | 'description';
+export type TableColumns = 'id' | 'name' | 'description' | 'actions';
 
 export interface Columns {
   id: TableColumns;
@@ -12,6 +12,7 @@ export interface Columns {
 export interface TableFields {
   id: number,
   name: string,
+  description: string,
 }
 
 export interface ModalSettings {

@@ -12,7 +12,6 @@ const Searching = dynamic(() => import('@/components/animations/Searching'), {ss
 export default function PopulatedTable() {
 
   const { data, loading, error } = useQuery(getAllItems);
-
   let content = <></>;
 
   if (loading || (error && error.message !== "Not found")) {
@@ -45,7 +44,8 @@ export default function PopulatedTable() {
       try {
         return {
           id: parseInt(item?.id!),
-          name: item?.name!
+          name: item?.name!,
+          description: item?.description!
         };
       } catch (e) {
         return null;
