@@ -11,13 +11,12 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import Container from "@mui/material/Container";
 
 const AnimatedIcon = dynamic(
   () => import('@/components/animations/AnimatedIcon'),
   { ssr: false }
 );
-const paginationFontSize = {xs: '1.5rem', sm:'1.75rem', md:'2rem', lg:'2.25rem'}
+const paginationFontSize = {xs: '1.25rem', md:'1.5rem', lg:'1.75rem'};
 
 interface TableFrameProps {
   children: ReactNode;
@@ -71,19 +70,25 @@ export default function TableFrame({
   }
   let addIconSize = 36;
   let pagIconSize = 'small';
+  let textFieldSize: "small" | "medium" = 'small';
   if (breakpoints.xl) {
-    pagIconSize = 'large'
+    textFieldSize = 'small'
+    pagIconSize = 'medium'
     addIconSize = 48;
   } else if (breakpoints.lg) {
-    pagIconSize = 'medium'
+    textFieldSize = 'small'
+    pagIconSize = 'small'
     addIconSize = 48;
   } else if (breakpoints.md) {
-    pagIconSize = 'medium'
+    textFieldSize = 'small'
+    pagIconSize = 'small'
     addIconSize = 48;
   } else if (breakpoints.sm) {
+    textFieldSize = 'small'
     pagIconSize = 'small'
     addIconSize = 36;
   } else if (breakpoints.xs) {
+    textFieldSize = 'small'
     pagIconSize = 'small'
     addIconSize = 32;
   }
@@ -107,7 +112,7 @@ export default function TableFrame({
     >
       <Toolbar
         sx={{
-          height: {xs: '6rem', sm: '6rem', md: '8rem'},
+          height: '6rem',
           width: '100%',
           flexShrink: 0,
           paddingX: {xs: 1, sm:2, md:3},
@@ -119,10 +124,9 @@ export default function TableFrame({
         }}
       >
         <Typography
-          fontSize={{xs: '2rem', sm:'2.25rem', md:'2.5rem', lg:'2.75rem'}}
+          fontSize={{xs: '1.5rem', sm:'1.75rem', md:'2rem', lg:'2.25rem'}}
           sx={{
             flex: '1 1 100%',
-            // fontSize: { xs: '1.7rem', sm: '2.2rem', md: '2.6rem', lg: '3rem' },
             paddingLeft: '10px',
           }}
           variant="h6"
@@ -139,43 +143,26 @@ export default function TableFrame({
           variant="filled"
           value={searchFilter}
           onChange={handleFilter}
-          margin="none"
           sx={{
             width: '100%',
             maxWidth: '300px',
-            // height: '1.5rem',
+            // height: '3rem',
             padding:0,
             bgcolor: '#fff',
             borderRadius: '50px',
             // ml: 4
           }}
           InputProps={{
-            // size: 'small',
+            size: textFieldSize,
             sx: {
               paddingX: 2,
-              lineHeight: 0.5,
-            //   fontSize: {xs:'1.5rem', sm:'2rem', md: '2.5rem'},
-            //   // height: '20px'
-            //   // pt:2,
-            //   pb:0
+              backgroundColor: 'transparent',
             }
           }}
           InputLabelProps={{
-            // size: 'normal'
-            // style: {
-            //   // height: {xs: '1.5rem', sm: '2rem', md: '3rem'},
-            //   top: '5px'
-            //   // ...(!focused && { top: `${labelOffset}px` }),
-            // },
             sx: {
               pl: 2,
-              lineHeight:0.5,
-              top: '10px'
-            //   // position: 'absolute',
-            //   // top: 0,
-            //   height: {xs: '1.5rem', sm: '2rem', md: '2.5rem'},
-            //   top: {xs: '5px', sm: '10px', md: '15px'},
-            //   fontSize: {xs: '1.5rem', sm: '2rem', md: '2.5rem'},
+              lineHeight:0.8,
             }
           }}
         />
@@ -195,7 +182,7 @@ export default function TableFrame({
       >
       {children}
       </Box>
-      {/* @ts-ignore*/}
+      {/* @ts-ignore */}
       <TablePagination
         rowsPerPageOptions={[
           {value: 10, label: <Typography fontSize={paginationFontSize}>10</Typography>},

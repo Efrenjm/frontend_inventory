@@ -51,17 +51,16 @@ export default function CustomRow({ row, modalHandler }: CustomRowProps) {
     >
       <TableCell align="left">
         <Typography
-          fontSize={{xs: '1.75rem', sm:'2rem', md:'2.25rem', lg:'2.5rem'}}
-          // fontSize={{sm:28, md:32, lg:36}}
+          fontSize={{xs: '1.25rem', sm:'1.5rem', md:'1.75rem', lg:'2rem'}}
         >
           {row.id}
         </Typography>
       </TableCell>
       <TableCell align="left">
         <Typography
-          // fontSize={{sm:28, md:32, lg:36}}
-          fontSize={{xs: '1.75rem', sm:'2rem', md:'2.25rem', lg:'2.5rem'}}
-          lineHeight={0.8}>
+          fontSize={{xs: '1.25rem', sm:'1.5rem', md:'1.75rem', lg:'2rem'}}
+          lineHeight={0.8}
+        >
           {row.name}
         </Typography>
       </TableCell>
@@ -72,8 +71,7 @@ export default function CustomRow({ row, modalHandler }: CustomRowProps) {
         }}
       >
         <Typography
-          // fontSize={{sm:22, md:24, lg:28}}
-          fontSize={{sm:'1.75rem', md:'2rem', lg:'2.25rem'}}
+          fontSize={{sm:'1.25rem', md:'1.5rem', lg:'1.75rem'}}
           lineHeight={1}
         >
           {row.description}

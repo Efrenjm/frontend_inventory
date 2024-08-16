@@ -22,7 +22,7 @@ interface CustomHeaderProps {
   handleDrawerToggle: () => void;
 }
 
-export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: CustomHeaderProps) {
+export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: CustomHeaderProps) {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -38,17 +38,22 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
 
   return (
     <AppBar
-      // position="fixed"
+      position={'absolute'}
       sx={{
-        height: '100px',
-        background: '#f2f2f2',
+        height: 100,
+        background: 'transparent',
         boxShadow: 'none',
-        width: { md: `calc(100% - ${drawerWidth}px)` },
-        ml: { md: `${drawerWidth}px` }
+        width: {md: `calc(100% - ${drawerWidth}px)`},
+        ml: {md: `${drawerWidth}px`}
       }}
     >
-      <Container>
-        <Toolbar disableGutters>
+      <Container sx={{width: "100%", margin: 0}}>
+        <Toolbar
+          disableGutters
+          sx={{
+            height: 100,
+          }}
+        >
           <Box
             sx={{
               flexGrow: 1,
@@ -62,22 +67,21 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { md: 'none' } }}
+              sx={{mr: 2, display: {md: 'none'}}}
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
           </Box>
           <Typography
             variant="h5"
+            align={'center'}
             sx={{
               mr: 2,
-              display: { sm: 'flex', md: 'flex' },
+              display: {sm: 'flex', md: 'flex'},
               flexGrow: 1,
-              // margin: 'auto',
               fontFamily: title.style.fontFamily,
-              fontSize: {xs: '2.5rem', sm:'2.75rem', md:'3rem', lg:'3.25rem'},
+              fontSize: {xs: '2.5rem', sm: '2.75rem', md: '3rem', lg: '3.25rem'},
               lineHeight: 1.2,
-                //{xs: '1.8rem', sm: '2.5rem', md: '3rem'},
               color: 'primary.main',
               textDecoration: 'none',
             }}
@@ -85,21 +89,21 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
             {headerTitle}
           </Typography>
 
-          <Box
-            sx={{
-              // position: 'fixed',
-              // right: 0,
-              // top: 0,
-              // padding: '10px'
-            }}
-          >
+          <Box>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Profile picture" src="/profile.png" />
+              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                <Avatar
+                  alt="Profile picture"
+                  src="/profile.png"
+                  sx={{
+                    width: {sm: 50, md: 60},
+                    height: {sm: 50, md: 60}
+                  }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{mt: '45px'}}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{

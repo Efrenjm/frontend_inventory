@@ -60,7 +60,7 @@ export default function AppFrame({ children }: AppFrameProps) {
 
             }}
           >
-            <Toolbar sx={{mb:'50px'}}/>
+            <Toolbar sx={{mb: '50px'}}/>
             {children}
           </Box>
         </Box>

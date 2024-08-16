@@ -32,7 +32,7 @@ const columns: readonly Columns[] = [
   }
 ];
 
-const headerFontSize = {xs: '1.75rem', sm:'2rem', md:'2.25rem', lg:'2.5rem'};
+const headerFontSize = {xs: '1.25rem', sm:'1.5rem', md:'1.75rem', lg:'2rem'};
 
 interface TableHeadProps {
   onRequestSort: (event: MouseEvent<unknown>, property: SortableColumns) => void;

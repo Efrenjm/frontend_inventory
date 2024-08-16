@@ -46,8 +46,18 @@ export default function Searching({ error, iconSize }: LoadingProps) {
       )}
 
       <div style={{height:'100px'}}>
-        <Typography variant="h4">{message.title}</Typography>
-        <Typography variant="subtitle1">{message.message}</Typography>
+        <Typography
+          variant="h4"
+          fontSize={{xs: '2.5rem', sm:'2.75rem', md:'3rem', lg:'3.25rem'}}
+        >
+          {message.title}
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          fontSize={{xs: '1.75rem', sm:'2rem', md:'2.25rem', lg:'2.5rem'}}
+        >
+          {message.message}
+        </Typography>
       </div>
     </Box>
   );
