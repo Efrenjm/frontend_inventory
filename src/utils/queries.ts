@@ -1,4 +1,4 @@
-import { gql } from '@/__generated__/gql';
+import { gql } from "@/__generated__/gql";
 
 export const getAllItems = gql(`
     query GetAllItems {
@@ -6,6 +6,9 @@ export const getAllItems = gql(`
             id
             name
             description
+            location {
+                state
+            }
         }
     }
 `);

@@ -4,7 +4,7 @@ import {
   Exact,
   ItemInput,
   UpdateItemMutation,
-  UpdateItemMutationVariables
+  UpdateItemMutationVariables,
 } from "@/__generated__/graphql";
 
 export interface Location {
@@ -22,17 +22,17 @@ export interface Item {
 }
 
 export interface gqlItemOutput {
-  __typename?: 'Item',
-  id?: string | null,
-  name?: string | null,
-  description?: string | null,
+  __typename?: "Item";
+  id?: string | null;
+  name?: string | null;
+  description?: string | null;
   location?: {
-    __typename?: 'Location',
-    id?: string | null,
-    address?: string | null,
-    phoneNumber?: string | null,
-    state?: string | null
-  } | null
+    __typename?: "Location";
+    id?: string | null;
+    address?: string | null;
+    phoneNumber?: string | null;
+    state?: string | null;
+  } | null;
 }
 
 export interface FormValues {
@@ -43,11 +43,15 @@ export interface FormValues {
     id: string;
     state: string;
     address: string;
-    phoneNumber: string
+    phoneNumber: string;
   };
 }
-
-type invalidNode = { error: boolean, message: string };
+export interface FilterFields {
+  id?: number;
+  name?: string;
+  state: string[];
+}
+type invalidNode = { error: boolean; message: string };
 
 export interface FormInvalidValues {
   id: invalidNode;
@@ -57,5 +61,21 @@ export interface FormInvalidValues {
   locationPhoneNumber: invalidNode;
 }
 
-export type CreateItemMutationFunction = (options?: (MutationFunctionOptions<CreateItemMutation, Exact<{ item: ItemInput }>, DefaultContext, ApolloCache<any>> | undefined)) => Promise<FetchResult<CreateItemMutation>>
-export type UpdateItemMutationFunction = (options?: MutationFunctionOptions<UpdateItemMutation, UpdateItemMutationVariables, DefaultContext, ApolloCache<any>>) => Promise<FetchResult<UpdateItemMutation>>
+export type CreateItemMutationFunction = (
+  options?:
+    | MutationFunctionOptions<
+        CreateItemMutation,
+        Exact<{ item: ItemInput }>,
+        DefaultContext,
+        ApolloCache<any>
+      >
+    | undefined
+) => Promise<FetchResult<CreateItemMutation>>;
+export type UpdateItemMutationFunction = (
+  options?: MutationFunctionOptions<
+    UpdateItemMutation,
+    UpdateItemMutationVariables,
+    DefaultContext,
+    ApolloCache<any>
+  >
+) => Promise<FetchResult<UpdateItemMutation>>;
