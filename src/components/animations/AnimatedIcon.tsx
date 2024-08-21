@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { MouseEvent, useRef } from "react";
 import IconButton from "@mui/material/IconButton";
 import { Player } from "@lordicon/react";
@@ -15,9 +15,10 @@ import location from "../../../public/icons/location_pin.json";
 import money from "../../../public/icons/money.json";
 import save from "../../../public/icons/save.json";
 import trash from "../../../public/icons/trash_bin.json";
+import add_green from "../../../public/icons/add_green.json";
 
 export const iconMapper = {
-  add: add,
+  add: add_green,
   edit: edit,
   delete: trash,
   back: back,
@@ -32,7 +33,7 @@ export const iconMapper = {
 };
 
 interface AnimatedIconProps {
-  icon: keyof (typeof iconMapper);
+  icon: keyof typeof iconMapper;
   size?: number;
   onClick?: (event: MouseEvent) => void;
 }
@@ -48,13 +49,14 @@ export default function AnimatedIcon({ icon, size, onClick }: AnimatedIconProps)
       size="small"
       aria-label={icon}
     >
-      {lottie &&
+      {lottie && (
         <Player
           ref={iconRef}
           icon={lottie}
           size={size ? size : 22}
+          onComplete={() => iconRef.current?.goToFirstFrame()}
         />
-      }
+      )}
     </IconButton>
   );
 }

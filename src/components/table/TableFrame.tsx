@@ -2,6 +2,7 @@ import { ChangeEvent, ReactNode, useEffect } from "react";
 import {
   Autocomplete,
   Box,
+  Checkbox,
   Grid,
   Paper,
   TablePagination,
@@ -15,7 +16,11 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { FilterFields } from "@/utils/types";
 import { TableFields } from "./tableTypes";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const AnimatedIcon = dynamic(() => import("@/components/animations/AnimatedIcon"), { ssr: false });
 const paginationFontSize = { xs: "1.25rem", md: "1.5rem", lg: "1.75rem" };
 
@@ -60,28 +65,41 @@ export default function TableFrame({
     }
 
     if (setSearchFilter) {
-      const newId = parseInt(event.target.value, 10);
+      const newId = event.target.value;
       const updatedFilterFields: FilterFields = {
         state: [],
         ...searchFilter,
-        id: isNaN(newId) ? undefined : newId,
+        id: newId ?? "",
       };
+      console.log("Search filter ID:" + updatedFilterFields?.id);
+
       setSearchFilter(updatedFilterFields);
     }
   };
-  const handleNameFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  const handleNameFilter = (newName: string) => {
     if (setPage) {
       setPage(0);
     }
-
     if (setSearchFilter) {
-      const newName = event.target.value;
       const updatedFilterFields: FilterFields = {
         state: [],
         ...searchFilter,
-        name: newName ? "" : newName,
+        name: newName ?? "",
       };
+      console.log("Search filter Name:" + updatedFilterFields?.name);
+      setSearchFilter(updatedFilterFields);
+    }
+  };
+  const handleStateFilter = (states: string[]) => {
+    if (setPage) {
+      setPage(0);
+    }
+    if (setSearchFilter) {
+      const updatedFilterFields: FilterFields = {
+        ...searchFilter,
+        state: states,
+      };
+      console.log("Search filter Name:" + updatedFilterFields?.state);
       setSearchFilter(updatedFilterFields);
     }
   };
@@ -119,199 +137,268 @@ export default function TableFrame({
   }
 
   return (
-    <Paper
-      elevation={1}
+    <Grid
+      display="grid"
       sx={{
-        minHeight: { xs: "600px", sm: "610px", md: "680px" },
-        height: "85vh",
+        gridTemplateRows: { xs: "auto auto 1fr auto", md: "auto 1fr auto" },
+        gridTemplateColumns: "3fr 9fr",
+        justifyContent: "space-beetween",
+        alignContent: "space-beetween",
+        minHeight: { xs: "600px" },
+        height: "70vh",
         maxHeight: { xs: "975px", sm: "1000px", md: "1100px", lg: "1170px" },
         minWidth: "345px",
         width: "auto",
         overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
         borderRadius: "20px",
         marginX: { xs: 1, sm: 2, md: 3, lg: 5 },
+
+        boxShadow: 1,
+        bgcolor: "background.paper",
       }}
     >
-      <Grid
-        container
-        sx={{
-          width: "100%",
-          height: "auto",
-        }}
-      >
-        <Grid item xs={12}>
-          <Toolbar
-            sx={{
-              height: "4rem",
-              width: "100%",
-              flexShrink: 0,
-              paddingX: { xs: 1, sm: 2, md: 3 },
-              bgcolor: "primary.main",
-              borderRadius: "20px 20px 0 0",
-              fontPalette: "primary.secondary",
-              color: "#fff",
-              gap: "10px",
-            }}
-          >
-            <Typography
-              fontSize={{ xs: "1.5rem", sm: "1.75rem", md: "2rem", lg: "2.25rem" }}
-              sx={{
-                flex: "1 1 100%",
-                paddingLeft: "10px",
-              }}
-              variant="h6"
-              id="tableTitle"
-              component="div"
-              lineHeight={1}
-            >
-              Showing {recordNumber ? recordNumber : 0} items
-            </Typography>
-
-            <AnimatedIcon icon={"add"} size={addIconSize} onClick={() => router.push("/newItem")} />
-          </Toolbar>
-        </Grid>
-        <Grid item xs={12} md={3} gridRow="span 2" sx={{ bgcolor: "primary.main", p: 1 }}>
-          <TextField
-            id="filled-search"
-            label="Search by ID"
-            type="search"
-            size="small"
-            variant="filled"
-            value={searchFilter?.id}
-            onChange={handleIdFilter}
-            sx={{
-              width: "16em",
-              maxWidth: "300px",
-              // height: '3rem',
-              padding: 0,
-              bgcolor: "#fff",
-              borderRadius: "50px",
-              // ml: 4
-            }}
-            InputProps={{
-              size: textFieldSize,
-              sx: {
-                paddingX: 2,
-                backgroundColor: "transparent",
-              },
-            }}
-            InputLabelProps={{
-              sx: {
-                pl: 2,
-                lineHeight: 0.8,
-              },
-            }}
-          />
-
-          <Autocomplete
-            id="name-search"
-            freeSolo
-            options={rows.map((item) => item.name)}
-            sx={{
-              width: "16em",
-              maxWidth: "300px",
-              // height: '3rem',
-
-              bgcolor: "#fff",
-              borderRadius: "50px",
-              // ml: 4
-            }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Search by name"
-                onChange={handleNameFilter}
-                value={searchFilter?.name}
-                size="small"
-                variant="filled"
-                InputProps={{
-                  ...params.InputProps,
-                  size: textFieldSize,
-                  type: "search",
-                  sx: {
-                    paddingLeft: 8,
-
-                    backgroundColor: "transparent",
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    pl: 2,
-                    lineHeight: 0.8,
-                  },
-                }}
-              />
-            )}
-          />
-        </Grid>
-
-        <Grid
-          item
-          xs={12}
-          md={9}
+      <Grid item gridColumn="span 2">
+        <Toolbar
           sx={{
-            overflowY: "auto",
-            maxHeight: {
-              xs: "calc(100vh - 330px)",
-              md: "calc(100vh - 250px)",
-            },
+            height: "4rem",
+            width: "100%",
+            flexShrink: 0,
+            paddingX: { xs: 1, sm: 2, md: 3 },
+            bgcolor: "primary.main",
+            borderRadius: "20px 20px 0 0",
+            fontPalette: "primary.secondary",
+            color: "#fff",
+            gap: "10px",
           }}
         >
-          {children}
-        </Grid>
-        <Grid item md={3} sx={{ display: { sx: "none" }, bgcolor: "primary.main" }}></Grid>
-
-        <Grid item xs={12} md={9} flex="end" height={"5rem"}>
-          {/* @ts-ignore */}
-          <TablePagination
-            rowsPerPageOptions={[
-              { value: 10, label: <Typography fontSize={paginationFontSize}>10</Typography> },
-              { value: 25, label: <Typography fontSize={paginationFontSize}>25</Typography> },
-              { value: 50, label: <Typography fontSize={paginationFontSize}>50</Typography> },
-            ]}
-            component="div"
-            count={recordNumber ? recordNumber : 0}
-            rowsPerPage={rowsPerPage ? rowsPerPage : 10}
-            page={page ? page : 0}
-            onPageChange={(_event, newPage) => (setPage ? setPage(newPage) : null)}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+          <Typography
+            fontSize={{ xs: "1.5rem", sm: "1.75rem", md: "2rem", lg: "2.25rem" }}
             sx={{
-              minHeight: "60px",
-              flexShrink: 0,
-              width: "100%",
+              flex: "1 1 100%",
+              paddingLeft: "10px",
             }}
-            labelDisplayedRows={({ from, to, count }) => (
-              <Typography component="span" fontSize={paginationFontSize}>
-                {`${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`}
-              </Typography>
-            )}
-            labelRowsPerPage={
-              <Typography component="span" variant="body1" fontSize={paginationFontSize}>
-                Rows per page:
-              </Typography>
-            }
-            slotProps={{
-              select: {
-                sx: {
-                  paddingRight: "10px",
-                  marginLeft: "0",
-                  marginRight: "5px",
-                  fontSize: paginationFontSize,
-                },
-              },
-              actions: {
-                previousButton: { size: "small", sx: { padding: 0 } },
-                previousButtonIcon: { fontSize: pagIconSize },
-                nextButton: { size: "small", sx: { padding: 0 } },
-                nextButtonIcon: { fontSize: pagIconSize },
-              },
-            }}
-          />
-        </Grid>
+            variant="h6"
+            id="tableTitle"
+            component="div"
+            lineHeight={1}
+          >
+            Showing {recordNumber ? recordNumber : 0} items
+          </Typography>
+
+          <AnimatedIcon icon={"add"} size={addIconSize} onClick={() => router.push("/newItem")} />
+        </Toolbar>
       </Grid>
-    </Paper>
+      <Grid
+        container
+        alignItems="flex-start"
+        justifyContent="flex-start"
+        direction={{
+          xs: "row",
+          md: "column",
+        }}
+        item
+        sx={{
+          gridRow: { xs: "span 1", md: "span 2" },
+          gridColumn: { xs: "span 2", md: "span 1" },
+          bgcolor: "primary.main",
+          p: 1,
+        }}
+        gap={2}
+      >
+        <TextField
+          id="filled-search"
+          label="Search by ID"
+          type="search"
+          size="small"
+          variant="filled"
+          value={searchFilter?.id}
+          onChange={handleIdFilter}
+          sx={{
+            width: { xs: "15%", md: "100%" },
+            minWidth: "180px",
+            padding: 0,
+            bgcolor: "#fff",
+            borderRadius: "10px",
+            // ml: 4
+          }}
+          InputProps={{
+            size: textFieldSize,
+            sx: {
+              paddingX: 2,
+              backgroundColor: "transparent",
+              borderRadius: "15px",
+            },
+            endAdornment: false,
+          }}
+          InputLabelProps={{
+            sx: {
+              pl: 2,
+              lineHeight: 0.8,
+              overflow: "visible",
+            },
+          }}
+        />
+
+        <Autocomplete
+          id="name-search"
+          freeSolo
+          options={Array.from(new Set(rows.map((item) => item.name)))}
+          clearOnEscape={false}
+          sx={{
+            width: { md: "100%" },
+            minWidth: "180px",
+            paddingLeft: 0,
+            bgcolor: "#fff",
+            borderRadius: "10px",
+            // ml: 4
+          }}
+          onInputChange={(event, newInputValue) => {
+            handleNameFilter(newInputValue);
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search by name"
+              value={searchFilter?.name}
+              size="small"
+              variant="filled"
+              sx={{ paddingLeft: 2 }}
+              InputProps={{
+                ...params.InputProps,
+                size: textFieldSize,
+                sx: {
+                  paddingLeft: 4,
+                  backgroundColor: "transparent",
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  pl: 2,
+                  lineHeight: 0.8,
+                  overflow: "visible",
+                },
+              }}
+            />
+          )}
+        />
+
+        <Autocomplete
+          id="states-filter"
+          multiple
+          options={Array.from(new Set(rows.map((item) => item.state)))}
+          disableCloseOnSelect
+          getOptionLabel={(option) => option}
+          renderOption={(props, option, { selected }) => {
+            const { key, ...optionProps } = props;
+            return (
+              <li key={key} {...optionProps}>
+                <Checkbox
+                  icon={icon}
+                  checkedIcon={checkedIcon}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                />
+                {option}
+              </li>
+            );
+          }}
+          sx={{
+            width: { md: "100%" },
+            minWidth: "200px",
+            paddingLeft: 0,
+            bgcolor: "#fff",
+            borderRadius: "10px",
+            // ml: 4
+          }}
+          onChange={(event, value) => {
+            handleStateFilter(value);
+          }}
+          value={searchFilter?.state || []}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search by state"
+              size="small"
+              variant="filled"
+              sx={{ paddingLeft: 2 }}
+              InputProps={{
+                ...params.InputProps,
+                size: textFieldSize,
+                sx: {
+                  paddingLeft: 4,
+                  backgroundColor: "transparent",
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  pl: 2,
+                  lineHeight: 0.8,
+                  overflow: "visible",
+                },
+              }}
+            />
+          )}
+        />
+      </Grid>
+
+      <Grid item overflow="auto" sx={{ gridColumn: { xs: "span 2", md: "span 1" } }}>
+        {children}
+      </Grid>
+
+      <Grid
+        item
+        sx={{
+          bgcolor: "background.paper",
+          gridColumn: { xs: "span 2", md: "span 1" },
+        }}
+      >
+        {/* <Grid item xs={12} md={9} flex="end" height={"5rem"}> */}
+        {/* @ts-ignore */}
+        <TablePagination
+          rowsPerPageOptions={[
+            { value: 10, label: <Typography fontSize={paginationFontSize}>10</Typography> },
+            { value: 25, label: <Typography fontSize={paginationFontSize}>25</Typography> },
+            { value: 50, label: <Typography fontSize={paginationFontSize}>50</Typography> },
+          ]}
+          component="div"
+          count={recordNumber ? recordNumber : 0}
+          rowsPerPage={rowsPerPage ? rowsPerPage : 10}
+          page={page ? page : 0}
+          onPageChange={(_event, newPage) => (setPage ? setPage(newPage) : null)}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          sx={{
+            minHeight: "60px",
+            flexShrink: 0,
+            width: "100%",
+          }}
+          labelDisplayedRows={({ from, to, count }) => (
+            <Typography component="span" fontSize={paginationFontSize}>
+              {`${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`}
+            </Typography>
+          )}
+          labelRowsPerPage={
+            <Typography component="span" variant="body1" fontSize={paginationFontSize}>
+              Rows per page:
+            </Typography>
+          }
+          slotProps={{
+            select: {
+              sx: {
+                paddingRight: "10px",
+                marginLeft: "0",
+                marginRight: "5px",
+                fontSize: paginationFontSize,
+              },
+            },
+            actions: {
+              previousButton: { size: "small", sx: { padding: 0 } },
+              previousButtonIcon: { fontSize: pagIconSize },
+              nextButton: { size: "small", sx: { padding: 0 } },
+              nextButtonIcon: { fontSize: pagIconSize },
+            },
+          }}
+        />
+      </Grid>
+    </Grid>
   );
 }

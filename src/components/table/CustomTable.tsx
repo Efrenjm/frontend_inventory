@@ -20,7 +20,7 @@ export default function CustomTable({ rows }: CustomTableProps) {
   const [page, setPage] = useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [searchFilter, setSearchFilter] = useState<FilterFields>({
-    id: undefined,
+    id: "",
     name: "",
     state: [],
   });
@@ -33,7 +33,7 @@ export default function CustomTable({ rows }: CustomTableProps) {
   };
 
   const filteredRows: TableFields[] = rows.filter((row) => {
-    const idMatches = searchFilter.id === undefined || row.id === searchFilter.id;
+    const idMatches = !searchFilter.id || row.id.toString().includes(searchFilter.id);
     const nameMatches =
       !searchFilter.name || row.name.toLowerCase().includes(searchFilter.name.toLowerCase());
     const stateMatches = searchFilter.state.length === 0 || searchFilter.state.includes(row.state);
@@ -83,7 +83,7 @@ export default function CustomTable({ rows }: CustomTableProps) {
             // maxHeight: '760px'
           }}
         >
-          <Table aria-labelledby="tableTitle" stickyHeader>
+          <Table aria-labelledby="tableTitle" stickyHeader size="small">
             <CustomTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} />
             <CustomTableBody
               rows={visibleRows}

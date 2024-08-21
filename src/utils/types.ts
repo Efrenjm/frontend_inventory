@@ -47,7 +47,7 @@ export interface FormValues {
   };
 }
 export interface FilterFields {
-  id?: number;
+  id?: string;
   name?: string;
   state: string[];
 }

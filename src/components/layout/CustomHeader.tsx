@@ -1,20 +1,20 @@
-'use client';
-import { useState, useContext } from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import { title } from '@/theme';
-import { TitleContext } from '@/components/layout/AppFrame';
+"use client";
+import { useState, useContext } from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { title } from "@/theme";
+import { TitleContext } from "@/components/layout/AppFrame";
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 interface CustomHeaderProps {
   sx?: React.CSSProperties;
@@ -22,32 +22,31 @@ interface CustomHeaderProps {
   handleDrawerToggle: () => void;
 }
 
-export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: CustomHeaderProps) {
+export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: CustomHeaderProps) {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const {title: headerTitle} = useContext(TitleContext);
+  const { title: headerTitle } = useContext(TitleContext);
 
   return (
     <AppBar
-      position={'absolute'}
+      position={"absolute"}
       sx={{
         height: 100,
-        background: 'transparent',
-        boxShadow: 'none',
-        width: {md: `calc(100% - ${drawerWidth}px)`},
-        ml: {md: `${drawerWidth}px`}
+        background: "transparent",
+        boxShadow: "none",
+        width: { md: `calc(100% - ${drawerWidth}px)` },
+        ml: { md: `${drawerWidth}px` },
       }}
     >
-      <Container sx={{width: "100%", margin: 0}}>
+      <Container sx={{ width: "100%", margin: 0 }}>
         <Toolbar
           disableGutters
           sx={{
@@ -58,32 +57,34 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
             sx={{
               flexGrow: 1,
               display: {
-                sm: 'flex',
-                md: 'none'
-              }
+                sm: "flex",
+                md: "none",
+              },
             }}
           >
             <IconButton
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{mr: 2, display: {md: 'none'}}}
+              sx={{ mr: 2, display: { md: "none" } }}
             >
-              <MenuIcon/>
+              <MenuIcon />
             </IconButton>
           </Box>
           <Typography
-            variant="h5"
-            align={'center'}
+            variant="h2"
+            align={"center"}
             sx={{
               mr: 2,
-              display: {sm: 'flex', md: 'flex'},
+              display: { sm: "flex", md: "flex" },
               flexGrow: 1,
               fontFamily: title.style.fontFamily,
-              fontSize: {xs: '2.5rem', sm: '2.75rem', md: '3rem', lg: '3.25rem'},
+              fontWeight: "bold",
+              fontSize: { xs: "2rem", sm: "2.25rem", md: "2.5rem", lg: "2.75rem" },
               lineHeight: 1.2,
-              color: 'primary.main',
-              textDecoration: 'none',
+              color: "#F0E6D2", //"primary.main",
+              textDecoration: "none",
+              textTransform: "uppercase",
             }}
           >
             {headerTitle}
@@ -91,29 +92,29 @@ export default function CustomHeader({sx, drawerWidth, handleDrawerToggle}: Cust
 
           <Box>
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
                   alt="Profile picture"
                   src="/profile.png"
                   sx={{
-                    width: {sm: 50, md: 60},
-                    height: {sm: 50, md: 60}
+                    width: { sm: 50, md: 60 },
+                    height: { sm: 50, md: 60 },
                   }}
                 />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{mt: '45px'}}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}

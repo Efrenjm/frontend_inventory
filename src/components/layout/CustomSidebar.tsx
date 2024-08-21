@@ -1,21 +1,17 @@
 // import * as React from 'react';
 
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import dynamic from 'next/dynamic';
-import { iconMapper } from '@/components/animations/AnimatedIcon';
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import dynamic from "next/dynamic";
+import { iconMapper } from "@/components/animations/AnimatedIcon";
 
-const AnimatedIcon = dynamic(
-  () => import('@/components/animations/AnimatedIcon'),
-  { ssr: false }
-);
-
+const AnimatedIcon = dynamic(() => import("@/components/animations/AnimatedIcon"), { ssr: false });
 
 interface CustomSidebarProps {
   drawerWidth: number;
@@ -24,27 +20,31 @@ interface CustomSidebarProps {
   handleDrawerClose: () => void;
 }
 
-export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTransitionEnd, handleDrawerClose}: CustomSidebarProps) {
+export default function CustomSidebar({
+  drawerWidth,
+  mobileOpen,
+  handleDrawerTransitionEnd,
+  handleDrawerClose,
+}: CustomSidebarProps) {
   if (!drawerWidth) {
     drawerWidth = 80;
   }
 
   const drawer = (
     <div>
-      <Toolbar/>
+      <Toolbar />
       <List>
-        {['home', 'document', 'bookmarks', 'barChart', 'clock', 'location', 'money'].map((text, index) => (
-          <ListItem
-            key={text}
-            disablePadding
-          >
-            <ListItemButton>
-              <AnimatedIcon icon={text as keyof (typeof iconMapper)} size={36} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {["home", "document", "bookmarks", "barChart", "clock", "location", "money"].map(
+          (text, index) => (
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <AnimatedIcon icon={text as keyof typeof iconMapper} size={36} />
+              </ListItemButton>
+            </ListItem>
+          )
+        )}
       </List>
-      <Divider/>
+      <Divider />
     </div>
   );
 
@@ -52,16 +52,16 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
     <Box
       component="nav"
       sx={{
-        width: {md: drawerWidth},
-        height: '100vh',
-        flexShrink: {md: 0}
+        width: { md: drawerWidth },
+        height: "100vh",
+        flexShrink: { md: 0 },
       }}
       aria-label="mailbox folders"
     >
       <Drawer
         variant="temporary"
         PaperProps={{
-          sx:{bgcolor:'primary.main'}
+          sx: { bgcolor: "primary.main" },
         }}
         open={mobileOpen}
         onTransitionEnd={handleDrawerTransitionEnd}
@@ -70,9 +70,9 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
           keepMounted: true,
         }}
         sx={{
-          display: {sm: 'block', md: 'none'},
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
+          display: { sm: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
             width: drawerWidth,
           },
         }}
@@ -92,12 +92,12 @@ export default function CustomSidebar({drawerWidth, mobileOpen, handleDrawerTran
       <Drawer
         variant="permanent"
         PaperProps={{
-          sx:{bgcolor:'primary.main'}
+          sx: { background: "linear-gradient(180deg, #005A82, #0AC8B9)" },
         }}
         sx={{
-          display: {xs: 'none', md: 'block'},
-          '& .MuiDrawer-paper': {
-            boxSizing: 'border-box',
+          display: { xs: "none", md: "block" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
             width: drawerWidth,
           },
         }}
