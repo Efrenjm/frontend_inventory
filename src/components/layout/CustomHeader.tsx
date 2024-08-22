@@ -82,7 +82,7 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
               fontWeight: "bold",
               fontSize: { xs: "2rem", sm: "2.25rem", md: "2.5rem", lg: "2.75rem" },
               lineHeight: 1.2,
-              color: "#F0E6D2", //"primary.main",
+              color: "primary.light", //"primary.main",
               textDecoration: "none",
               textTransform: "uppercase",
             }}

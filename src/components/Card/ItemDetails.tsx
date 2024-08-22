@@ -10,7 +10,6 @@ import {
   UpdateItemMutationFunction,
 } from "@/utils/types";
 import BackgroundCard from "@/components/card/BackgroundCard";
-
 import SaveButtons from "@/components/card/SaveButtons";
 import FormFields from "@/components/card/FormFields";
 import { generateFormValues } from "@/utils/dataManipulation";

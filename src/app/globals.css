@@ -87,6 +87,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: "Spiegel";
+  src: url("../fonts/Spiegel/Spiegel_TT_Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
 * {
   box-sizing: border-box;
   padding: 0;

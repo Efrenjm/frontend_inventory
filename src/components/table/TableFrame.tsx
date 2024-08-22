@@ -4,6 +4,8 @@ import {
   Box,
   Checkbox,
   Grid,
+  IconButton,
+  ListItem,
   Paper,
   TablePagination,
   TextField,
@@ -18,6 +20,8 @@ import { FilterFields } from "@/utils/types";
 import { TableFields } from "./tableTypes";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import ClearIcon from "@mui/icons-material/Clear";
+import { title } from "@/theme";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -58,14 +62,12 @@ export default function TableFrame({
     }
   };
 
-  const handleIdFilter = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
+  const handleIdFilter = (newId: string) => {
     if (setPage) {
       setPage(0);
     }
 
     if (setSearchFilter) {
-      const newId = event.target.value;
       const updatedFilterFields: FilterFields = {
         state: [],
         ...searchFilter,
@@ -135,26 +137,38 @@ export default function TableFrame({
     pagIconSize = "small";
     addIconSize = 32;
   }
-
+  const fontSizes = { xs: "1rem", sm: "1.25rem", md: "1.25rem", lg: "1.5rem" };
+  const textFieldHeights = { xs: "2.5rem", sm: "3rem", md: "3.5rem", lg: "auto" };
+  const inputLabelProps = {
+    pl: 0,
+    lineHeight: 0.8,
+    overflow: "visible",
+    fontSize: fontSizes,
+    color: "primary.contrastText",
+    '&[data-shrink="true"]': {
+      color: "rgba(240, 230, 210,0.7)", //primary.contrastText
+    },
+  };
   return (
     <Grid
       display="grid"
+      height="75vh"
       sx={{
         gridTemplateRows: { xs: "auto auto 1fr auto", md: "auto 1fr auto" },
-        gridTemplateColumns: "3fr 9fr",
+        gridTemplateColumns: { xs: "3fr minmax(0, 9fr)", lg: "300px 1fr" },
         justifyContent: "space-beetween",
         alignContent: "space-beetween",
         minHeight: { xs: "600px" },
-        height: "70vh",
+        //height: "70vh",
         maxHeight: { xs: "975px", sm: "1000px", md: "1100px", lg: "1170px" },
+
         minWidth: "345px",
         width: "auto",
         overflow: "hidden",
         borderRadius: "20px",
         marginX: { xs: 1, sm: 2, md: 3, lg: 5 },
-
-        boxShadow: 1,
-        bgcolor: "background.paper",
+        boxShadow: "0px 4px 10px rgba( 10, 200, 185, 0.3)",
+        bgcolor: "primary.dark",
       }}
     >
       <Grid item gridColumn="span 2">
@@ -162,9 +176,9 @@ export default function TableFrame({
           sx={{
             height: "4rem",
             width: "100%",
-            flexShrink: 0,
+            flexShrink: 1,
             paddingX: { xs: 1, sm: 2, md: 3 },
-            bgcolor: "primary.main",
+            bgcolor: "primary.dark",
             borderRadius: "20px 20px 0 0",
             fontPalette: "primary.secondary",
             color: "#fff",
@@ -173,6 +187,9 @@ export default function TableFrame({
         >
           <Typography
             fontSize={{ xs: "1.5rem", sm: "1.75rem", md: "2rem", lg: "2.25rem" }}
+            fontFamily={title.style.fontFamily}
+            fontWeight="700"
+            color="primary.contrastText"
             sx={{
               flex: "1 1 100%",
               paddingLeft: "10px",
@@ -200,42 +217,50 @@ export default function TableFrame({
         sx={{
           gridRow: { xs: "span 1", md: "span 2" },
           gridColumn: { xs: "span 2", md: "span 1" },
-          bgcolor: "primary.main",
-          p: 1,
+          bgcolor: "primary.dark",
+          p: { xs: 1, md: 2 },
         }}
         gap={2}
       >
         <TextField
           id="filled-search"
           label="Search by ID"
-          type="search"
           size="small"
           variant="filled"
           value={searchFilter?.id}
-          onChange={handleIdFilter}
+          onChange={(event) => {
+            handleIdFilter(event.target.value);
+          }}
           sx={{
             width: { xs: "15%", md: "100%" },
             minWidth: "180px",
             padding: 0,
-            bgcolor: "#fff",
-            borderRadius: "10px",
-            // ml: 4
+            bgcolor: "primary.dark",
+            border: "3px solid ",
+            borderImage: "linear-gradient(#C89B3C, #785A28) 1",
+            "& .MuiAutocomplete-clearIndicator": { color: "primary.light" },
+            "& .MuiAutocomplete-clearIndicator:hover": { color: "red" },
           }}
           InputProps={{
             size: textFieldSize,
             sx: {
-              paddingX: 2,
+              paddingX: 1,
               backgroundColor: "transparent",
-              borderRadius: "15px",
+              height: textFieldHeights,
+              color: "primary.contrastText",
             },
-            endAdornment: false,
+            endAdornment: (
+              <>
+                {searchFilter?.id !== "" && (
+                  <IconButton onClick={() => handleIdFilter("")} sx={{ color: "primary.light" }}>
+                    <ClearIcon />
+                  </IconButton>
+                )}
+              </>
+            ),
           }}
           InputLabelProps={{
-            sx: {
-              pl: 2,
-              lineHeight: 0.8,
-              overflow: "visible",
-            },
+            sx: inputLabelProps,
           }}
         />
 
@@ -247,10 +272,10 @@ export default function TableFrame({
           sx={{
             width: { md: "100%" },
             minWidth: "180px",
-            paddingLeft: 0,
-            bgcolor: "#fff",
-            borderRadius: "10px",
+            bgcolor: "primary.dark",
             // ml: 4
+            "& .MuiAutocomplete-clearIndicator": { color: "primary.light" },
+            "& .MuiAutocomplete-clearIndicator:hover": { color: "red" },
           }}
           onInputChange={(event, newInputValue) => {
             handleNameFilter(newInputValue);
@@ -260,23 +285,22 @@ export default function TableFrame({
               {...params}
               label="Search by name"
               value={searchFilter?.name}
-              size="small"
               variant="filled"
-              sx={{ paddingLeft: 2 }}
+              sx={{
+                paddingLeft: 1,
+                border: "3px solid ",
+                borderImage: "linear-gradient(#C89B3C, #785A28) 1",
+              }}
               InputProps={{
                 ...params.InputProps,
                 size: textFieldSize,
                 sx: {
-                  paddingLeft: 4,
-                  backgroundColor: "transparent",
+                  height: textFieldHeights,
+                  color: "primary.contrastText",
                 },
               }}
               InputLabelProps={{
-                sx: {
-                  pl: 2,
-                  lineHeight: 0.8,
-                  overflow: "visible",
-                },
+                sx: inputLabelProps,
               }}
             />
           )}
@@ -287,11 +311,12 @@ export default function TableFrame({
           multiple
           options={Array.from(new Set(rows.map((item) => item.state)))}
           disableCloseOnSelect
+          size="small"
           getOptionLabel={(option) => option}
           renderOption={(props, option, { selected }) => {
             const { key, ...optionProps } = props;
             return (
-              <li key={key} {...optionProps}>
+              <ListItem key={key} {...optionProps} sx={{ fontSize: fontSizes }}>
                 <Checkbox
                   icon={icon}
                   checkedIcon={checkedIcon}
@@ -299,16 +324,20 @@ export default function TableFrame({
                   checked={selected}
                 />
                 {option}
-              </li>
+              </ListItem>
             );
           }}
           sx={{
             width: { md: "100%" },
             minWidth: "200px",
             paddingLeft: 0,
-            bgcolor: "#fff",
-            borderRadius: "10px",
+            fontSize: "5",
+            bgcolor: "primary.dark",
+            color: "primmary.contrastText",
             // ml: 4
+            "& .MuiAutocomplete-clearIndicator": { color: "primary.light" },
+            "& .MuiAutocomplete-clearIndicator:hover": { color: "red" },
+            "& .MuiAutocomplete-popupIndicator": { color: "primary.light" },
           }}
           onChange={(event, value) => {
             handleStateFilter(value);
@@ -320,35 +349,45 @@ export default function TableFrame({
               label="Search by state"
               size="small"
               variant="filled"
-              sx={{ paddingLeft: 2 }}
+              sx={{
+                paddingLeft: 0,
+                border: "3px solid ",
+                borderImage: "linear-gradient(#C89B3C, #785A28) 1",
+              }}
               InputProps={{
                 ...params.InputProps,
                 size: textFieldSize,
                 sx: {
-                  paddingLeft: 4,
                   backgroundColor: "transparent",
+                  color: "primary.contrastText",
+                  "& .MuiAutocomplete-tag": { color: "primary.light", bgcolor: "#1E282D" },
+                  "& .MuiChip-deleteIcon": { color: "primary.light" },
+                  "& .MuiChip-deleteIcon:hover": { color: "red" },
                 },
               }}
               InputLabelProps={{
-                sx: {
-                  pl: 2,
-                  lineHeight: 0.8,
-                  overflow: "visible",
-                },
+                sx: inputLabelProps,
               }}
             />
           )}
         />
       </Grid>
 
-      <Grid item overflow="auto" sx={{ gridColumn: { xs: "span 2", md: "span 1" } }}>
+      <Grid
+        item
+        bgcolor="primary.dark"
+        overflow="auto"
+        sx={{ gridColumn: { xs: "span 2", md: "span 1" } }}
+      >
         {children}
       </Grid>
 
       <Grid
         item
+        bgcolor="primary.dark"
+        color="primary.contrastText"
+        borderTop="3px solid #C89B3C"
         sx={{
-          bgcolor: "background.paper",
           gridColumn: { xs: "span 2", md: "span 1" },
         }}
       >
@@ -370,6 +409,7 @@ export default function TableFrame({
             minHeight: "60px",
             flexShrink: 0,
             width: "100%",
+            color: "primary.contrastText",
           }}
           labelDisplayedRows={({ from, to, count }) => (
             <Typography component="span" fontSize={paginationFontSize}>

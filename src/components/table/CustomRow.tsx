@@ -46,14 +46,18 @@ export default function CustomRow({ row, modalHandler }: CustomRowProps) {
       }}
       data-testid={`custom-row-${row.id}`}
     >
-      <TableCell align="left" size="small" sx={{ p: 1 }}>
-        <Typography fontSize={{ xs: "1.25rem", sm: "1.5rem", md: "1.75rem", lg: "2rem" }}>
+      <TableCell align="center" size="small" sx={{ p: 1 }}>
+        <Typography
+          color="primary.contrastText"
+          fontSize={{ xs: "1rem", sm: "1.25rem", md: "1.5rem", lg: "1.5rem" }}
+        >
           {row.id}
         </Typography>
       </TableCell>
       <TableCell align="left" size="small" sx={{ p: 1 }}>
         <Typography
-          fontSize={{ xs: "1.25rem", sm: "1.5rem", md: "1.75rem", lg: "2rem" }}
+          color="primary.contrastText"
+          fontSize={{ xs: "1rem", sm: "1.25rem", md: "1.5rem", lg: "1.5rem" }}
           lineHeight={0.8}
         >
           {row.name}
@@ -67,7 +71,11 @@ export default function CustomRow({ row, modalHandler }: CustomRowProps) {
           p: 1,
         }}
       >
-        <Typography fontSize={{ sm: "1.25rem", md: "1.5rem", lg: "1.75rem" }} lineHeight={1}>
+        <Typography
+          color="primary.contrastText"
+          fontSize={{ xs: "1rem", sm: "1.25rem", md: "1.35rem", lg: "1.5rem" }}
+          lineHeight={1}
+        >
           {row.description}
         </Typography>
       </TableCell>

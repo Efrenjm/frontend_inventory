@@ -30,17 +30,18 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: "#005A82",
-      // light: '#1A2440',
-      // dark: '#002884',
-      contrastText: "#fff",
+      main: "#005A82", //azul fuerte
+      light: "#C89B3C", //dorado
+      dark: "#010a13", //negro
+      contrastText: "#F0E6D2", //blanco
     },
+
     secondary: {
       main: "#10c0e3",
       // light: '#ff7961',
       // main: '#F2F2F2',
       // dark: '#ba000d',
-      contrastText: "#000",
+      contrastText: "#C89B3C",
     },
   },
 });

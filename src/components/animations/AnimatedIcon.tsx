@@ -15,12 +15,14 @@ import location from "../../../public/icons/location_pin.json";
 import money from "../../../public/icons/money.json";
 import save from "../../../public/icons/save.json";
 import trash from "../../../public/icons/trash_bin.json";
+import trash_green from "../../../public/icons/trash_green.json";
 import add_green from "../../../public/icons/add_green.json";
+import edit_green from "../../../public/icons/edit_green.json";
 
 export const iconMapper = {
   add: add_green,
-  edit: edit,
-  delete: trash,
+  edit: edit_green,
+  delete: trash_green,
   back: back,
   save: save,
   home: home,
