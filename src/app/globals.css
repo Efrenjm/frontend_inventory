@@ -132,11 +132,11 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f2f2f2;
+  background: "primary.light";
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #c89b3c;
   border-radius: 20px;
 }
 

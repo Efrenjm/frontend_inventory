@@ -21,7 +21,7 @@ interface AnimatedButtonProps {
   isLoading?: boolean;
   onClick?: (e: MouseEvent) => void;
   text: string;
-  icon: keyof typeof iconMapper;
+  icon?: keyof typeof iconMapper;
   iconSize?: number;
   fontSize?: string;
   sx?: SxProps;
@@ -38,7 +38,7 @@ export default function AnimatedButton({
   typeProps,
 }: AnimatedButtonProps) {
   const iconRef = useRef<Player>(null);
-  const lottie = iconMapper[icon];
+  const lottie = icon ? iconMapper[icon] : false;
 
   return (
     <LoadingButton
@@ -55,6 +55,20 @@ export default function AnimatedButton({
       }
       sx={{
         padding: "10px 60px",
+        border: "3px solid transparent",
+        borderImage: "linear-gradient(#08abac, #01698b) 1",
+        borderRadius: 0,
+        background: "#1e2328",
+        transition: "all ease .5s",
+        ":hover": {
+          backgroundImage: `url('/btn.jpg')`,
+          backgroundPosition: "center center",
+          backgroundSize: "cover",
+          boxShadow:
+            "0 0 10px 4px rgba(192, 252, 253, .4), inset 0 0 5px 2px rgba(192, 252, 253, .3)",
+          border: "3px solid rgba(192, 252, 253, .75)",
+          cursor: "pointer",
+        },
         ...sx,
       }}
       onClick={onClick}

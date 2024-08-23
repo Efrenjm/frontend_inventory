@@ -61,7 +61,7 @@ export default function CustomSidebar({
       <Drawer
         variant="temporary"
         PaperProps={{
-          sx: { bgcolor: "primary.main" },
+          sx: { background: "linear-gradient(180deg, #005A82, #0AC8B9)" },
         }}
         open={mobileOpen}
         onTransitionEnd={handleDrawerTransitionEnd}

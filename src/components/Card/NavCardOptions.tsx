@@ -1,13 +1,9 @@
-'use client';
+"use client";
 import { useRouter } from "next/navigation";
 import { Box, Typography, Toolbar, SxProps } from "@mui/material";
 import dynamic from "next/dynamic";
 
-
-const AnimatedIcon = dynamic(
-  () => import('@/components/animations/AnimatedIcon'),
-  { ssr: false }
-);
+const AnimatedIcon = dynamic(() => import("@/components/animations/AnimatedIcon"), { ssr: false });
 
 interface NavCardOptionsProps {
   title?: string;
@@ -20,24 +16,27 @@ export default function NavCardOptions({ deletable, title, sx }: NavCardOptionsP
   return (
     <Toolbar
       sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        width: '100%',
-        ...sx
+        display: "flex",
+        justifyContent: "space-between",
+        width: "100%",
+        ...sx,
       }}
     >
-      <Box sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between'
-      }}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         <AnimatedIcon
-          icon='back'
-          onClick={() => { router.push('/items') }}
+          icon="back_white"
+          onClick={() => {
+            router.push("/items");
+          }}
           size={30}
         />
       </Box>
     </Toolbar>
-  )
+  );
 }

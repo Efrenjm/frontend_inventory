@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import { useState, useEffect, useRef } from "react";
 import { Player } from "@lordicon/react";
 
@@ -14,7 +14,7 @@ interface LoadingProps {
   iconSize?: number;
 }
 export default function Searching({ error, iconSize }: LoadingProps) {
-  const [message, setMessage] = useState({title: ' ', message: ' '});
+  const [message, setMessage] = useState({ title: " ", message: " " });
   const iconRef = useRef<Player>(null);
 
   useEffect(() => {
@@ -22,39 +22,49 @@ export default function Searching({ error, iconSize }: LoadingProps) {
   }, [error]);
 
   return (
-    <Box width="100%" sx={{display:'flex', justifyContent:'center', alignItems:'center', flexDirection:'column'}}>
-
+    <Box
+      width="100%"
+      p={2}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
       {!error ? (
         <Player
           ref={iconRef}
           icon={loadingIcon}
-          size={iconSize?? 200}
+          size={iconSize ?? 200}
           onComplete={!error ? () => iconRef.current?.playFromBeginning() : undefined}
-          />
+        />
       ) : (
         <Player
           ref={iconRef}
           icon={notFoundIcon}
-          size={iconSize?? 200}
-          onComplete={()=>{
+          size={iconSize ?? 200}
+          onComplete={() => {
             setMessage({
-              title: 'Ups... Something went wrong',
-              message: 'This service is not available at the moment, please try again later'
-          })
-        }}
+              title: "Ups... Something went wrong",
+              message: "This service is not available at the moment, please try again later",
+            });
+          }}
         />
       )}
 
-      <div style={{height:'100px'}}>
+      <div style={{ height: "100px" }}>
         <Typography
           variant="h4"
-          fontSize={{xs: '2.5rem', sm:'2.75rem', md:'3rem', lg:'3.25rem'}}
+          color={"primary.contrastText"}
+          fontSize={{ xs: "2.5rem", sm: "2.75rem", md: "3rem", lg: "3.25rem" }}
         >
           {message.title}
         </Typography>
         <Typography
+          color={"primary.contrastText"}
           variant="subtitle1"
-          fontSize={{xs: '1.75rem', sm:'2rem', md:'2.25rem', lg:'2.5rem'}}
+          fontSize={{ xs: "1.75rem", sm: "2rem", md: "2.25rem", lg: "2.5rem" }}
         >
           {message.message}
         </Typography>

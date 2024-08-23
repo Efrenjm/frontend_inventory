@@ -39,20 +39,15 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
     <AppBar
       position={"absolute"}
       sx={{
-        height: 100,
+        p: "20px",
         background: "transparent",
         boxShadow: "none",
         width: { md: `calc(100% - ${drawerWidth}px)` },
         ml: { md: `${drawerWidth}px` },
       }}
     >
-      <Container sx={{ width: "100%", margin: 0 }}>
-        <Toolbar
-          disableGutters
-          sx={{
-            height: 100,
-          }}
-        >
+      <Container sx={{ width: "100%", marginY: "auto", p: 0 }}>
+        <Toolbar disableGutters>
           <Box
             sx={{
               flexGrow: 1,
@@ -66,7 +61,7 @@ export default function CustomHeader({ sx, drawerWidth, handleDrawerToggle }: Cu
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { md: "none" } }}
+              sx={{ mr: 2, display: { md: "none" }, color: "primary.light" }}
             >
               <MenuIcon />
             </IconButton>

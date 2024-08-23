@@ -33,7 +33,7 @@ export default function SaveButtons({
             isLoading={isLoading}
             onClick={handleSaveItem}
             text={"Save item"}
-            icon={"save"}
+            //icon={"save"}
             typeProps={{ fontFamily: title.style.fontFamily, fontWeight: "bold" }}
           />
         </Box>
@@ -54,11 +54,11 @@ export default function SaveButtons({
           <AnimatedButton
             onClick={handleCreateNextItem}
             text={"Add another"}
-            icon={"add_white"}
+            //icon={"add_white"}
             iconSize={28}
-            typeProps={{
+            /* typeProps={{
               display: { xs: "none", sm: "none", md: "block" },
-            }}
+            }} */
           />
         </Box>
       )}

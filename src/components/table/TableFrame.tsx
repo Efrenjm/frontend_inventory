@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Box,
   Checkbox,
+  Chip,
   Grid,
   IconButton,
   ListItem,
@@ -21,6 +22,7 @@ import { TableFields } from "./tableTypes";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import ClearIcon from "@mui/icons-material/Clear";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { title } from "@/theme";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
@@ -161,7 +163,6 @@ export default function TableFrame({
         minHeight: { xs: "600px" },
         //height: "70vh",
         maxHeight: { xs: "975px", sm: "1000px", md: "1100px", lg: "1170px" },
-
         minWidth: "345px",
         width: "auto",
         overflow: "hidden",
@@ -277,6 +278,17 @@ export default function TableFrame({
             "& .MuiAutocomplete-clearIndicator": { color: "primary.light" },
             "& .MuiAutocomplete-clearIndicator:hover": { color: "red" },
           }}
+          slotProps={{
+            paper: {
+              sx: {
+                bgcolor: "primary.dark",
+                color: "primary.light",
+                "& .MuiAutocomplete-listbox .MuiAutocomplete-option.Mui-focused": {
+                  bgcolor: "#091428",
+                },
+              },
+            },
+          }}
           onInputChange={(event, newInputValue) => {
             handleNameFilter(newInputValue);
           }}
@@ -313,20 +325,6 @@ export default function TableFrame({
           disableCloseOnSelect
           size="small"
           getOptionLabel={(option) => option}
-          renderOption={(props, option, { selected }) => {
-            const { key, ...optionProps } = props;
-            return (
-              <ListItem key={key} {...optionProps} sx={{ fontSize: fontSizes }}>
-                <Checkbox
-                  icon={icon}
-                  checkedIcon={checkedIcon}
-                  style={{ marginRight: 8 }}
-                  checked={selected}
-                />
-                {option}
-              </ListItem>
-            );
-          }}
           sx={{
             width: { md: "100%" },
             minWidth: "200px",
@@ -339,6 +337,75 @@ export default function TableFrame({
             "& .MuiAutocomplete-clearIndicator:hover": { color: "red" },
             "& .MuiAutocomplete-popupIndicator": { color: "primary.light" },
           }}
+          //for the list item
+          slotProps={{
+            paper: {
+              sx: {
+                "& .MuiAutocomplete-listbox": {
+                  "& .MuiAutocomplete-option[aria-selected='true']": {
+                    bgcolor: "#0A323C",
+                    "&.Mui-focused": {
+                      bgcolor: "#005A82",
+                    },
+                  },
+                },
+                "& .MuiAutocomplete-listbox .MuiAutocomplete-option.Mui-focused": {
+                  bgcolor: "#091428",
+                },
+              },
+            },
+          }}
+          renderOption={(props, option, { selected }) => {
+            const { key, ...optionProps } = props;
+            return (
+              <ListItem
+                key={key}
+                {...optionProps}
+                sx={{
+                  fontSize: fontSizes,
+                  bgcolor: "primary.dark",
+                  color: "primary.light",
+                }}
+              >
+                <Checkbox
+                  icon={icon}
+                  checkedIcon={checkedIcon}
+                  style={{ marginRight: 8 }}
+                  checked={selected}
+                  sx={{
+                    color: "primary.light",
+                    "&.Mui-checked": {
+                      color: "primary.light",
+                    },
+                    "&.MuiCheckbox-indeterminate": {
+                      color: "primary.light",
+                    },
+                  }}
+                />
+
+                {option}
+              </ListItem>
+            );
+          }}
+          renderTags={(value, getTagProps) =>
+            value.map((option, index) => (
+              <Chip
+                variant="filled"
+                label={option}
+                {...getTagProps({ index })}
+                sx={{
+                  backgroundColor: "#1E282D",
+                  color: "primary.light",
+                  "& .MuiChip-deleteIcon": {
+                    color: "primary.light", // Esto sobrescribirá el estilo predeterminado
+                  },
+                  "& .MuiChip-deleteIcon:hover": {
+                    color: "red", // Esto cambiará el color cuando se haga hover
+                  },
+                }}
+              />
+            ))
+          }
           onChange={(event, value) => {
             handleStateFilter(value);
           }}
@@ -360,9 +427,6 @@ export default function TableFrame({
                 sx: {
                   backgroundColor: "transparent",
                   color: "primary.contrastText",
-                  "& .MuiAutocomplete-tag": { color: "primary.light", bgcolor: "#1E282D" },
-                  "& .MuiChip-deleteIcon": { color: "primary.light" },
-                  "& .MuiChip-deleteIcon:hover": { color: "red" },
                 },
               }}
               InputLabelProps={{

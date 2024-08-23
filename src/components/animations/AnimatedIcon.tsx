@@ -5,6 +5,7 @@ import { Player } from "@lordicon/react";
 
 import add from "../../../public/icons/add.json";
 import back from "../../../public/icons/back.json";
+import back_white from "../../../public/icons/back_white.json";
 import barChart from "../../../public/icons/bar_chart.json";
 import bookmarks from "../../../public/icons/bookmarks.json";
 import clock from "../../../public/icons/clock.json";
@@ -24,6 +25,7 @@ export const iconMapper = {
   edit: edit_green,
   delete: trash_green,
   back: back,
+  back_white: back_white,
   save: save,
   home: home,
   document: document,
