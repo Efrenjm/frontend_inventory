@@ -227,8 +227,10 @@ export default function TableFrame({
           id="filled-search"
           label="Search by ID"
           size="small"
+          type="number"
           variant="filled"
           value={searchFilter?.id}
+          onKeyDown={(evt) => ["e", "E", "+", "-", "."].includes(evt.key) && evt.preventDefault()}
           onChange={(event) => {
             handleIdFilter(event.target.value);
           }}

@@ -143,3 +143,9 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #777;
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  background-color: #010a13; /* Background color of the button */
+  color: #c89b3c; /* Color of the arrow */
+}
