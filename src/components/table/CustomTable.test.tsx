@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, act, waitFor, getByLabelText } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing";
 import { deleteItem, getAllItems } from "@/utils/queries";
 import { Dispatch, MouseEvent, SetStateAction } from "react";
@@ -160,9 +160,9 @@ describe("CustomTable", () => {
   });
 
   it("filters items by ID (Success)", async () => {
-    const { getByRole, queryByText } = renderWithTheme(<CustomTable rows={rows} />);
-    const searchInput = getByRole("textbox", { name: "Search by ID" });
-    fireEvent.change(searchInput, { target: { value: 2 } });
+    const { getByLabelText, queryByText } = renderWithTheme(<CustomTable rows={rows} />);
+    const filterInput = getByLabelText("Filter by ID");
+    fireEvent.change(filterInput, { target: { value: 2 } });
     await act(async () => {
       expect(queryByText("1")).not.toBeInTheDocument();
       expect(queryByText("Item 1")).not.toBeInTheDocument();
@@ -171,9 +171,9 @@ describe("CustomTable", () => {
     });
   });
   it("filters items by ID (Fail)", async () => {
-    const { getByRole, queryByText } = renderWithTheme(<CustomTable rows={rows} />);
-    const searchInput = getByRole("textbox", { name: "Search by ID" });
-    fireEvent.change(searchInput, { target: { value: 99999 } });
+    const { queryByText, getByLabelText } = renderWithTheme(<CustomTable rows={rows} />);
+    const filterInput = getByLabelText("Filter by ID");
+    fireEvent.change(filterInput, { target: { value: 99999 } });
     await waitFor(async () => {
       expect(queryByText("1")).not.toBeInTheDocument();
       expect(queryByText("Item 1")).not.toBeInTheDocument();
@@ -187,9 +187,9 @@ describe("CustomTable", () => {
 
   it("filters items by Name (Success)", async () => {
     const { getByRole, queryByText } = renderWithTheme(<CustomTable rows={rows} />);
-    const searchInput = getByRole("combobox", { name: "Search by name" });
+    const filterInput = getByRole("combobox", { name: "Filter by name" });
 
-    fireEvent.change(searchInput, { target: { value: "filter" } });
+    fireEvent.change(filterInput, { target: { value: "filter" } });
     await act(async () => {
       expect(queryByText("1")).not.toBeInTheDocument();
       expect(queryByText("Item 1")).not.toBeInTheDocument();
@@ -199,9 +199,9 @@ describe("CustomTable", () => {
   });
   it("filters items by Name (Fail)", async () => {
     const { getByRole, queryByText } = renderWithTheme(<CustomTable rows={rows} />);
-    const searchInput = getByRole("combobox", { name: "Search by name" });
+    const filterInput = getByRole("combobox", { name: "Filter by name" });
 
-    fireEvent.change(searchInput, { target: { value: "AAAAAAAAAA" } });
+    fireEvent.change(filterInput, { target: { value: "AAAAAAAAAA" } });
     await waitFor(async () => {
       expect(queryByText("1")).not.toBeInTheDocument();
       expect(queryByText("Item 1")).not.toBeInTheDocument();
@@ -217,9 +217,9 @@ describe("CustomTable", () => {
     const { queryByText, getByRole } = await act(async () => {
       return renderWithTheme(<CustomTable rows={rows} />);
     });
-    const searchInput = getByRole("combobox", { name: "Search by state" });
-    fireEvent.focus(searchInput);
-    fireEvent.mouseDown(searchInput);
+    const filterInput = getByRole("combobox", { name: "Filter by state" });
+    fireEvent.focus(filterInput);
+    fireEvent.mouseDown(filterInput);
     //Select only Second State
     const option2 = await waitFor(() => getByRole("option", { name: "Second State" }));
     fireEvent.click(option2);
@@ -249,9 +249,9 @@ describe("CustomTable", () => {
     const { queryByText, getByRole, getAllByRole } = await act(async () => {
       return renderWithTheme(<CustomTable rows={rows} />);
     });
-    const searchInput = getByRole("combobox", { name: "Search by state" });
-    fireEvent.focus(searchInput);
-    fireEvent.mouseDown(searchInput);
+    const filterInput = getByRole("combobox", { name: "Filter by state" });
+    fireEvent.focus(filterInput);
+    fireEvent.mouseDown(filterInput);
 
     const options = await waitFor(() => getAllByRole("option"));
     //Select both States
@@ -282,9 +282,9 @@ describe("CustomTable", () => {
     const { queryByText, getByRole, getAllByRole } = await act(async () => {
       return renderWithTheme(<CustomTable rows={rows} />);
     });
-    const searchInput = getByRole("combobox", { name: "Search by state" });
-    fireEvent.focus(searchInput);
-    fireEvent.mouseDown(searchInput);
+    const filterInput = getByRole("combobox", { name: "Filter by state" });
+    fireEvent.focus(filterInput);
+    fireEvent.mouseDown(filterInput);
 
     const options = await waitFor(() => getAllByRole("option"));
     //Select both States

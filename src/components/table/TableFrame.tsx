@@ -64,47 +64,11 @@ export default function TableFrame({
     }
   };
 
-  const handleIdFilter = (newId: string) => {
-    if (setPage) {
-      setPage(0);
-    }
-
+  const handleFilterChange = (field: keyof FilterFields, value: string | string[]) => {
+    if (setPage) setPage(0);
     if (setSearchFilter) {
-      const updatedFilterFields: FilterFields = {
-        state: [],
-        ...searchFilter,
-        id: newId ?? "",
-      };
-      console.log("Search filter ID:" + updatedFilterFields?.id);
-
-      setSearchFilter(updatedFilterFields);
-    }
-  };
-  const handleNameFilter = (newName: string) => {
-    if (setPage) {
-      setPage(0);
-    }
-    if (setSearchFilter) {
-      const updatedFilterFields: FilterFields = {
-        state: [],
-        ...searchFilter,
-        name: newName ?? "",
-      };
-      console.log("Search filter Name:" + updatedFilterFields?.name);
-      setSearchFilter(updatedFilterFields);
-    }
-  };
-  const handleStateFilter = (states: string[]) => {
-    if (setPage) {
-      setPage(0);
-    }
-    if (setSearchFilter) {
-      const updatedFilterFields: FilterFields = {
-        ...searchFilter,
-        state: states,
-      };
-      console.log("Search filter Name:" + updatedFilterFields?.state);
-      setSearchFilter(updatedFilterFields);
+      setSearchFilter({ state: [], ...searchFilter, [field]: value });
+      console.log(`Search filter ${field}:`, value);
     }
   };
 
@@ -140,7 +104,14 @@ export default function TableFrame({
     addIconSize = 32;
   }
   const fontSizes = { xs: "1rem", sm: "1.25rem", md: "1.25rem", lg: "1.5rem" };
-  const textFieldHeights = { xs: "2.5rem", sm: "3rem", md: "3.5rem", lg: "auto" };
+  const commonInputProps = {
+    sx: {
+      paddingX: 1,
+      backgroundColor: "transparent",
+      height: { xs: "2.5rem", sm: "3rem", md: "3.5rem", lg: "auto" },
+      color: "primary.contrastText",
+    },
+  };
   const inputLabelProps = {
     pl: 0,
     lineHeight: 0.8,
@@ -225,14 +196,14 @@ export default function TableFrame({
       >
         <TextField
           id="filled-search"
-          label="Search by ID"
+          label="Filter by ID"
           size="small"
           type="number"
           variant="filled"
           value={searchFilter?.id}
           onKeyDown={(evt) => ["e", "E", "+", "-", "."].includes(evt.key) && evt.preventDefault()}
           onChange={(event) => {
-            handleIdFilter(event.target.value);
+            handleFilterChange("id", event.target.value);
           }}
           sx={{
             width: { xs: "15%", md: "100%" },
@@ -245,17 +216,15 @@ export default function TableFrame({
             "& .MuiAutocomplete-clearIndicator:hover": { color: "red" },
           }}
           InputProps={{
+            ...commonInputProps,
             size: textFieldSize,
-            sx: {
-              paddingX: 1,
-              backgroundColor: "transparent",
-              height: textFieldHeights,
-              color: "primary.contrastText",
-            },
             endAdornment: (
               <>
                 {searchFilter?.id !== "" && (
-                  <IconButton onClick={() => handleIdFilter("")} sx={{ color: "primary.light" }}>
+                  <IconButton
+                    onClick={() => handleFilterChange("id", "")}
+                    sx={{ color: "primary.light" }}
+                  >
                     <ClearIcon />
                   </IconButton>
                 )}
@@ -292,12 +261,12 @@ export default function TableFrame({
             },
           }}
           onInputChange={(event, newInputValue) => {
-            handleNameFilter(newInputValue);
+            handleFilterChange("name", newInputValue);
           }}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Search by name"
+              label="Filter by name"
               value={searchFilter?.name}
               variant="filled"
               sx={{
@@ -308,10 +277,7 @@ export default function TableFrame({
               InputProps={{
                 ...params.InputProps,
                 size: textFieldSize,
-                sx: {
-                  height: textFieldHeights,
-                  color: "primary.contrastText",
-                },
+                ...commonInputProps,
               }}
               InputLabelProps={{
                 sx: inputLabelProps,
@@ -409,13 +375,13 @@ export default function TableFrame({
             ))
           }
           onChange={(event, value) => {
-            handleStateFilter(value);
+            handleFilterChange("state", value);
           }}
           value={searchFilter?.state || []}
           renderInput={(params) => (
             <TextField
               {...params}
-              label="Search by state"
+              label="Filter by state"
               size="small"
               variant="filled"
               sx={{
@@ -425,11 +391,9 @@ export default function TableFrame({
               }}
               InputProps={{
                 ...params.InputProps,
+
                 size: textFieldSize,
-                sx: {
-                  backgroundColor: "transparent",
-                  color: "primary.contrastText",
-                },
+                sx: { ...commonInputProps.sx, height: "auto" },
               }}
               InputLabelProps={{
                 sx: inputLabelProps,
