@@ -1,15 +1,15 @@
-'use client';
-import { useState, createContext } from 'react';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import CustomHeader from '@/components/layout/CustomHeader'
+"use client";
+import { useState, createContext } from "react";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import CustomHeader from "@/components/layout/CustomHeader";
 import CustomSidebar from "@/components/layout/CustomSidebar";
-import { SnackbarProvider } from 'notistack';
-import { body } from '@/theme';
+import { SnackbarProvider } from "notistack";
+import { body } from "@/theme";
 
 const drawerWidth = 80;
 
-export const TitleContext = createContext({ title: "", setTitle: (value: string) => { } });
+export const TitleContext = createContext({ title: "", setTitle: (value: string) => {} });
 
 interface AppFrameProps {
   children: React.ReactNode;
@@ -18,7 +18,7 @@ interface AppFrameProps {
 export default function AppFrame({ children }: AppFrameProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -38,14 +38,11 @@ export default function AppFrame({ children }: AppFrameProps) {
   return (
     <SnackbarProvider
       maxSnack={3}
-      style={{ fontFamily: body.style.fontFamily, fontSize: 22 }}
+      style={{ fontFamily: body.style.fontFamily, fontSize: 22, backgroundColor: "primary.dark" }}
     >
       <TitleContext.Provider value={{ title, setTitle }}>
-        <Box sx={{ display: 'flex' }}>
-          <CustomHeader
-            drawerWidth={drawerWidth}
-            handleDrawerToggle={handleDrawerToggle}
-          />
+        <Box sx={{ display: "flex" }}>
+          <CustomHeader drawerWidth={drawerWidth} handleDrawerToggle={handleDrawerToggle} />
           <CustomSidebar
             drawerWidth={drawerWidth}
             mobileOpen={mobileOpen}
@@ -57,10 +54,9 @@ export default function AppFrame({ children }: AppFrameProps) {
             sx={{
               flexGrow: 1,
               width: { md: `calc(100% - ${drawerWidth}px)` },
-
             }}
           >
-            <Toolbar sx={{mb: '50px'}}/>
+            <Toolbar sx={{ mb: "50px" }} />
             {children}
           </Box>
         </Box>
